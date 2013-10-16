@@ -1,0 +1,41 @@
+//- Mixin for post, used on homepage and post page
+mixin postHead(post)
+  .post-head.group
+    a(href="#{data.baseUrl}#{post.url}")
+      h1.post-title= post.title
+    span.post-date!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
+
+mixin post(post)
+  mixin postHead(post)
+  .post-body.markdown!= post.content
+
+doctype 5
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="shortcut icon", type="image/x-icon", href="#{data.baseUrl}favicon.ico")
+    link(href="#{data.baseUrl}css/main.css", rel="stylesheet")
+    block head
+      title= "Just a blog by G.C. Marty: 'The web is what you make of it'"
+  body
+    nav
+      h1.name
+        a(href="#{data.baseUrl}") Just a blog
+          small by G.C. Marty
+      .menu.icon-menu
+      ul.nav-links
+        li.text-link
+          a(href="#{data.baseUrl}about.html") about
+        li.text-link
+          a(href="#{data.baseUrl}archives.html") archives
+
+      .social-media
+        a.icon-github(href="https://github.com/gmarty")
+        a.icon-twitter(href="http://twitter.com/g_marty")
+    .content
+      block content
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js")
+    script(src="#{data.baseUrl}js/main.js")
+    script.
+        (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));ga('create','UA-207391-15',{'siteSpeedSampleRate':100});ga('send','pageview')
