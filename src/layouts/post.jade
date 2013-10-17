@@ -4,6 +4,8 @@ block head
   title= post.title
   if post.description
     meta(name="description", content="#{post.description}")
+  //-base(href="#{data.baseUrl}#{post.url}")
+
 block content
   mixin post(post)
   include _social

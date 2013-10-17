@@ -29,13 +29,12 @@ html
           a(href="#{data.baseUrl}about.html") about
         li.text-link
           a(href="#{data.baseUrl}archives.html") archives
-
       .social-media
         a.icon-github(href="https://github.com/gmarty")
         a.icon-twitter(href="http://twitter.com/g_marty")
     .content
       block content
-    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js")
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
     script(src="#{data.baseUrl}js/main.js")
     script.
-        (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));ga('create','UA-207391-15',{'siteSpeedSampleRate':100});ga('send','pageview')
+      (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));ga('create','UA-207391-15',{'siteSpeedSampleRate':100});ga('send','pageview')

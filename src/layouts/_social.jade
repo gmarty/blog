@@ -9,8 +9,8 @@
   #disqus_thread
 
 //- Helper scripts for social share icons
-//- Hacker News
 script.
+  // Hacker News
   (function(d, t) {
     var g = d.createElement(t),
         s = d.getElementsByTagName(t)[0];
@@ -18,20 +18,17 @@ script.
     s.parentNode.insertBefore(g, s);
   }(document, 'script'));
 
-//- Twitter
-script.
+  // Twitter
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
-//- Google Plus
-script.
+  // Google Plus
   (function() {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
   })();
 
-//- Disqus
-script.
+  // Disqus
   var disqus_shortname = 'gmarty';
   (function() {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -1,7 +1,7 @@
 {
   title: "Tokenization is the mother of NLP",
   date:  "2012-09-17",
-  description: "About the importance of tokenization in NLP"
+  description: "About the importance of tokenization in NLP."
 }
 
 I recently started contributing to [natural, a set of __natural language processing__ tools (NLP) in JavaScript for node.js](https://github.com/NaturalNode/natural). Here's what I learned from this.

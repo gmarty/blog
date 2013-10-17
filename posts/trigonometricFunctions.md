@@ -1,7 +1,7 @@
 {
   title: "Helpful trigonometric and geometric snippets for JavaScript",
   date:  "2012-09-18",
-  description: "A set of useful functions to do trigonometry in JavaScript"
+  description: "A set of useful functions to do trigonometry in JavaScript."
 }
 
 I recently worked on a project with a heavy need of trigonometric functions.
@@ -28,7 +28,7 @@ function hypot(segment1, segment2) {
   return Math.sqrt(segment1 * segment1 + segment2 * segment2);
 }
 
-// Alternatively, this function is polyfilled as follow:
+// Alternatively, this function is polyfilled as follow and is said to be faster albeit less precise:
 function hypot(segment1, segment2) {
   segment1 = Math.abs(segment1);
   segment2 = Math.abs(segment2);
@@ -49,7 +49,7 @@ This function is a polyfill for the upcoming Math.hypot() function of ES6. You d
 
 ## The distance between 2 points
 
-Using the `hypot` function defined above:
+Using the `hypot()` function defined above:
 
 ```javascript
 /**
