@@ -37,11 +37,12 @@ module.exports = function(grunt) {
             cwd: 'src',
             dest: 'dist',
             src: [
+              'CNAME',
               'favicon.ico',
               'img/**',
               'js/**',
               'css/**.css',
-              'css/fonts/**',
+              'css/fonts/**'
             ]
           }
         ]
