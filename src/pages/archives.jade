@@ -2,6 +2,9 @@ extends ../layouts/base
 
 block head
   title Archives
+  meta(name="description", content="The list of all blog posts previously published.")
+  base(href="http://gu.illau.me/archives.html", target="_top")
+
 block content
   ul.archives
     each post in posts

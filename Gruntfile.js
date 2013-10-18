@@ -23,7 +23,8 @@ module.exports = function(grunt) {
       dist: {
         options: {
           sassDir: 'src/css',
-          cssDir: 'dist/css'
+          cssDir: 'dist/css',
+          outputStyle: 'compressed'
         }
       }
     },
@@ -37,8 +38,11 @@ module.exports = function(grunt) {
             cwd: 'src',
             dest: 'dist',
             src: [
+              // Resources located at root level.
               'CNAME',
               'favicon.ico',
+              'googlea15f277b4e0d89d7.html',
+              // Other resources.
               'img/**',
               'js/**',
               'css/**.css',
