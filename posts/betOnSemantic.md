@@ -1,6 +1,6 @@
 {
   title: "Always bet on semantic",
-  date: "2013-10-01",
+  date: "2013-10-18",
   description: "Using semantic tells about your intentions and makes UI more robust."
 }
 
