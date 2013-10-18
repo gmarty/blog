@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link href="/css/main.css" rel="stylesheet">
-    <title>Just a blog by G.C. Marty: 'The web is what you make of it'</title>
+    <title>Just a blog by G.C. Marty</title>
+    <base href="http://gu.illau.me/" target="_top">
   </head>
   <body>
     <nav>
@@ -156,8 +157,39 @@ I was lucky enough to find out that there is <a href="http://chasen.org/~taku/so
       <div class="pagination group">
       </div>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
-    <script>(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));ga('create','UA-207391-15',{'siteSpeedSampleRate':100});ga('send','pageview')</script>
+    <script>
+      window.addEventListener('load', function() {
+        'use strict';
+        
+        var $navBar = document.querySelector('nav');
+        
+        // If touchscreen listen for touch, if not listen for click.
+        var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+        
+        // Toggle the nav menu list when the user clicks the nav menu button.
+        document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+          $navBar.classList.toggle('nav-show');
+        }, false);
+        
+        document.querySelector('.content').addEventListener(hitEvent, function(event) {
+          if ($navBar.classList.contains('nav-show')) {
+            $navBar.classList.remove('nav-show');
+          }
+        }, false);
+      });
+      
+      // We store the client ID in the local storage rather than in a cookie.
+      (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+      ga('create', 'UA-207391-15', {
+        'storage': 'none',
+        'clientId': localStorage.getItem('gaClientId'),
+        'siteSpeedSampleRate': 100
+      });
+      ga(function(tracker) {
+        localStorage.setItem('gaClientId', tracker.get('clientId'));
+      });
+      ga('set', 'anonymizeIp', true);
+      ga('send','pageview')
+    </script>
   </body>
 </html>

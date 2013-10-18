@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <link href="/css/main.css" rel="stylesheet">
-    <title>About G. C. Marty</title>
+    <title>About G.C. Marty</title>
+    <meta name="description" content="A quick note about the author.">
+    <base href="http://gu.illau.me/about.html" target="_top">
   </head>
   <body>
     <nav>
@@ -18,13 +20,44 @@
       <div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div>
     </nav>
     <div class="content">
-      <h1>About G. C. Marty</h1>
+      <h1>About G.C. Marty</h1>
       <p>Guillaume Cedric has been working in the web industry for more than a decade.</p>
       <p>He's passionate about web technologies and contributes regularly to open sources projects, which list is available at his Github account page.</p>
       <p>He's also fascinated by video games, animation, and, as a Japanese speaker, foreign languages.</p>
     </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
-    <script>(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));ga('create','UA-207391-15',{'siteSpeedSampleRate':100});ga('send','pageview')</script>
+    <script>
+      window.addEventListener('load', function() {
+        'use strict';
+        
+        var $navBar = document.querySelector('nav');
+        
+        // If touchscreen listen for touch, if not listen for click.
+        var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+        
+        // Toggle the nav menu list when the user clicks the nav menu button.
+        document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+          $navBar.classList.toggle('nav-show');
+        }, false);
+        
+        document.querySelector('.content').addEventListener(hitEvent, function(event) {
+          if ($navBar.classList.contains('nav-show')) {
+            $navBar.classList.remove('nav-show');
+          }
+        }, false);
+      });
+      
+      // We store the client ID in the local storage rather than in a cookie.
+      (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+      ga('create', 'UA-207391-15', {
+        'storage': 'none',
+        'clientId': localStorage.getItem('gaClientId'),
+        'siteSpeedSampleRate': 100
+      });
+      ga(function(tracker) {
+        localStorage.setItem('gaClientId', tracker.get('clientId'));
+      });
+      ga('set', 'anonymizeIp', true);
+      ga('send','pageview')
+    </script>
   </body>
 </html>
