@@ -63,14 +63,14 @@ I was lucky enough to find out that there is <a href="http://chasen.org/~taku/so
       // We store the client ID in the local storage rather than in a cookie.
       (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
       ga('create', 'UA-207391-15', {
-        'storage': 'none',
-        'clientId': localStorage.getItem('gaClientId'),
-        'siteSpeedSampleRate': 100
+        //'storage': 'none',
+        //'clientId': localStorage.getItem('gaClientId'),
+        'siteSpeedSampleRate': 100,
+        'anonymizeIp': true
       });
-      ga(function(tracker) {
+      /*ga(function(tracker) {
         localStorage.setItem('gaClientId', tracker.get('clientId'));
-      });
-      ga('set', 'anonymizeIp', true);
+      });*/
       ga('send','pageview')
     </script>
   </body>
