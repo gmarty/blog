@@ -27,7 +27,7 @@ Basically I had to implement a drawing feature using a graphic lib.</p>
 <p>I found a few resources really useful, specially in JavaScript.
 But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
 <p>I thought the following snippets would be useful.</p>
-<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
+<h2><a name="the-length-of-a-segment"class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
 <p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
@@ -58,7 +58,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 </pre></div>
 </code></pre>
 <p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
-<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
+<h2><a name="the-distance-between-2-points"class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
 <p>Using the <code>hypot()</code> function defined above:</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the distance between 2 points.</span>
@@ -73,7 +73,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
+<h2><a name="the-angle-of-a-triangle-given-3-sides-length"class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the angle of a triangle given its sides length.</span>
 <span class="cm"> * @param {number} side1 The length of the 1st side.</span>
@@ -86,7 +86,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
+<h2><a name="the-distance-of-a-point-to-a-line"class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the distance of a point to a line.</span>
 <span class="cm"> * @param {number} xP The x coordinate of the point.</span>
@@ -103,7 +103,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
+<h2><a name="get-a-line-equation-given-coordinates"class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
 <p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
@@ -119,7 +119,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
+<h2><a name="the-intersection-point-of-2-lines"class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
 <span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
