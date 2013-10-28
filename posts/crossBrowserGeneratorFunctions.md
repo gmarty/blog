@@ -95,7 +95,7 @@ var OLD_SYNTAX = function() {
 
 ## Conclusion
 
-This seems to work but I didn't do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the `function*` is not  the best way, but at this point, [Esprima doesn't support ES6](http://esprima.org/demo/parse.html?code=function*%20fibonacci(%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20(1%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A), so there are no standalone parsers available.
+This seems to work but I didn't do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the `function*` is not  the best way, but at this point, [Esprima doesn't support ES6](http://esprima.org/demo/parse.html?code=function*%20fibonacci%28%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20%281%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A), so there are no standalone parsers available.
 
 Hopefully this code will continue to work when Firefox supports the new syntax.
 
