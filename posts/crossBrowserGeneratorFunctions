@@ -1,6 +1,6 @@
 {
   title: "Cross browser generator functions",
-  date: "2013-10-01",
+  date: "2013-10-28",
   description: "Presentation of a cross browser way to allow generator functions in Firefox and Chrome."
 }
 
