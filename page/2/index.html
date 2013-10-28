@@ -1,41 +1,15 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link href="/css/main.css" rel="stylesheet">
-    <title>Just a blog by G.C. Marty</title>
-    <base href="http://gu.illau.me/" target="_top">
-    <script>
-      // We store the client ID in the local storage rather than in a cookie.
-      (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-      ga('create', 'UA-207391-17', {
-        'storage': 'none',
-        'clientId': localStorage.getItem('gaClientId'),
-        'siteSpeedSampleRate': 100,
-        'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
-      });
-      ga(function(tracker) {
-        localStorage.setItem('gaClientId', tracker.get('clientId'));
-      });
-      ga('send','pageview')
-    </script>
-  </head>
-  <body>
-    <nav>
-      <h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1>
-      <div class="menu icon-menu"></div>
-      <ul class="nav-links">
-        <li class="text-link"><a href="/about.html">about</a></li>
-        <li class="text-link"><a href="/archives.html">archives</a></li>
-      </ul>
-      <div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div>
-    </nav>
-    <div class="content">
-      <div class="post-head group"><a href="/posts/tokenization-is-the-mother-of-nlp/">
-          <h1 class="post-title">Tokenization is the mother of NLP</h1></a><span class="post-date">2012 &#183; 9 &#183; 17</span></div>
-      <div class="post-body markdown"><p>I recently started contributing to <a href="https://github.com/NaturalNode/natural">natural, a set of <strong>natural language processing</strong> tools (NLP) in JavaScript for node.js</a>. Here&#39;s what I learned from this.</p>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><base href="http://gu.illau.me/" target="_top"><script>// We store the client ID in the local storage rather than in a cookie.
+(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+ga('create', 'UA-207391-17', {
+  'storage': 'none',
+  'clientId': localStorage.getItem('gaClientId'),
+  'siteSpeedSampleRate': 100,
+  'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+});
+ga(function(tracker) {
+  localStorage.setItem('gaClientId', tracker.get('clientId'));
+});
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/tokenization-is-the-mother-of-nlp/"><h1 class="post-title">Tokenization is the mother of NLP</h1></a><span class="post-date">2012 &#183; 9 &#183; 17</span></div><div class="post-body markdown"><p>I recently started contributing to <a href="https://github.com/NaturalNode/natural">natural, a set of <strong>natural language processing</strong> tools (NLP) in JavaScript for node.js</a>. Here&#39;s what I learned from this.</p>
 <p><a href="http://en.wikipedia.org/wiki/Tokenization">Words tokenization</a> is a critical part of natural language processing. This is often neglected because it sounds so easy. You just need to split a string on spaces.
 And that is enough... for most of the languages. However some languages don&#39;t actually use space to separate words, like Japanese or Chinese.
 I was lucky enough to find out that there is <a href="http://chasen.org/~taku/software/TinySegmenter/">a tokenizer in JavaScript for Japanese by Kudo Taku</a>. The license allowed me to use it on natural. I&#39;m fully satisfied: no dictionary to maintain and no heavy tools to develop! It is using a statistical model to determine where to cut tokens. And it turned out to be quite efficient given its light weight.</p>
@@ -48,31 +22,22 @@ I was lucky enough to find out that there is <a href="http://chasen.org/~taku/so
 </ul>
 <p>I wanted to extend one of my previous NLP project to Japanese, but couldn&#39;t find a tokenizer at the time (it was developed in PHP). So I reluctantly discarded this idea. I hope I&#39;ll be able to help natural enough so that such decisions won&#39;t have to be taken in the future.</p>
 <p>As a side note, there are also many tokenizers for Chinese out there in several programming languages. I will have to check their licenses on my spare time to see if they are compatible with that of natural. But I&#39;m not sure how to benchmark their respective accuracies as I don&#39;t speak Chinese :-(</p>
-</div>
-      <div class="comments"><a href="/posts/tokenization-is-the-mother-of-nlp/#comments"><span class="icon-bubbles"></span>Comments</a></div>
-      <div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a>
-      </div>
-    </div>
-    <script>
-      window.addEventListener('load', function() {
-        'use strict';
-        
-        var $navBar = document.querySelector('nav');
-        
-        // If touchscreen listen for touch, if not listen for click.
-        var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-        
-        // Toggle the nav menu list when the user clicks the nav menu button.
-        document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-          $navBar.classList.toggle('nav-show');
-        }, false);
-        
-        document.querySelector('.content').addEventListener(hitEvent, function(event) {
-          if ($navBar.classList.contains('nav-show')) {
-            $navBar.classList.remove('nav-show');
-          }
-        }, false);
-      });
-    </script>
-  </body>
-</html>
+</div><div class="comments"><a href="/posts/tokenization-is-the-mother-of-nlp/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a></div></div><script>window.addEventListener('load', function() {
+  'use strict';
+  
+  var $navBar = document.querySelector('nav');
+  
+  // If touchscreen listen for touch, if not listen for click.
+  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+  
+  // Toggle the nav menu list when the user clicks the nav menu button.
+  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+    $navBar.classList.toggle('nav-show');
+  }, false);
+  
+  document.querySelector('.content').addEventListener(hitEvent, function(event) {
+    if ($navBar.classList.contains('nav-show')) {
+      $navBar.classList.remove('nav-show');
+    }
+  }, false);
+});</script></body></html>

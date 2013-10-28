@@ -1,46 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link href="/css/main.css" rel="stylesheet">
-    <title>Just a blog by G.C. Marty</title>
-    <base href="http://gu.illau.me/" target="_top">
-    <script>
-      // We store the client ID in the local storage rather than in a cookie.
-      (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-      ga('create', 'UA-207391-17', {
-        'storage': 'none',
-        'clientId': localStorage.getItem('gaClientId'),
-        'siteSpeedSampleRate': 100,
-        'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
-      });
-      ga(function(tracker) {
-        localStorage.setItem('gaClientId', tracker.get('clientId'));
-      });
-      ga('send','pageview')
-    </script>
-  </head>
-  <body>
-    <nav>
-      <h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1>
-      <div class="menu icon-menu"></div>
-      <ul class="nav-links">
-        <li class="text-link"><a href="/about.html">about</a></li>
-        <li class="text-link"><a href="/archives.html">archives</a></li>
-      </ul>
-      <div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div>
-    </nav>
-    <div class="content">
-      <div class="post-head group"><a href="/posts/cross-browser-generator-functions/">
-          <h1 class="post-title">Cross browser generator functions</h1></a><span class="post-date">2013 &#183; 10 &#183; 28</span></div>
-      <div class="post-body markdown"><h2><a name="a-quick-word-on-generators"class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><base href="http://gu.illau.me/" target="_top"><script>// We store the client ID in the local storage rather than in a cookie.
+(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+ga('create', 'UA-207391-17', {
+  'storage': 'none',
+  'clientId': localStorage.getItem('gaClientId'),
+  'siteSpeedSampleRate': 100,
+  'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+});
+ga(function(tracker) {
+  localStorage.setItem('gaClientId', tracker.get('clientId'));
+});
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/cross-browser-generator-functions/"><h1 class="post-title">Cross browser generator functions</h1></a><span class="post-date">2013 &#183; 10 &#183; 28</span></div><div class="post-body markdown"><h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
 <p>This post will not discuss generators as there are valuable resources all over the web. Just remember that generators can be used to create a set of iterable items (possibly a virtual or infinite set like sequences in mathematics) or to do step by step execution of a program.</p>
-<h2><a name="the-current-state-of-generators-implementation"class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
+<h2><a name="the-current-state-of-generators-implementation" class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
 <p>Chrome implements the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators">latest ES6 draft</a>. So if you follow the spec, you should not have any troubles.</p>
 <p>For Firefox, things are a bit more complicated because from version 2 to 25, an old version of the generators is implemented. Version 26 has generators on par with Chrome, so this post will be outdated in a very near future, but in the meantime, I wanted a way to use generators so that they work on the current version of both browsers.</p>
-<h2><a name="what-firefox-needs"class="anchor" href="#what-firefox-needs"><span class="header-link"></span></a>What Firefox needs</h2>
+<h2><a name="what-firefox-needs" class="anchor" href="#what-firefox-needs"><span class="header-link"></span></a>What Firefox needs</h2>
 <p>To use the generators, Firefox requires to switch to JavaScript version 1.7 mode:</p>
 <pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span><span class="cm">/* Code... */</span><span class="nt">&lt;/script&gt;</span>
 </pre></div>
@@ -48,7 +22,7 @@
 <p>Otherwise, the keyword <code>yield</code> is not recognized.
 Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator</code> as defined by the spec.</p>
 <p>Of course, Chrome doesn&#39;t recognise script tags formatted like this and doesn&#39;t execute their content.</p>
-<h2><a name="a-workaround"class="anchor" href="#a-workaround"><span class="header-link"></span></a>A workaround</h2>
+<h2><a name="a-workaround" class="anchor" href="#a-workaround"><span class="header-link"></span></a>A workaround</h2>
 <p>The solution I came with is not very clean, but it seems to work.</p>
 <p>First, you need to develop your code using the latest draft, the one implemented in Chrome. Then wrap this code in a inactive tag. I used a custom <code>type</code> attribute to prevent its execution.</p>
 <p>Then, this code is appended to the DOM in a newly created <code>script</code> element. In Firefox, we set the correct <code>type</code> attribute and transform the <code>function*</code> notation:</p>
@@ -111,47 +85,34 @@ Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator<
 <span class="nt">&lt;/html&gt;</span>
 </pre></div>
 </code></pre>
-<h2><a name="conclusion"class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>This seems to work but I didn&#39;t do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the <code>function*</code> is not  the best way, but at this point, <a href="http://esprima.org/demo/parse.html?code=function*%20fibonacci%28%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20%281%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A">Esprima doesn&#39;t support ES6</a>, so there are no standalone parsers available.</p>
 <p>Hopefully this code will continue to work when Firefox supports the new syntax.</p>
 <p>I reckon this method is a bit complicated, so if you know better/cleaner way to achieve this, let me know via a comment!</p>
-</div>
-      <div class="comments"><a href="/posts/cross-browser-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div>
-      <div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/">
-          <h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span class="post-date">2013 &#183; 10 &#183; 26</span></div>
-      <div class="post-body markdown"><h2><a name="achievement-unlocked-"class="anchor" href="#achievement-unlocked-"><span class="header-link"></span></a>Achievement unlocked!</h2>
+</div><div class="comments"><a href="/posts/cross-browser-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span class="post-date">2013 &#183; 10 &#183; 26</span></div><div class="post-body markdown"><h2><a name="achievement-unlocked-" class="anchor" href="#achievement-unlocked-"><span class="header-link"></span></a>Achievement unlocked!</h2>
 <p>I&#39;m excited to announce that I&#39;ve written an article about <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">video game emulation</a> for Mozilla Hacks. While that doesn&#39;t sound like a big deal, it actually means a lot to me.</p>
 <p>I remember the first day this blog was launched. Since then it has always been a pleasure to read new publications. I think I must have read every single article so far. I love it when a new article is posted because it means an aspect of the web platform will be explained in details.</p>
 <p><a href="https://hacks.mozilla.org/">Mozilla Hacks</a> and <a href="http://www.html5rocks.com/en/">HTML5 Rocks</a> are my favourite resources online, both technical and inspirational. Whenever I&#39;m notified of a new post on these, that usually means stop what I&#39;m doing and read it right away!</p>
-<h2><a name="writing-about-retro-gaming"class="anchor" href="#writing-about-retro-gaming"><span class="header-link"></span></a>Writing about retro gaming</h2>
+<h2><a name="writing-about-retro-gaming" class="anchor" href="#writing-about-retro-gaming"><span class="header-link"></span></a>Writing about retro gaming</h2>
 <p>Just a note about the <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">blogpost</a>. It&#39;s basically an expanded version of the talk I gave earlier last month at Reject.JS about fast retro gaming on mobile. I tried to be clear and assumed as little knowledge as possible from the reader.</p>
 <p>The writing process was surprisingly easy. I&#39;m working for almost a decade as a freelance writer for texts published in the French edition of some Japanese manga titles. I&#39;m used to have my texts edited/modified/transformed without my consent. Nothing here. The original draft I submitted was almost published as is.</p>
 <p>Anyway, I hope you&#39;ll enjoy reading it!</p>
-</div>
-      <div class="comments"><a href="/posts/i-wrote-for-mozilla-hacks/#comments"><span class="icon-bubbles"></span>Comments</a></div>
-      <div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a>
-      </div>
-    </div>
-    <script>
-      window.addEventListener('load', function() {
-        'use strict';
-        
-        var $navBar = document.querySelector('nav');
-        
-        // If touchscreen listen for touch, if not listen for click.
-        var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-        
-        // Toggle the nav menu list when the user clicks the nav menu button.
-        document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-          $navBar.classList.toggle('nav-show');
-        }, false);
-        
-        document.querySelector('.content').addEventListener(hitEvent, function(event) {
-          if ($navBar.classList.contains('nav-show')) {
-            $navBar.classList.remove('nav-show');
-          }
-        }, false);
-      });
-    </script>
-  </body>
-</html>
+</div><div class="comments"><a href="/posts/i-wrote-for-mozilla-hacks/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+  'use strict';
+  
+  var $navBar = document.querySelector('nav');
+  
+  // If touchscreen listen for touch, if not listen for click.
+  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+  
+  // Toggle the nav menu list when the user clicks the nav menu button.
+  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+    $navBar.classList.toggle('nav-show');
+  }, false);
+  
+  document.querySelector('.content').addEventListener(hitEvent, function(event) {
+    if ($navBar.classList.contains('nav-show')) {
+      $navBar.classList.remove('nav-show');
+    }
+  }, false);
+});</script></body></html>

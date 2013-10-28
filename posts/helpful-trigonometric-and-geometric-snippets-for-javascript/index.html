@@ -1,47 +1,20 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-    <link href="/css/main.css" rel="stylesheet">
-    <title>Helpful trigonometric and geometric snippets for JavaScript</title>
-    <meta name="description" content="A set of useful functions to do trigonometry in JavaScript.">
-    <base href="http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/" target="_top">
-    <script>
-      // We store the client ID in the local storage rather than in a cookie.
-      (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-      ga('create', 'UA-207391-17', {
-        'storage': 'none',
-        'clientId': localStorage.getItem('gaClientId'),
-        'siteSpeedSampleRate': 100,
-        'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
-      });
-      ga(function(tracker) {
-        localStorage.setItem('gaClientId', tracker.get('clientId'));
-      });
-      ga('send','pageview')
-    </script>
-  </head>
-  <body>
-    <nav>
-      <h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1>
-      <div class="menu icon-menu"></div>
-      <ul class="nav-links">
-        <li class="text-link"><a href="/about.html">about</a></li>
-        <li class="text-link"><a href="/archives.html">archives</a></li>
-      </ul>
-      <div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div>
-    </nav>
-    <div class="content">
-      <div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/">
-          <h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span class="post-date">2012 &#183; 9 &#183; 18</span></div>
-      <div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Helpful trigonometric and geometric snippets for JavaScript</title><meta name="description" content="A set of useful functions to do trigonometry in JavaScript."><base href="http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/" target="_top"><script>// We store the client ID in the local storage rather than in a cookie.
+(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+ga('create', 'UA-207391-17', {
+  'storage': 'none',
+  'clientId': localStorage.getItem('gaClientId'),
+  'siteSpeedSampleRate': 100,
+  'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+});
+ga(function(tracker) {
+  localStorage.setItem('gaClientId', tracker.get('clientId'));
+});
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span class="post-date">2012 &#183; 9 &#183; 18</span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
 Basically I had to implement a drawing feature using a graphic lib.</p>
 <p>I found a few resources really useful, specially in JavaScript.
 But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
 <p>I thought the following snippets would be useful.</p>
-<h2><a name="the-length-of-a-segment"class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
+<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
 <p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
@@ -72,7 +45,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 </pre></div>
 </code></pre>
 <p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
-<h2><a name="the-distance-between-2-points"class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
+<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
 <p>Using the <code>hypot()</code> function defined above:</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the distance between 2 points.</span>
@@ -87,7 +60,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="the-angle-of-a-triangle-given-3-sides-length"class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
+<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the angle of a triangle given its sides length.</span>
 <span class="cm"> * @param {number} side1 The length of the 1st side.</span>
@@ -100,7 +73,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="the-distance-of-a-point-to-a-line"class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
+<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the distance of a point to a line.</span>
 <span class="cm"> * @param {number} xP The x coordinate of the point.</span>
@@ -117,7 +90,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<h2><a name="get-a-line-equation-given-coordinates"class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
+<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
 <p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
@@ -133,7 +106,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 <span class="p">};</span>
 </pre></div>
 </code></pre>
-<h2><a name="the-intersection-point-of-2-lines"class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
+<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
 <span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
 <span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
@@ -150,61 +123,46 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 </code></pre>
 <p>These functions are pretty basic but are a solid ground base for more complex computations.
 Also I will probably add more snippets here as time/need permits.</p>
-</div>
-      <div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-        <div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a>
-      </div>
-      <div id="comments">
-        <div id="disqus_thread"></div>
-      </div>
-      <script>
-        // Hacker News
-        (function(d, t) {
-          var g = d.createElement(t),
-              s = d.getElementsByTagName(t)[0];
-          g.src = '//hnbutton.appspot.com/static/hn.min.js';
-          s.parentNode.insertBefore(g, s);
-        }(document, 'script'));
-        
-        // Twitter
-        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-        
-        // Google Plus
-        (function() {
-          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-          po.src = 'https://apis.google.com/js/plusone.js';
-          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
-        
-        // Disqus
-        var disqus_shortname = 'gmarty';
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-    </div>
-    <script>
-      window.addEventListener('load', function() {
-        'use strict';
-        
-        var $navBar = document.querySelector('nav');
-        
-        // If touchscreen listen for touch, if not listen for click.
-        var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-        
-        // Toggle the nav menu list when the user clicks the nav menu button.
-        document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-          $navBar.classList.toggle('nav-show');
-        }, false);
-        
-        document.querySelector('.content').addEventListener(hitEvent, function(event) {
-          if ($navBar.classList.contains('nav-show')) {
-            $navBar.classList.remove('nav-show');
-          }
-        }, false);
-      });
-    </script>
-  </body>
-</html>
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
+  'use strict';
+  
+  var $navBar = document.querySelector('nav');
+  
+  // If touchscreen listen for touch, if not listen for click.
+  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+  
+  // Toggle the nav menu list when the user clicks the nav menu button.
+  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+    $navBar.classList.toggle('nav-show');
+  }, false);
+  
+  document.querySelector('.content').addEventListener(hitEvent, function(event) {
+    if ($navBar.classList.contains('nav-show')) {
+      $navBar.classList.remove('nav-show');
+    }
+  }, false);
+});</script></body></html>
