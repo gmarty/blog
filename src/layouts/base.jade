@@ -5,7 +5,7 @@ mixin postHead(post)
       h1.post-title= post.title
     span.post-date(style="bottom: 30px;")!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
     span.post-reading-time
-      img(src="http://localhost:5455/img/clock.svg", width="15", height="15", alt="Estimated reading time", title="Estimated reading time")
+      img(src="/img/clock.svg", width="15", height="15", alt="Estimated reading time", title="Estimated reading time")
 
 mixin post(post)
   mixin postHead(post)
