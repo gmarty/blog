@@ -9,7 +9,67 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/cross-browser-generator-functions/"><h1 class="post-title">Cross browser generator functions</h1></a><span class="post-date">2013 &#183; 10 &#183; 28</span></div><div class="post-body markdown"><h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span style="bottom: 30px;" class="post-date">2013 &#183; 11 &#183; 1</span><span class="post-reading-time"><img src="http://localhost:5455/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
+<h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
+<p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
+<p>The obvious way to achieve this is to use <code>eval()</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;function dynamicFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>However, as you may have heard:</p>
+<blockquote>
+<p>eval is evil</p>
+</blockquote>
+<p>The reason is because it gives JavaScript VM a hard time optimising the generated function and can lead to security concerns.</p>
+<p>A better approach is to use the <code>Function</code> constructor:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Just pass the body of the function as a string. You can also pass arguments before the code body:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;arg1&#39;</span><span class="p">,</span> <span class="s1">&#39;arg2&#39;</span><span class="p">,</span> <span class="s1">&#39;/* Do crazy stuff with arg1 and arg2. */&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<h2><a name="caveat-1-the-scope" class="anchor" href="#caveat-1-the-scope"><span class="header-link"></span></a>Caveat 1: the scope</h2>
+<p>That said, you need to keep in mind that using <code>Function</code> always create functions in the global scope. You can&#39;t refer to variables used in the local lexical scope they were created. The following code will not work as expected:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;console.log(SCOPED_VAR)&#39;</span><span class="p">);</span>
+  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// ReferenceError: SCOPED_VAR is not defined</span>
+<span class="p">})();</span>
+</pre></div>
+</code></pre>
+<p>So if you really need to expose <code>SCOPED_VAR</code> to <code>dynamicFn()</code>, the solution might be to wrap it inside another function created with the <code>Function</code> constructor and execute the latter immediately:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;SCOPED_VAR&#39;</span><span class="p">,</span> <span class="s1">&#39;return function() {console.log(SCOPED_VAR)}&#39;</span><span class="p">)(</span><span class="nx">SCOPED_VAR</span><span class="p">);</span>
+  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// &quot;local&quot;</span>
+<span class="p">})();</span>
+</pre></div>
+</code></pre>
+<p>But, any updates to <code>SCOPED_VAR</code> in the outter scope won&#39;t reflect inside <code>dynamicFn()</code>. The value of <code>SCOPED_VAR</code> in the scope of <code>dynamicFn()</code> is bound forever to the one it had at creation.</p>
+<p>This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with <code>eval</code>.</p>
+<h2><a name="caveat-2-named-functions" class="anchor" href="#caveat-2-named-functions"><span class="header-link"></span></a>Caveat 2: named functions</h2>
+<p>Another issue with <code>new Function</code> is that it generates only anonymous functions:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;&quot; (empty string)</span>
+</pre></div>
+</code></pre>
+<p>Named functions are required for debugging in order to get meaningful stack traces.</p>
+<p>A workaround is to use the solution presented above:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function dynFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">)();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;dynFn&quot;</span>
+</pre></div>
+</code></pre>
+<p>This is how <a href="https://github.com/mbebenita/shumway/blob/master/src/avm2/runtime.js#L1384">Shumway generates dynamic named functions</a> and that causes <a href="https://github.com/mozilla/shumway/issues/287#issuecomment-17507860">no performance issue</a>.</p>
+<h2><a name="how-to-generate-generator-functions" class="anchor" href="#how-to-generate-generator-functions"><span class="header-link"></span></a>How to generate generator functions</h2>
+<p>Now, back to our main topic: generator functions.</p>
+<p>We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it&#39;s actually very easy:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function* () { yield 5 }&#39;</span><span class="p">)();</span>
+</pre></div>
+</code></pre>
+<p>Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.</p>
+<p>Now back to your code editor and have fun creating functions on the fly with JavaScript.</p>
+</div><div class="comments"><a href="/posts/generating-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/cross-browser-generator-functions/"><h1 class="post-title">Cross browser generator functions</h1></a><span style="bottom: 30px;" class="post-date">2013 &#183; 10 &#183; 28</span><span class="post-reading-time"><img src="http://localhost:5455/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/></span></div><div class="post-body markdown"><h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
 <p>This post will not discuss generators as there are valuable resources all over the web. Just remember that generators can be used to create a set of iterable items (possibly a virtual or infinite set like sequences in mathematics) or to do step by step execution of a program.</p>
 <h2><a name="the-current-state-of-generators-implementation" class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
 <p>Chrome implements the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators">latest ES6 draft</a>. So if you follow the spec, you should not have any troubles.</p>
@@ -89,15 +149,7 @@ Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator<
 <p>This seems to work but I didn&#39;t do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the <code>function*</code> is not  the best way, but at this point, <a href="http://esprima.org/demo/parse.html?code=function*%20fibonacci%28%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20%281%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A">Esprima doesn&#39;t support ES6</a>, so there are no standalone parsers available.</p>
 <p>Hopefully this code will continue to work when Firefox supports the new syntax.</p>
 <p>I reckon this method is a bit complicated, so if you know better/cleaner way to achieve this, let me know via a comment!</p>
-</div><div class="comments"><a href="/posts/cross-browser-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span class="post-date">2013 &#183; 10 &#183; 26</span></div><div class="post-body markdown"><h2><a name="achievement-unlocked-" class="anchor" href="#achievement-unlocked-"><span class="header-link"></span></a>Achievement unlocked!</h2>
-<p>I&#39;m excited to announce that I&#39;ve written an article about <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">video game emulation</a> for Mozilla Hacks. While that doesn&#39;t sound like a big deal, it actually means a lot to me.</p>
-<p>I remember the first day this blog was launched. Since then it has always been a pleasure to read new publications. I think I must have read every single article so far. I love it when a new article is posted because it means an aspect of the web platform will be explained in details.</p>
-<p><a href="https://hacks.mozilla.org/">Mozilla Hacks</a> and <a href="http://www.html5rocks.com/en/">HTML5 Rocks</a> are my favourite resources online, both technical and inspirational. Whenever I&#39;m notified of a new post on these, that usually means stop what I&#39;m doing and read it right away!</p>
-<h2><a name="writing-about-retro-gaming" class="anchor" href="#writing-about-retro-gaming"><span class="header-link"></span></a>Writing about retro gaming</h2>
-<p>Just a note about the <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">blogpost</a>. It&#39;s basically an expanded version of the talk I gave earlier last month at Reject.JS about fast retro gaming on mobile. I tried to be clear and assumed as little knowledge as possible from the reader.</p>
-<p>The writing process was surprisingly easy. I&#39;m working for almost a decade as a freelance writer for texts published in the French edition of some Japanese manga titles. I&#39;m used to have my texts edited/modified/transformed without my consent. Nothing here. The original draft I submitted was almost published as is.</p>
-<p>Anyway, I hope you&#39;ll enjoy reading it!</p>
-</div><div class="comments"><a href="/posts/i-wrote-for-mozilla-hacks/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/cross-browser-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   'use strict';
   
   var $navBar = document.querySelector('nav');
@@ -115,4 +167,21 @@ Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator<
       $navBar.classList.remove('nav-show');
     }
   }, false);
+});
+
+// For each post, add the estimated reading time.
+var headersElt = document.querySelectorAll('div.post-head');
+var postCounter = 0;
+Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
+  var postEltClone = postElt.cloneNode(true);
+  var codeEltList = postEltClone.getElementsByTagName('code');
+  for (var i = codeEltList.length - 1; i >= 0; i--) {
+    var codeElt = codeEltList[i];
+    codeElt.parentNode.removeChild(codeElt);
+  }
+  var text = postEltClone.textContent;
+  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
+        var textNode = document.createTextNode(readingTime == 1 ?
+  '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').appendChild(textNode);
 });</script></body></html>

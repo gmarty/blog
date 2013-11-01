@@ -9,7 +9,7 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/cross-browser-generator-functions/"><h1 class="post-title">Cross browser generator functions</h1></a><span class="post-date">2013 &#183; 10 &#183; 28</span></div><div class="post-body markdown"><h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/cross-browser-generator-functions/"><h1 class="post-title">Cross browser generator functions</h1></a><span style="bottom: 30px;" class="post-date">2013 &#183; 10 &#183; 28</span><span class="post-reading-time"><img src="http://localhost:5455/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/></span></div><div class="post-body markdown"><h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
 <p>This post will not discuss generators as there are valuable resources all over the web. Just remember that generators can be used to create a set of iterable items (possibly a virtual or infinite set like sequences in mathematics) or to do step by step execution of a program.</p>
 <h2><a name="the-current-state-of-generators-implementation" class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
 <p>Chrome implements the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators">latest ES6 draft</a>. So if you follow the spec, you should not have any troubles.</p>
@@ -102,7 +102,7 @@ Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator<
 
 // Google Plus
 (function() {
-  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+  var po = document.createElement('script'); po.async = true;
   po.src = 'https://apis.google.com/js/plusone.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 })();
@@ -110,7 +110,7 @@ Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator<
 // Disqus
 var disqus_shortname = 'gmarty';
 (function() {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var dsq = document.createElement('script'); dsq.async = true;
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();</script></div><script>window.addEventListener('load', function() {
@@ -131,4 +131,21 @@ var disqus_shortname = 'gmarty';
       $navBar.classList.remove('nav-show');
     }
   }, false);
+});
+
+// For each post, add the estimated reading time.
+var headersElt = document.querySelectorAll('div.post-head');
+var postCounter = 0;
+Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
+  var postEltClone = postElt.cloneNode(true);
+  var codeEltList = postEltClone.getElementsByTagName('code');
+  for (var i = codeEltList.length - 1; i >= 0; i--) {
+    var codeElt = codeEltList[i];
+    codeElt.parentNode.removeChild(codeElt);
+  }
+  var text = postEltClone.textContent;
+  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
+        var textNode = document.createTextNode(readingTime == 1 ?
+  '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').appendChild(textNode);
 });</script></body></html>

@@ -9,7 +9,7 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span class="post-date">2012 &#183; 9 &#183; 18</span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span style="bottom: 30px;" class="post-date">2012 &#183; 9 &#183; 18</span><span class="post-reading-time"><img src="http://localhost:5455/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/></span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
 Basically I had to implement a drawing feature using a graphic lib.</p>
 <p>I found a few resources really useful, specially in JavaScript.
 But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
@@ -136,7 +136,7 @@ Also I will probably add more snippets here as time/need permits.</p>
 
 // Google Plus
 (function() {
-  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+  var po = document.createElement('script'); po.async = true;
   po.src = 'https://apis.google.com/js/plusone.js';
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 })();
@@ -144,7 +144,7 @@ Also I will probably add more snippets here as time/need permits.</p>
 // Disqus
 var disqus_shortname = 'gmarty';
 (function() {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    var dsq = document.createElement('script'); dsq.async = true;
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();</script></div><script>window.addEventListener('load', function() {
@@ -165,4 +165,21 @@ var disqus_shortname = 'gmarty';
       $navBar.classList.remove('nav-show');
     }
   }, false);
+});
+
+// For each post, add the estimated reading time.
+var headersElt = document.querySelectorAll('div.post-head');
+var postCounter = 0;
+Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
+  var postEltClone = postElt.cloneNode(true);
+  var codeEltList = postEltClone.getElementsByTagName('code');
+  for (var i = codeEltList.length - 1; i >= 0; i--) {
+    var codeElt = codeEltList[i];
+    codeElt.parentNode.removeChild(codeElt);
+  }
+  var text = postEltClone.textContent;
+  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
+        var textNode = document.createTextNode(readingTime == 1 ?
+  '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').appendChild(textNode);
 });</script></body></html>
