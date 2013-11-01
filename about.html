@@ -41,7 +41,7 @@ Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), functio
   }
   var text = postEltClone.textContent;
   var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
-        var textNode = document.createTextNode(readingTime == 1 ?
-  '1 minute' : readingTime + ' minutes');
-  headersElt[postCounter++].querySelector('span.post-reading-time').appendChild(textNode);
+  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
+    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
 });</script></body></html>

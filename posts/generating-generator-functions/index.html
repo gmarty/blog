@@ -9,7 +9,7 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span style="bottom: 30px;" class="post-date">2013 &#183; 11 &#183; 1</span><span class="post-reading-time"><img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span style="bottom: 30px;" class="post-date">2013 &#183; 11 &#183; 1</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
 <h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
 <p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
 <p>The obvious way to achieve this is to use <code>eval()</code>:</p>
@@ -125,7 +125,7 @@ Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), functio
   }
   var text = postEltClone.textContent;
   var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
-        var textNode = document.createTextNode(readingTime == 1 ?
-  '1 minute' : readingTime + ' minutes');
-  headersElt[postCounter++].querySelector('span.post-reading-time').appendChild(textNode);
+  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
+    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
 });</script></body></html>
