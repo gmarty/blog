@@ -1,6 +1,6 @@
 {
   title: "Generating generator functions",
-  date: "2013-10-01",
+  date: "2013-11-01",
   description: "Use JavaScript to generate functions in general and generator functions in particular"
 }
 
