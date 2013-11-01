@@ -16,12 +16,20 @@
   font-size: 1.7em;
 }
 
-.post-date {
+.post-date, .post-reading-time {
   position: absolute;
-  bottom: 10px;
+  bottom: 30px;
   right: 0;
   font-size: 1.3em;
   color: $lightTextColor;
+}
+
+.post-reading-time {
+  bottom: 5px;
+
+  img {
+    margin-right: 5px;
+  }
 }
 
 .post-body {

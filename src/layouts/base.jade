@@ -3,7 +3,9 @@ mixin postHead(post)
   .post-head.group
     a(href="#{data.baseUrl}#{post.url}")
       h1.post-title= post.title
-    span.post-date!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
+    span.post-date(style="bottom: 30px;")!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
+    span.post-reading-time
+      img(src="http://localhost:5455/img/clock.svg", width="15", height="15", alt="Estimated reading time", title="Estimated reading time")
 
 mixin post(post)
   mixin postHead(post)
@@ -67,4 +69,21 @@ html
             $navBar.classList.remove('nav-show');
           }
         }, false);
+      });
+
+      // For each post, add the estimated reading time.
+      var headersElt = document.querySelectorAll('div.post-head');
+      var postCounter = 0;
+      Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
+        var postEltClone = postElt.cloneNode(true);
+        var codeEltList = postEltClone.getElementsByTagName('code');
+        for (var i = codeEltList.length - 1; i >= 0; i--) {
+          var codeElt = codeEltList[i];
+          codeElt.parentNode.removeChild(codeElt);
+        }
+        var text = postEltClone.textContent;
+        var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
+              var textNode = document.createTextNode(readingTime == 1 ?
+          '1 minute' : readingTime + ' minutes');
+        headersElt[postCounter++].querySelector('span.post-reading-time').appendChild(textNode);
       });
