@@ -1,6 +1,6 @@
 {
   title: "Polyfilling generators",
-  date: "2013-10-01",
+  date: "2013-11-05",
   description: "Exploring ES6 generators polyfills gives valuable insights about the internal mechanisms used by them."
 }
 
