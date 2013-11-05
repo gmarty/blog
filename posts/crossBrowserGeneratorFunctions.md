@@ -100,3 +100,8 @@ This seems to work but I didn't do extensive testing and there might be other di
 Hopefully this code will continue to work when Firefox supports the new syntax.
 
 I reckon this method is a bit complicated, so if you know better/cleaner way to achieve this, let me know via a comment!
+
+This article is part of a series about ES6 generators, together with:
+
+* [Generating generator functions](http://gu.illau.me/posts/generating-generator-functions/)
+* [Polyfilling generators](http://gu.illau.me/posts/polyfilling-generators/)
