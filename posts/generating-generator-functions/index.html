@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Generating generator functions</title><meta name="description" content="Use JavaScript to generate functions in general and generator functions in particular"><base href="http://gu.illau.me/posts/generating-generator-functions/" target="_top"><script>// We store the client ID in the local storage rather than in a cookie.
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Generating generator functions</title><meta name="description" content="Use JavaScript to generate functions in general and generator functions in particular."><base href="http://gu.illau.me/posts/generating-generator-functions/" target="_top"><script>// We store the client ID in the local storage rather than in a cookie.
 (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
 ga('create', 'UA-207391-17', {
   'storage': 'none',
@@ -48,6 +48,10 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 </code></pre>
 <p>But, any updates to <code>SCOPED_VAR</code> in the outter scope won&#39;t reflect inside <code>dynamicFn()</code>. The value of <code>SCOPED_VAR</code> in the scope of <code>dynamicFn()</code> is bound forever to the one it had at creation.</p>
 <p>This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with <code>eval</code>.</p>
+<p><strong>Edit:</strong> You can take advantage of this scoping behaviour to reference the global scope regardless of the environment you&#39;re running in and whatever your local scope is. Just use the code below and you&#39;ll be certain that <code>this</code> will always reference the global scope:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">global</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return this&#39;</span><span class="p">)();</span>
+</pre></div>
+</code></pre>
 <h2><a name="caveat-2-named-functions" class="anchor" href="#caveat-2-named-functions"><span class="header-link"></span></a>Caveat 2: named functions</h2>
 <p>Another issue with <code>new Function</code> is that it generates only anonymous functions:</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
@@ -63,12 +67,18 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 <p>This is how <a href="https://github.com/mbebenita/shumway/blob/master/src/avm2/runtime.js#L1384">Shumway generates dynamic named functions</a> and that causes <a href="https://github.com/mozilla/shumway/issues/287#issuecomment-17507860">no performance issue</a>.</p>
 <h2><a name="how-to-generate-generator-functions" class="anchor" href="#how-to-generate-generator-functions"><span class="header-link"></span></a>How to generate generator functions</h2>
 <p>Now, back to our main topic: generator functions.</p>
+<p><strong>Edit:</strong> In the future, we will have the <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorfunction"><code>GeneratorFunction</code> constructor</a> to create generator functions from a string, but this is not implemented anywhere AFAIK. So in the meantime...</p>
 <p>We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it&#39;s actually very easy:</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function* () { yield 5 }&#39;</span><span class="p">)();</span>
 </pre></div>
 </code></pre>
 <p>Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.</p>
 <p>Now back to your code editor and have fun creating functions on the fly with JavaScript.</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
+<ul>
+<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
+</ul>
 </div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
 (function(d, t) {
   var g = d.createElement(t),
