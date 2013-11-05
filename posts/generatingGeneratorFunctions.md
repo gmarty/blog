@@ -1,7 +1,7 @@
 {
   title: "Generating generator functions",
   date: "2013-11-01",
-  description: "Use JavaScript to generate functions in general and generator functions in particular"
+  description: "Use JavaScript to generate functions in general and generator functions in particular."
 }
 
 Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.
@@ -54,6 +54,11 @@ But, any updates to `SCOPED_VAR` in the outter scope won't reflect inside `dynam
 
 This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with `eval`.
 
+**Edit:** You can take advantage of this scoping behaviour to reference the global scope regardless of the environment you're running in and whatever your local scope is. Just use the code below and you'll be certain that `this` will always reference the global scope:
+```javascript
+var global = new Function('return this')();
+```
+
 ## Caveat 2: named functions
 
 Another issue with `new Function` is that it generates only anonymous functions:
@@ -76,6 +81,8 @@ This is how [Shumway generates dynamic named functions](https://github.com/mbebe
 
 Now, back to our main topic: generator functions.
 
+**Edit:** In the future, we will have the [`GeneratorFunction` constructor](http://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorfunction) to create generator functions from a string, but this is not implemented anywhere AFAIK. So in the meantime...
+
 We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it's actually very easy:
 ```javascript
 var generator = new Function('return function* () { yield 5 }')();
@@ -84,3 +91,8 @@ var generator = new Function('return function* () { yield 5 }')();
 Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.
 
 Now back to your code editor and have fun creating functions on the fly with JavaScript.
+
+This article is part of a series about ES6 generators, together with:
+
+* [Cross browser generator functions](http://gu.illau.me/posts/cross-browser-generator-functions/)
+* [Polyfilling generators](http://gu.illau.me/posts/polyfilling-generators/)
