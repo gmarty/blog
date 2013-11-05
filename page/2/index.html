@@ -9,7 +9,27 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span style="bottom: 30px;" class="post-date">2012 &#183; 9 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small>by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/always-bet-on-semantic/"><h1 class="post-title">Always bet on semantic</h1></a><span style="bottom: 30px;" class="post-date">2013 &#183; 10 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="don-t-get-tricked-by-the-visual" class="anchor" href="#don-t-get-tricked-by-the-visual"><span class="header-link"></span></a>Don&#39;t get tricked by the visual</h2>
+<p>My company is working on a mobile website. One of the developers in my team needed to implement a numeric field to input a number of people.</p>
+<p>He did this:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;tel&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>He tested on iPhone and concluded it was OK.</p>
+<p>And he wasn&#39;t completely wrong. Indeed when tapping the field, a nice numeric keyboard is displayed.</p>
+<h2><a name="semantic-informs-about-your-intention" class="anchor" href="#semantic-informs-about-your-intention"><span class="header-link"></span></a>Semantic informs about your intention</h2>
+<p>Of course, something is wrong in the example above. Even if the visual aspect is correct, the semantic is not. A better way is to use:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>Or better using the <a href="https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html#//apple_ref/doc/uid/TP40009542-CH5-SW12">recommended hack for iPhone</a>:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span> <span class="na">pattern=</span><span class="s">&quot;[0-9]*&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>This implementation is correct: visually we have a numeric keyboard and we maintain the semantic aspect.</p>
+<p>What if in the future phone numbers are replaced by ID? Or if they must be picked up from the contact book? The interface would change and the original snippet in this example wouldn&#39;t work anymore.</p>
+<p>A rule of thumb is you always win by betting on semantic. Semantic informs the browser about your intention. Browsers change but intentions remain.</p>
+</div><div class="comments"><a href="/posts/always-bet-on-semantic/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span style="bottom: 30px;" class="post-date">2012 &#183; 9 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
 Basically I had to implement a drawing feature using a graphic lib.</p>
 <p>I found a few resources really useful, specially in JavaScript.
 But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
@@ -123,20 +143,7 @@ But first of all, you should read this <a href="http://coding.smashingmagazine.c
 </code></pre>
 <p>These functions are pretty basic but are a solid ground base for more complex computations.
 Also I will probably add more snippets here as time/need permits.</p>
-</div><div class="comments"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/tokenization-is-the-mother-of-nlp/"><h1 class="post-title">Tokenization is the mother of NLP</h1></a><span style="bottom: 30px;" class="post-date">2012 &#183; 9 &#183; 17</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently started contributing to <a href="https://github.com/NaturalNode/natural">natural, a set of <strong>natural language processing</strong> tools (NLP) in JavaScript for node.js</a>. Here&#39;s what I learned from this.</p>
-<p><a href="http://en.wikipedia.org/wiki/Tokenization">Words tokenization</a> is a critical part of natural language processing. This is often neglected because it sounds so easy. You just need to split a string on spaces.
-And that is enough... for most of the languages. However some languages don&#39;t actually use space to separate words, like Japanese or Chinese.
-I was lucky enough to find out that there is <a href="http://chasen.org/~taku/software/TinySegmenter/">a tokenizer in JavaScript for Japanese by Kudo Taku</a>. The license allowed me to use it on natural. I&#39;m fully satisfied: no dictionary to maintain and no heavy tools to develop! It is using a statistical model to determine where to cut tokens. And it turned out to be quite efficient given its light weight.</p>
-<p>The only sentence that failed to be tokenized properly is the famous “すもももももももものうち。” (that can be written &quot;李も桃も桃のうち。&quot; meaning &quot;plums and peaches are both types of peach&quot;). But this one is a bit tricky.</p>
-<p>Now that we can tokenize Japanese, we can also:</p>
-<ul>
-<li>Remove stop words</li>
-<li>Stem tokens</li>
-<li>Compute N-grams</li>
-</ul>
-<p>I wanted to extend one of my previous NLP project to Japanese, but couldn&#39;t find a tokenizer at the time (it was developed in PHP). So I reluctantly discarded this idea. I hope I&#39;ll be able to help natural enough so that such decisions won&#39;t have to be taken in the future.</p>
-<p>As a side note, there are also many tokenizers for Chinese out there in several programming languages. I will have to check their licenses on my spare time to see if they are compatible with that of natural. But I&#39;m not sure how to benchmark their respective accuracies as I don&#39;t speak Chinese :-(</p>
-</div><div class="comments"><a href="/posts/tokenization-is-the-mother-of-nlp/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a><a href="/page/3/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   'use strict';
   
   var $navBar = document.querySelector('nav');
