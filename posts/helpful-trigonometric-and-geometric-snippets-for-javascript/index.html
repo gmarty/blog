@@ -1,4 +1,6 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Helpful trigonometric and geometric snippets for JavaScript</title><meta name="description" content="A set of useful functions to do trigonometry in JavaScript."><base href="http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/" target="_top"><script>// We store the client ID in the local storage rather than in a cookie.
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Helpful trigonometric and geometric snippets for JavaScript</title><meta name="description" content="A set of useful functions to do trigonometry in JavaScript."><base href="http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/" target="_top"><script>'use strict';
+
+// We store the client ID in the local storage rather than in a cookie.
 (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
 ga('create', 'UA-207391-17', {
   'storage': 'none',
@@ -148,8 +150,6 @@ var disqus_shortname = 'gmarty';
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 })();</script></div><script>window.addEventListener('load', function() {
-  'use strict';
-  
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
