@@ -1,6 +1,6 @@
 {
   title: "Firefox OS: the Device Storage API",
-  date: "2013-11-22",
+  date: "2013-11-25",
   description: "How to develop Firefox OS app using the Device Storage API via Firefox OS Simulator?"
 }
 
