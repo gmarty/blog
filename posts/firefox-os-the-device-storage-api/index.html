@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><base href="http://gu.illau.me/" target="_top"><script>'use strict';
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Firefox OS: the Device Storage API</title><meta name="description" content="How to develop Firefox OS app using the Device Storage API via Firefox OS Simulator?"><base href="http://gu.illau.me/posts/firefox-os-the-device-storage-api/" target="_top"><script>'use strict';
 
 // We store the client ID in the local storage rather than in a cookie.
 (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
@@ -56,43 +56,31 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 <li>whether you know the file location or not</li>
 </ul>
 <p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
-</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom: 30px;" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
-<ul>
-<li>Simple</li>
-<li>Hosted for free</li>
-<li>Editable from anywhere</li>
-<li>and of course based on open source tools</li>
-</ul>
-<h2><a name="finding-tools-and-solutions" class="anchor" href="#finding-tools-and-solutions"><span class="header-link"></span></a>Finding tools and solutions</h2>
-<p>I&#39;m a lazy person and I find it very difficult to do things routinely. So, if I start a blog, I must make sure that nothing gets in my way. The writing/publishing process must be as easy as possible. It took me a while to love the simplicity of Markdown. But ever since I started working heavily with Github, I fell in love with its syntax. Markdown powers the simplicity I needed.</p>
-<p>I admire the logic behind the static websites generators. They move the complexity of blogs from the server to your computer. The resulting blogs are incredible fast. We can then use Github as a web hosting platform for free! I choose <a href="http://www.cabinjs.com/">Cabin</a> because it is simple and I wanted to experiment with Jade templates.</p>
-<p>The mobile aspect was important to me. I wanted to start or edit posts directly from my mobile, wherever I am, whenever I have time. Also I always use several browsers on different computers all the time, sometime on a bad connexion, if any at all. That&#39;s why I needed something distributed and not dependent on network status. A few months ago I came upon <a href="https://stackedit.io/">StackEdit</a> and was struck by its simplicity, beauty and powerfulness. It works on the browser, offline by default, can synchronise to many services (including Dropbox and Google Drive). The interface is split vertically with the original Markdown view on the left hand side next to the resulting formatted post, a UI pattern used by the <a href="https://ghost.org/">blogging platform Ghost</a> that received a lot of attention lately.</p>
-<h2><a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="header-link"></span></a>Putting it all together</h2>
-<p>A typical blog post starts like this. I launch a browser on the device available (laptop, mobile...), start StackEdit and open a new document. I&#39;ve modified the default document to start with the metadata used by Cabin (Think of it as YAML front matter used by Jekyll, but in JSON):</p>
-<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
-  <span class="err">title:</span> <span class="nt">&quot;Title&quot;</span><span class="p">,</span>
-  <span class="err">date:</span> <span class="nt">&quot;2013-11-01&quot;</span><span class="p">,</span>
-  <span class="err">description:</span> <span class="nt">&quot;Description&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>I edit these metadata, start writing my draft and save it to Google Drive. I guess I could publish it directly to the Github repo as a draft (prefixed by <code>_</code>), but I prefer to keep my drafts private until they are ready for publication. Then I can synchronise and edit the posts from whatever device is available.</p>
-<p>When the post is ready, I publish it to <a href="https://github.com/gmarty/blog">my blog repo</a> on Github, in the <code>posts</code> folder. The tricky part now is that I need to launch the terminal, navigate to the blog folder on my computer and type:</p>
-<pre><code class="lang-bash"><div class="highlight"><pre>git pull <span class="o">&amp;&amp;</span> grunt deploy
-</pre></div>
-</code></pre>
-<p>The Grunt task <code>deploy</code> of Cabin is responsible for generating a static version and push it to the <code>gh-pages</code> branch of the repo.</p>
-<p>That&#39;s it.</p>
-<h2><a name="wrapping-up" class="anchor" href="#wrapping-up"><span class="header-link"></span></a>Wrapping up</h2>
-<p>This blog is powered by:</p>
-<ol>
-<li><a href="https://stackedit.io/">Stackedit</a></li>
-<li><a href="http://www.cabinjs.com/">Cabin</a></li>
-<li><a href="https://github.com/gmarty/blog">Github</a></li>
-<li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
-</ol>
-<p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
-</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
