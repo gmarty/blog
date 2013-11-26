@@ -3,7 +3,7 @@ mixin postHead(post)
   .post-head.group
     a(href="#{data.baseUrl}#{post.url}")
       h1.post-title= post.title
-    span.post-date(style="bottom: 30px;")!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
+    span.post-date(style="bottom:30px")!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
     span.post-reading-time
 
 mixin post(post)
@@ -14,12 +14,14 @@ doctype 5
 html
   head
     meta(charset="utf-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
+    meta(name="viewport", content="width=device-width,initial-scale=1")
     link(rel="shortcut icon", type="image/x-icon", href="#{data.baseUrl}favicon.ico")
     link(href="#{data.baseUrl}css/main.css", rel="stylesheet")
     block head
-      title= "Just a blog by G.C. Marty"
+      title="Just a blog by G.C. Marty"
+      meta(name="description", content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!")
       base(href="http://gu.illau.me#{data.baseUrl}", target="_top")
+    link(href="http://feeds.feedburner.com/just-a-blog", rel="alternate", type="application/rss+xml", title="Just a blog by G.C. Marty")
     script.
       'use strict';
 
