@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Tue, 26 Nov 2013 18:22:20 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Tue, 26 Nov 2013 18:22:20 GMT</pubDate><copyright><![CDATA[2013 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Firefox OS: the Device Storage API]]></title><description><![CDATA[<p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
+<h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
+<p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
+<p>On Windows:</p>
+<blockquote>
+<p>C:\Users\<i>USERNAME</i>\AppData\Roaming\Mozilla\Firefox\Profiles\<i>PROFILEKEY</i>\extensions\r2d2b2g@mozilla.org\profile\fake-sdcard</p>
+</blockquote>
+<p>On Ubuntu:</p>
+<blockquote>
+<p>/home/<i>USERNAME</i>/.mozilla/firefox/<i>PROFILEKEY</i>/extensions/r2d2b2g@mozilla.org/profile/fake-sdcard</p>
+</blockquote>
+<p>On Mac:</p>
+<blockquote>
+<p>Let me know via a comment below where is this folder on Mac.</p>
+</blockquote>
+<p>Of course, <i>USERNAME</i> and <i>PROFILEKEY</i> are specific to your configuration, so make sure to look into the right folder.</p>
+<p>Place files in this folder and you’ll be able to access them from the Simulator using a privileged app.</p>
+<p>If this folder doesn&#39;t exist, I believe it&#39;s safe to create it yourself first.</p>
+<h2><a name="the-file-objects" class="anchor" href="#the-file-objects"><span class="header-link"></span></a>The File objects</h2>
+<p>When you call <code>get</code> or <code>enumerate</code> on <code>navigator.getDeviceStorage(&#39;sdcard&#39;)</code> you get File objects.</p>
+<p>For reference, these objects look like this (slightly different than the <a href="https://developer.mozilla.org/en-US/docs/Web/API/File">File API page on MDN</a>):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;file.txt&#39;</span><span class="p">,</span>
+  <span class="nx">size</span><span class="o">:</span> <span class="mi">32768</span><span class="p">,</span> <span class="c1">// In bytes</span>
+  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span> <span class="c1">// MIME type</span>
+  <span class="nx">lastModifiedDate</span><span class="o">:</span> <span class="s1">&#39;Fri Nov 22 2013 12:00:00 GMT+0000 (GMT Standard Time)&#39;</span><span class="p">,</span> <span class="c1">// Date object,</span>
+  <span class="nx">mozFullPath</span><span class="o">:</span> <span class="s1">&#39;path/to/the/file&#39;</span> <span class="c1">// Relative to the SD Card folder</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>They also have 2 methods: <code>slice()</code> and <code>mozSlice()</code>.</p>
+<p>Then if you want to have access to the content of these files in JavaScript, you can just pass them to the FileReader API:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// e.target.result is the content of the file.</span>
+<span class="p">};</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">readAsText</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span> <span class="c1">// Or whatever method suits you best.</span>
+</pre></div>
+</code></pre>
+<p>I found this API complex to work with. There are different way to access files depending on:</p>
+<ul>
+<li>what you do with (read only or write)</li>
+<li>whether you know the file location or not</li>
+</ul>
+<p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
+]]></description><link>http://gu.illau.me/posts/firefox-os-the-device-storage-api/</link><guid isPermaLink="true">http://gu.illau.me/posts/firefox-os-the-device-storage-api/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Mon, 25 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[The ideal blogging workflow]]></title><description><![CDATA[<p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
+<ul>
+<li>Simple</li>
+<li>Hosted for free</li>
+<li>Editable from anywhere</li>
+<li>and of course based on open source tools</li>
+</ul>
+<h2><a name="finding-tools-and-solutions" class="anchor" href="#finding-tools-and-solutions"><span class="header-link"></span></a>Finding tools and solutions</h2>
+<p>I&#39;m a lazy person and I find it very difficult to do things routinely. So, if I start a blog, I must make sure that nothing gets in my way. The writing/publishing process must be as easy as possible. It took me a while to love the simplicity of Markdown. But ever since I started working heavily with Github, I fell in love with its syntax. Markdown powers the simplicity I needed.</p>
+<p>I admire the logic behind the static websites generators. They move the complexity of blogs from the server to your computer. The resulting blogs are incredible fast. We can then use Github as a web hosting platform for free! I choose <a href="http://www.cabinjs.com/">Cabin</a> because it is simple and I wanted to experiment with Jade templates.</p>
+<p>The mobile aspect was important to me. I wanted to start or edit posts directly from my mobile, wherever I am, whenever I have time. Also I always use several browsers on different computers all the time, sometime on a bad connexion, if any at all. That&#39;s why I needed something distributed and not dependent on network status. A few months ago I came upon <a href="https://stackedit.io/">StackEdit</a> and was struck by its simplicity, beauty and powerfulness. It works on the browser, offline by default, can synchronise to many services (including Dropbox and Google Drive). The interface is split vertically with the original Markdown view on the left hand side next to the resulting formatted post, a UI pattern used by the <a href="https://ghost.org/">blogging platform Ghost</a> that received a lot of attention lately.</p>
+<h2><a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="header-link"></span></a>Putting it all together</h2>
+<p>A typical blog post starts like this. I launch a browser on the device available (laptop, mobile...), start StackEdit and open a new document. I&#39;ve modified the default document to start with the metadata used by Cabin (Think of it as YAML front matter used by Jekyll, but in JSON):</p>
+<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="err">title:</span> <span class="nt">&quot;Title&quot;</span><span class="p">,</span>
+  <span class="err">date:</span> <span class="nt">&quot;2013-11-01&quot;</span><span class="p">,</span>
+  <span class="err">description:</span> <span class="nt">&quot;Description&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>I edit these metadata, start writing my draft and save it to Google Drive. I guess I could publish it directly to the Github repo as a draft (prefixed by <code>_</code>), but I prefer to keep my drafts private until they are ready for publication. Then I can synchronise and edit the posts from whatever device is available.</p>
+<p>When the post is ready, I publish it to <a href="https://github.com/gmarty/blog">my blog repo</a> on Github, in the <code>posts</code> folder. The tricky part now is that I need to launch the terminal, navigate to the blog folder on my computer and type:</p>
+<pre><code class="lang-bash"><div class="highlight"><pre>git pull <span class="o">&amp;&amp;</span> grunt deploy
+</pre></div>
+</code></pre>
+<p>The Grunt task <code>deploy</code> of Cabin is responsible for generating a static version and push it to the <code>gh-pages</code> branch of the repo.</p>
+<p>That&#39;s it.</p>
+<h2><a name="wrapping-up" class="anchor" href="#wrapping-up"><span class="header-link"></span></a>Wrapping up</h2>
+<p>This blog is powered by:</p>
+<ol>
+<li><a href="https://stackedit.io/">Stackedit</a></li>
+<li><a href="http://www.cabinjs.com/">Cabin</a></li>
+<li><a href="https://github.com/gmarty/blog">Github</a></li>
+<li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
+</ol>
+<p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
+]]></description><link>http://gu.illau.me/posts/the-ideal-blogging-workflow/</link><guid isPermaLink="true">http://gu.illau.me/posts/the-ideal-blogging-workflow/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 12 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Polyfilling generators]]></title><description><![CDATA[<p>I blogged a bit about ES6 generators lately. I think they are a great improvement to JavaScript and I can&#39;t wait to get them available in all environments.</p>
+<p>But before this day arrives, we have to use polyfills to support older browsers.</p>
+<h2><a name="polyfilling-generators" class="anchor" href="#polyfilling-generators"><span class="header-link"></span></a>Polyfilling generators</h2>
+<p>First of all, generators introduce some syntactical changes:</p>
+<ul>
+<li>The <code>function*</code> notation</li>
+<li>The <code>yield</code> keyword</li>
+</ul>
+<p>Because of that, you can&#39;t polyfill them. Running code with generator in a non supporting environment will cause a syntax error. You have to somehow parse the source code and generate code compliant with these environments. That means, first, get an AST representation of the code, apply changes and generate semantically equivalent code.</p>
+<p>All existing generator polyfills work in a similar way. They use a finite-state machine. The internal state changes whenever a <code>yield</code> keyword is found in generator functions, and the yielded value is returned. Let&#39;s examine some over simplified examples:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span><span class="o">*</span> <span class="nx">meaningOfLife</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">yield</span> <span class="mi">42</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">meaningOfLife</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>Is compiled to something like:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">meaningOfLife</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">switch</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+          <span class="nx">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="mi">42</span><span class="p">,</span> <span class="c1">// The yielded value.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">};</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">meaningOfLife</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>The variable <code>state</code> is initialized to <code>0</code>. Each time <code>next()</code> is called on the generator object <code>a</code>, the value of <code>state</code> changes. For the sake of simplicity, features like throwing at the end of the iteration are not implemented.</p>
+<p>Here is a slightly more elaborated example:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span><span class="o">*</span> <span class="nx">letters</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+  <span class="k">yield</span> <span class="s1">&#39;a&#39;</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+  <span class="k">yield</span> <span class="s1">&#39;b&#39;</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
+    <span class="k">yield</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">letters</span><span class="p">();</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">letters</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">switch</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+          <span class="nx">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="c1">// Return the first yielded value.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+          <span class="nx">state</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="c1">// Return the second yielded value.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+        <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="c1">// Return the third yielded value... forever.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">letters</span><span class="p">();</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>All calls to <code>a.next()</code> will change the value of <code>state</code> until it receives <code>2</code>. Then the state won&#39;t change and the value <code>&#39;c&#39;</code> is always returned, mimicking the original <code>while(true)</code> loop.</p>
+<p>Another thing to note here is the huge amount of code required to replicate the behaviour of generators. Generators are concise and powerful.</p>
+<h2><a name="traceur" class="anchor" href="#traceur"><span class="header-link"></span></a>Traceur</h2>
+<p><a href="https://github.com/google/traceur-compiler">Traceur</a> is a project maintained by Google. Its goal is to be a transcompiler from ES6 to ES3. It currently supports many features of the next JavaScript thus allowing developers to try, test and even use the code in production.</p>
+<p>Generators are only one of the features supported by Traceur.</p>
+<p>This project does a very good job at compiling functions from code using generators. However I have the feeling that it is a bit over-engineered. The output code is quite complex. Fortunately, you can generate sourcemap for debugging so that should not really be a problem.</p>
+<p>You can <a href="http://traceur-compiler.googlecode.com/git/demo/repl.html#function*%20letters%28%29%20{%0A%20%20console.log%28%27a%27%29%3B%0A%20%20yield%20%27a%27%3B%0A%20%20console.log%28%27b%27%29%3B%0A%20%20yield%20%27b%27%3B%0A%20%20while%20%28true%29%20{%0A%20%20%20%20console.log%28%27c%27%29%3B%0A%20%20%20%20yield%20%27c%27%3B%0A%20%20}%0A}%0A%0Avar%20a%20%3D%20letters%28%29%3B%0Aa.next%28%29%3B%20a.next%28%29%3B%20a.next%28%29%3B%20a.next%28%29%3B">try Traceur</a> on your browser!</p>
+<h2><a name="regenerator" class="anchor" href="#regenerator"><span class="header-link"></span></a>Regenerator</h2>
+<p>The scope of <a href="https://github.com/facebook/regenerator">Regenerator</a> is limited because it only polyfills generators and not all of ES6. It was initiated by Facebook at the end of September 2013.</p>
+<p>According to the <a href="http://facebook.github.io/regenerator/">Regenerator website</a>, it has several advantages over Traceur.</p>
+<p>First, it supports the <code>yield</code> keyword everywhere, not only as the &quot;right-hand sides of assignment statements and variable declarations&quot; (i.e. <code>if (yield val)...</code> is not supported in Traceur).</p>
+<p>It is said to be lighter. On a very simple example like <code>function* gen(){yield 5}</code>, it generates about 10 lines of code when Traceur outputs more than 100. They just omit to say that both projects require an external runtime library to work and the one of Regenerator has more than 200 lines! Come on Facebook, it doesn&#39;t hurt to be honest.</p>
+<p>The last argument they have against Traceur is that this project is very big and you better use Regenerator if you just need to support generators. That&#39;s true, but if you compile offline with Traceur, you can restrain the set of features and activate the compilation of generators only.</p>
+<p>Finally, Regenerator doesn&#39;t do sourcemap, but, unlike Traceur, it preserves comments from the original code. So that may help for matching original code with the one generated.</p>
+<p>An <a href="http://facebook.github.io/regenerator/">online REPL for Regenerator</a> is available.</p>
+<h2><a name="typescript" class="anchor" href="#typescript"><span class="header-link"></span></a>TypeScript</h2>
+<p><a href="http://www.typescriptlang.org/">TypeScrit</a> does not currently support generators, but there are in scope of future releases. You can follow the <a href="https://typescript.codeplex.com/workitem/1363">status of the bug</a>.</p>
+<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
+<p>I can&#39;t really see any limitations to these polyfills (this term is probably not correct in this context). You can even use the generated code with native <code>for-of</code> loops, and on non-supporting browsers, Traceur can also polyfill these loops for you!</p>
+<p>So give the generators a try today!</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
+<ul>
+<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
+</ul>
+]]></description><link>http://gu.illau.me/posts/polyfilling-generators/</link><guid isPermaLink="true">http://gu.illau.me/posts/polyfilling-generators/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 05 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Generating generator functions]]></title><description><![CDATA[<p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
+<h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
+<p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
+<p>The obvious way to achieve this is to use <code>eval()</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;function dynamicFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>However, as you may have heard:</p>
+<blockquote>
+<p>eval is evil</p>
+</blockquote>
+<p>The reason is because it gives JavaScript VM a hard time optimising the generated function and can lead to security concerns.</p>
+<p>A better approach is to use the <code>Function</code> constructor:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Just pass the body of the function as a string. You can also pass arguments before the code body:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;arg1&#39;</span><span class="p">,</span> <span class="s1">&#39;arg2&#39;</span><span class="p">,</span> <span class="s1">&#39;/* Do crazy stuff with arg1 and arg2. */&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<h2><a name="caveat-1-the-scope" class="anchor" href="#caveat-1-the-scope"><span class="header-link"></span></a>Caveat 1: the scope</h2>
+<p>That said, you need to keep in mind that using <code>Function</code> always create functions in the global scope. You can&#39;t refer to variables used in the local lexical scope they were created. The following code will not work as expected:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;console.log(SCOPED_VAR)&#39;</span><span class="p">);</span>
+  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// ReferenceError: SCOPED_VAR is not defined</span>
+<span class="p">})();</span>
+</pre></div>
+</code></pre>
+<p>So if you really need to expose <code>SCOPED_VAR</code> to <code>dynamicFn()</code>, the solution might be to wrap it inside another function created with the <code>Function</code> constructor and execute the latter immediately:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;SCOPED_VAR&#39;</span><span class="p">,</span> <span class="s1">&#39;return function() {console.log(SCOPED_VAR)}&#39;</span><span class="p">)(</span><span class="nx">SCOPED_VAR</span><span class="p">);</span>
+  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// &quot;local&quot;</span>
+<span class="p">})();</span>
+</pre></div>
+</code></pre>
+<p>But, any updates to <code>SCOPED_VAR</code> in the outter scope won&#39;t reflect inside <code>dynamicFn()</code>. The value of <code>SCOPED_VAR</code> in the scope of <code>dynamicFn()</code> is bound forever to the one it had at creation.</p>
+<p>This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with <code>eval</code>.</p>
+<p><strong>Edit:</strong> You can take advantage of this scoping behaviour to reference the global scope regardless of the environment you&#39;re running in and whatever your local scope is. Just use the code below and you&#39;ll be certain that <code>this</code> will always reference the global scope:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">global</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return this&#39;</span><span class="p">)();</span>
+</pre></div>
+</code></pre>
+<h2><a name="caveat-2-named-functions" class="anchor" href="#caveat-2-named-functions"><span class="header-link"></span></a>Caveat 2: named functions</h2>
+<p>Another issue with <code>new Function</code> is that it generates only anonymous functions:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;&quot; (empty string)</span>
+</pre></div>
+</code></pre>
+<p>Named functions are required for debugging in order to get meaningful stack traces.</p>
+<p>A workaround is to use the solution presented above:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function dynFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">)();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;dynFn&quot;</span>
+</pre></div>
+</code></pre>
+<p>This is how <a href="https://github.com/mbebenita/shumway/blob/master/src/avm2/runtime.js#L1384">Shumway generates dynamic named functions</a> and that causes <a href="https://github.com/mozilla/shumway/issues/287#issuecomment-17507860">no performance issue</a>.</p>
+<h2><a name="how-to-generate-generator-functions" class="anchor" href="#how-to-generate-generator-functions"><span class="header-link"></span></a>How to generate generator functions</h2>
+<p>Now, back to our main topic: generator functions.</p>
+<p><strong>Edit:</strong> In the future, we will have the <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorfunction"><code>GeneratorFunction</code> constructor</a> to create generator functions from a string, but this is not implemented anywhere AFAIK. So in the meantime...</p>
+<p>We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it&#39;s actually very easy:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function* () { yield 5 }&#39;</span><span class="p">)();</span>
+</pre></div>
+</code></pre>
+<p>Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.</p>
+<p>Now back to your code editor and have fun creating functions on the fly with JavaScript.</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
+<ul>
+<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
+</ul>
+]]></description><link>http://gu.illau.me/posts/generating-generator-functions/</link><guid isPermaLink="true">http://gu.illau.me/posts/generating-generator-functions/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Fri, 01 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Cross browser generator functions]]></title><description><![CDATA[<h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
+<p>This post will not discuss generators as there are valuable resources all over the web. Just remember that generators can be used to create a set of iterable items (possibly a virtual or infinite set like sequences in mathematics) or to do step by step execution of a program.</p>
+<h2><a name="the-current-state-of-generators-implementation" class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
+<p>Chrome implements the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators">latest ES6 draft</a>. So if you follow the spec, you should not have any troubles.</p>
+<p>For Firefox, things are a bit more complicated because from version 2 to 25, an old version of the generators is implemented. Version 26 has generators on par with Chrome, so this post will be outdated in a very near future, but in the meantime, I wanted a way to use generators so that they work on the current version of both browsers.</p>
+<h2><a name="what-firefox-needs" class="anchor" href="#what-firefox-needs"><span class="header-link"></span></a>What Firefox needs</h2>
+<p>To use the generators, Firefox requires to switch to JavaScript version 1.7 mode:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span><span class="cm">/* Code... */</span><span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</code></pre>
+<p>Otherwise, the keyword <code>yield</code> is not recognized.
+Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator</code> as defined by the spec.</p>
+<p>Of course, Chrome doesn&#39;t recognise script tags formatted like this and doesn&#39;t execute their content.</p>
+<h2><a name="a-workaround" class="anchor" href="#a-workaround"><span class="header-link"></span></a>A workaround</h2>
+<p>The solution I came with is not very clean, but it seems to work.</p>
+<p>First, you need to develop your code using the latest draft, the one implemented in Chrome. Then wrap this code in a inactive tag. I used a custom <code>type</code> attribute to prevent its execution.</p>
+<p>Then, this code is appended to the DOM in a newly created <code>script</code> element. In Firefox, we set the correct <code>type</code> attribute and transform the <code>function*</code> notation:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Cross-browser generator functions<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;executeGeneratorCode(document.getElementById(&#39;js-code&#39;).text)&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;js-code&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript-inert&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// Your code using a generator goes here:</span>
+<span class="c1">// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">fibonacci</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fn1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">fn2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">fn2</span><span class="p">;</span>
+    <span class="nx">fn2</span> <span class="o">=</span> <span class="nx">fn1</span><span class="p">;</span>
+    <span class="nx">fn1</span> <span class="o">=</span> <span class="nx">fn1</span> <span class="o">+</span> <span class="nx">current</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="nx">current</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">sequence</span> <span class="o">=</span> <span class="nx">fibonacci</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 3</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 5</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 8</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 13</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// Default value.</span>
+<span class="kd">var</span> <span class="nx">currentScript</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">currentScript</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">executeGeneratorCode</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">scriptElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">OLD_SYNTAX</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">code</span> <span class="o">=</span> <span class="nx">code</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\bfunction *\* +/g</span><span class="p">,</span> <span class="s1">&#39;function &#39;</span><span class="p">);</span>
+    <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/javascript;version=1.7&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">code</span><span class="p">;</span>
+  <span class="nx">currentScript</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">scriptElement</span><span class="p">,</span> <span class="nx">currentScript</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// Here, we test the old syntax in Firefox only.</span>
+<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;(function() { yield 5; }())&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}();</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>This seems to work but I didn&#39;t do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the <code>function*</code> is not  the best way, but at this point, <a href="http://esprima.org/demo/parse.html?code=function*%20fibonacci%28%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20%281%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A">Esprima doesn&#39;t support ES6</a>, so there are no standalone parsers available.</p>
+<p>Hopefully this code will continue to work when Firefox supports the new syntax.</p>
+<p>I reckon this method is a bit complicated, so if you know better/cleaner way to achieve this, let me know via a comment!</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
+<ul>
+<li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
+</ul>
+]]></description><link>http://gu.illau.me/posts/cross-browser-generator-functions/</link><guid isPermaLink="true">http://gu.illau.me/posts/cross-browser-generator-functions/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Mon, 28 Oct 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[I wrote for Mozilla Hacks!]]></title><description><![CDATA[<h2><a name="achievement-unlocked-" class="anchor" href="#achievement-unlocked-"><span class="header-link"></span></a>Achievement unlocked!</h2>
+<p>I&#39;m excited to announce that I&#39;ve written an article about <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">video game emulation</a> for Mozilla Hacks. While that doesn&#39;t sound like a big deal, it actually means a lot to me.</p>
+<p>I remember the first day this blog was launched. Since then it has always been a pleasure to read new publications. I think I must have read every single article so far. I love it when a new article is posted because it means an aspect of the web platform will be explained in details.</p>
+<p><a href="https://hacks.mozilla.org/">Mozilla Hacks</a> and <a href="http://www.html5rocks.com/en/">HTML5 Rocks</a> are my favourite resources online, both technical and inspirational. Whenever I&#39;m notified of a new post on these, that usually means stop what I&#39;m doing and read it right away!</p>
+<h2><a name="writing-about-retro-gaming" class="anchor" href="#writing-about-retro-gaming"><span class="header-link"></span></a>Writing about retro gaming</h2>
+<p>Just a note about the <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">blogpost</a>. It&#39;s basically an expanded version of the talk I gave earlier last month at Reject.JS about fast retro gaming on mobile. I tried to be clear and assumed as little knowledge as possible from the reader.</p>
+<p>The writing process was surprisingly easy. I&#39;m working for almost a decade as a freelance writer for texts published in the French edition of some Japanese manga titles. I&#39;m used to have my texts edited/modified/transformed without my consent. Nothing here. The original draft I submitted was almost published as is.</p>
+<p>Anyway, I hope you&#39;ll enjoy reading it!</p>
+]]></description><link>http://gu.illau.me/posts/i-wrote-for-mozilla-hacks/</link><guid isPermaLink="true">http://gu.illau.me/posts/i-wrote-for-mozilla-hacks/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Sat, 26 Oct 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Always bet on semantic]]></title><description><![CDATA[<h2><a name="don-t-get-tricked-by-the-visual" class="anchor" href="#don-t-get-tricked-by-the-visual"><span class="header-link"></span></a>Don&#39;t get tricked by the visual</h2>
+<p>My company is working on a mobile website. One of the developers in my team needed to implement a numeric field to input a number of people.</p>
+<p>He did this:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;tel&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>He tested on iPhone and concluded it was OK.</p>
+<p>And he wasn&#39;t completely wrong. Indeed when tapping the field, a nice numeric keyboard is displayed.</p>
+<h2><a name="semantic-informs-about-your-intention" class="anchor" href="#semantic-informs-about-your-intention"><span class="header-link"></span></a>Semantic informs about your intention</h2>
+<p>Of course, something is wrong in the example above. Even if the visual aspect is correct, the semantic is not. A better way is to use:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>Or better using the <a href="https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html#//apple_ref/doc/uid/TP40009542-CH5-SW12">recommended hack for iPhone</a>:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span> <span class="na">pattern=</span><span class="s">&quot;[0-9]*&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>This implementation is correct: visually we have a numeric keyboard and we maintain the semantic aspect.</p>
+<p>What if in the future phone numbers are replaced by ID? Or if they must be picked up from the contact book? The interface would change and the original snippet in this example wouldn&#39;t work anymore.</p>
+<p>A rule of thumb is you always win by betting on semantic. Semantic informs the browser about your intention. Browsers change but intentions remain.</p>
+]]></description><link>http://gu.illau.me/posts/always-bet-on-semantic/</link><guid isPermaLink="true">http://gu.illau.me/posts/always-bet-on-semantic/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Fri, 18 Oct 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Helpful trigonometric and geometric snippets for JavaScript]]></title><description><![CDATA[<p>I recently worked on a project with a heavy need of trigonometric functions.
+Basically I had to implement a drawing feature using a graphic lib.</p>
+<p>I found a few resources really useful, specially in JavaScript.
+But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
+<p>I thought the following snippets would be useful.</p>
+<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
+<p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
+<span class="cm"> * Named after ES6 Math.hypot(), with only 2 arguments.</span>
+<span class="cm"> * @param {number} segment1 The length of the 1st side.</span>
+<span class="cm"> * @param {number} segment2 The length of the 2nd side.</span>
+<span class="cm"> * @return {number} The size of the 3rd side.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">segment1</span> <span class="o">*</span> <span class="nx">segment1</span> <span class="o">+</span> <span class="nx">segment2</span> <span class="o">*</span> <span class="nx">segment2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Alternatively, this function is polyfilled as follow and is said to be faster albeit less precise:</span>
+<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">segment1</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment1</span><span class="p">);</span>
+  <span class="nx">segment2</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment2</span><span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">min</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">max</span><span class="p">;</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">min</span> <span class="o">/</span> <span class="nx">max</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">max</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">u</span> <span class="o">*</span> <span class="nx">u</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
+<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
+<p>Using the <code>hypot()</code> function defined above:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the distance between 2 points.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {number} The distance between (x1, y1) and (x2, y2).</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the angle of a triangle given its sides length.</span>
+<span class="cm"> * @param {number} side1 The length of the 1st side.</span>
+<span class="cm"> * @param {number} side2 The length of the 2nd side.</span>
+<span class="cm"> * @param {number} side3 The length of the 3nd side.</span>
+<span class="cm"> * @return {number} The angle opposed to 3rd side.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">segmentsAngle</span><span class="p">(</span><span class="nx">side1</span><span class="p">,</span> <span class="nx">side2</span><span class="p">,</span> <span class="nx">side3</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">acos</span><span class="p">((</span><span class="nx">side1</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">+</span> <span class="nx">side2</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">)</span> <span class="o">-</span> <span class="nx">side3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">))</span><span class="o">:</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the distance of a point to a line.</span>
+<span class="cm"> * @param {number} xP The x coordinate of the point.</span>
+<span class="cm"> * @param {number} yP The y coordinate of the point.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {number} The distance of point (xP, yP) to the line (x1, y1)-(x2, y2).</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">pointToLine</span><span class="p">(</span><span class="nx">xP</span><span class="p">,</span> <span class="nx">yP</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">normalLength</span> <span class="o">=</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">((</span><span class="nx">xP</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">yP</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">))</span> <span class="o">/</span> <span class="nx">normalLength</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
+<p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with a and b properties.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">lineEquation</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">y2</span><span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
+<span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
+<span class="cm"> * @param {number} b1 The b of line 1 equation.</span>
+<span class="cm"> * @param {number} a2 The a of line 2 equation.</span>
+<span class="cm"> * @param {number} b2 The b of line 2 equation.</span>
+<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with x and y properties.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">linesIntersectionPoint</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">b1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="nx">b2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">b2</span> <span class="o">-</span> <span class="nx">b1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">-</span> <span class="nx">a2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b1</span><span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>These functions are pretty basic but are a solid ground base for more complex computations.
+Also I will probably add more snippets here as time/need permits.</p>
+]]></description><link>http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/</link><guid isPermaLink="true">http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 18 Sep 2012 00:00:00 GMT</pubDate></item><item><title><![CDATA[Tokenization is the mother of NLP]]></title><description><![CDATA[<p>I recently started contributing to <a href="https://github.com/NaturalNode/natural">natural, a set of <strong>natural language processing</strong> tools (NLP) in JavaScript for node.js</a>. Here&#39;s what I learned from this.</p>
+<p><a href="http://en.wikipedia.org/wiki/Tokenization">Words tokenization</a> is a critical part of natural language processing. This is often neglected because it sounds so easy. You just need to split a string on spaces.
+And that is enough... for most of the languages. However some languages don&#39;t actually use space to separate words, like Japanese or Chinese.
+I was lucky enough to find out that there is <a href="http://chasen.org/~taku/software/TinySegmenter/">a tokenizer in JavaScript for Japanese by Kudo Taku</a>. The license allowed me to use it on natural. I&#39;m fully satisfied: no dictionary to maintain and no heavy tools to develop! It is using a statistical model to determine where to cut tokens. And it turned out to be quite efficient given its light weight.</p>
+<p>The only sentence that failed to be tokenized properly is the famous “すもももももももものうち。” (that can be written &quot;李も桃も桃のうち。&quot; meaning &quot;plums and peaches are both types of peach&quot;). But this one is a bit tricky.</p>
+<p>Now that we can tokenize Japanese, we can also:</p>
+<ul>
+<li>Remove stop words</li>
+<li>Stem tokens</li>
+<li>Compute N-grams</li>
+</ul>
+<p>I wanted to extend one of my previous NLP project to Japanese, but couldn&#39;t find a tokenizer at the time (it was developed in PHP). So I reluctantly discarded this idea. I hope I&#39;ll be able to help natural enough so that such decisions won&#39;t have to be taken in the future.</p>
+<p>As a side note, there are also many tokenizers for Chinese out there in several programming languages. I will have to check their licenses on my spare time to see if they are compatible with that of natural. But I&#39;m not sure how to benchmark their respective accuracies as I don&#39;t speak Chinese :-(</p>
+]]></description><link>http://gu.illau.me/posts/tokenization-is-the-mother-of-nlp/</link><guid isPermaLink="true">http://gu.illau.me/posts/tokenization-is-the-mother-of-nlp/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Mon, 17 Sep 2012 00:00:00 GMT</pubDate></item></channel></rss>
