@@ -1,5 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Tue, 26 Nov 2013 18:27:52 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Tue, 26 Nov 2013 18:27:52 GMT</pubDate><copyright><![CDATA[2013 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Firefox OS: the Device Storage API]]></title><description><![CDATA[<p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Mon, 16 Dec 2013 21:58:09 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Mon, 16 Dec 2013 21:58:09 GMT</pubDate><copyright><![CDATA[2013 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Don't optimise JavaScript]]></title><description><![CDATA[<p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
+<blockquote>
+<p><strong>tl;dr</strong> in case of slow web app:</p>
+<ul>
+<li>Don&#39;t immediately jump into JavaScript optimisation; instead investigate network, DOM, rendering... and fix accordingly</li>
+<li>Profile your application and optimise the code logic</li>
+<li>Optimise JavaScript only when required</li>
+</ul>
+</blockquote>
+<h2><a name="find-the-culprit" class="anchor" href="#find-the-culprit"><span class="header-link"></span></a>Find the culprit</h2>
+<p>In modern browsers, JavaScript is rarely the cause of slow applications. There are many layers involved in web applications that are way slower.</p>
+<p>The first thing to do is to investigate to find out where the performance issue is coming from. The causes can be multiple:</p>
+<ul>
+<li>Relying too much on the connexion</li>
+<li>Extensive DOM manipulation</li>
+<li>Rendering issues (forced layout...)</li>
+<li>io (e.g. repeated usage of <code>localStorage</code>)</li>
+</ul>
+<p>Use the Network tab of your favourite browser&#39;s development tool. Make sure your requests don&#39;t have any impact on your application at start and run time. Repeated Ajax calls can slow down applications too.</p>
+<p>Identifying slow DOM manipulation is a bit harder. The Timeline tab of Chrome&#39;s dev tools can help you pinpointing such issues. Of course, you must get familiar with the best practices. For example, when rendering a list of items in a templating engine, move the loop to the template and append all items to the DOM in one operation.</p>
+<p>Rendering issues can also be <a href="https://developers.google.com/chrome-developer-tools/docs/demos/too-much-layout/">captured by Chrome&#39;s dev tools</a> and starting from version 27, Firefox can now <a href="https://hacks.mozilla.org/2013/11/firefox-developer-tools-episode-27-edit-as-html-codemirror-more/">log functions that trigger a reflow</a>!</p>
+<p>There are a lot of valuable resources on the net about how to track down and fix these issues, so I won&#39;t cover them here. Once fixed, your application should work smoother. Not the case with yours? Keep reading then.</p>
+<h2><a name="profile-and-improve-logic-rinse-and-repeat" class="anchor" href="#profile-and-improve-logic-rinse-and-repeat"><span class="header-link"></span></a>Profile and improve logic. Rinse and repeat</h2>
+<p>So you made all these checks and you realised that JavaScript is actually what causes your application to perform badly.</p>
+<p>Nice, my favourite part of the optimisation process starts here! You need to profile your application.</p>
+<p>Grab your modern browser. Start the profiler then your app and interact with it like a normal user would. After a while, stop the profiler.</p>
+<p>You can now drill down to the most frequently called functions. If you&#39;re using closures or generated functions, make sure to <a href="http://gu.illau.me/posts/generating-generator-functions/#caveat-2-named-functions">name them to get meaningful results</a>.</p>
+<p>Now, have a look at the logic of the calls. There is certainly room for optimisation. Common mistakes include:</p>
+<ul>
+<li>Calling a function too many times, where the result could be cached and reused</li>
+<li>Deeply nested loops</li>
+<li>Iterating too many times when you could stop the iteration prematurely</li>
+</ul>
+<p>You also need to profile the memory used and track potential leak or heavy garbage collections.</p>
+<p>By operating at the code logic level, you can improve the speed of your application. The fixes applied here are not directly related to the JavaScript language, but rather to the logic of your code.</p>
+<p>You found and fixed these bottlenecks and now your application is running faster and smoother. You are now done, no need to read further.</p>
+<h2><a name="about-javascript-optimisation" class="anchor" href="#about-javascript-optimisation"><span class="header-link"></span></a>About JavaScript optimisation</h2>
+<p>You are still reading? I assume you are working on a signal processing tool, a game or a fundamental piece of software that must run fast.</p>
+<p>Before looking into the optimisation of JavaScript, I must clarify a couple of things.</p>
+<p>Keep in mind that JavaScript VMs are very good at running your code at a fast speed.</p>
+<p>Trust the VM.</p>
+<p>The second thing is using an alternate JavaScript syntax in your code is likely to never have any significant impact on speed. This belief dates back from the time browsers didn&#39;t have a JIT. Back then, using different syntaxes could make a difference. These kind of statements flourished over the web:</p>
+<ul>
+<li><code>if</code> are faster than <code>switch</code>.</li>
+<li>bitwise operations are faster than mathematical operators.</li>
+<li>join array to do strings concatenation</li>
+</ul>
+<p>Optimising JavaScript is not about the syntax. You can&#39;t base an optimisation strategy on syntax rewriting only. You&#39;ll end up wasting your time and get a little to no results. I&#39;m not even mentioning the impact on readability and maintainability of your code.</p>
+<p>Also, VM are constantly evolving. What perform best today might not tomorrow. VM implementors take code from the real world to see what developers do and what patterns to optimise. Using weird syntax is likely to never be optimised. Just write your code in a way that makes sense and that should be enough.</p>
+<h2><a name="finally-youre-ready-to-optimise-javascript" class="anchor" href="#finally-youre-ready-to-optimise-javascript"><span class="header-link"></span></a>Finally, you&#39;re ready to optimise JavaScript</h2>
+<p>After reading and understanding the statements above, you are now ready to improve your code using advanced optimisations. These crazy techniques include:</p>
+<ul>
+<li>Enforcing type stability</li>
+<li>Tracking deoptimisations</li>
+<li>Use web workers to do parrallel processing</li>
+</ul>
+<p>In the 2nd part of <a href="http://www.youtube.com/watch?v=65-RbBwZQdU">this talk</a>, Vyacheslav shows a tool to inspect the code generated by V8. It&#39;s complex to dive into the VM internals, but that&#39;s the only way to gain some performance points.</p>
+<p>To track deoptimisations, using Chrome or V8, you can pass some flags like <code>--trace_deopt</code> (trace deoptimization). You&#39;ll get a more or less descriptive message about why V8 is not able to optimise your code. Fix it if possible.</p>
+<p>There are no such tools for Firefox (since <a href="https://addons.mozilla.org/ja/firefox/addon/jit-inspector/">JIT inspector</a> is not working) or IE. So I have to recommend Chrome to optimise JavaScript this way. However, try as much as possible not to be too specific so that your code run fast, or at least not slower, on other browsers too.</p>
+<p>Optimisation is a complex topic, but there are techniques we can apply to make your code run fast. I&#39;d like to elaborate on each step described in this process in the form of blog posts. But for now, just take the time to locate the cause of slowness and don&#39;t incriminate JavaScript right away, the culprit can be hiding elsewhere!</p>
+]]></description><link>http://gu.illau.me/posts/dont-optimise-javascript/</link><guid isPermaLink="true">http://gu.illau.me/posts/dont-optimise-javascript/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Mon, 16 Dec 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Firefox OS: the Device Storage API]]></title><description><![CDATA[<p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
 <h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
 <p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
 <p>On Windows:</p>
