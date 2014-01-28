@@ -1,5 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Mon, 16 Dec 2013 21:58:09 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Mon, 16 Dec 2013 21:58:09 GMT</pubDate><copyright><![CDATA[2013 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Don't optimise JavaScript]]></title><description><![CDATA[<p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Tue, 28 Jan 2014 21:08:11 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Tue, 28 Jan 2014 21:08:11 GMT</pubDate><copyright><![CDATA[2014 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[The problem of user language lists in JavaScript]]></title><description><![CDATA[<p><a href="https://twitter.com/g_marty/status/412527722410553344">I&#39;ve always wondered</a> why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.</p>
+<p>On the other hand, JavaScript can only get the first language using:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">);</span> <span class="c1">// &#39;en&#39;, &#39;fr&#39;, &#39;de&#39; or whatever</span>
+</pre></div>
+</code></pre>
+<h2><a name="browsers-inconsistencies" class="anchor" href="#browsers-inconsistencies"><span class="header-link"></span></a>Browsers inconsistencies</h2>
+<p>Getting the language of the browser is part of the <a href="http://www.w3.org/TR/html5/webappapis.html#language-preferences">HTML5 specifications</a>, but implementations vary widely.</p>
+<h3><a name="internet-explorer" class="anchor" href="#internet-explorer"><span class="header-link"></span></a>Internet Explorer</h3>
+<p>Let&#39;s start with IE that has (surprisingly) the most complete set of (non standard) features about the environment language. <code>navigator.userLanguage</code> gets the first language set by the user (can be changed in Internet Options &gt; General &gt; Languages ; see <a href="http://msdn.microsoft.com/en-us/library/ie/ms534713%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
+<p><code>navigator.browserLanguage</code> returns the language of the UI of the browser. You can&#39;t change this value, it is decided by the version of the executable you installed (This property and all its subtleties are described in <a href="http://msdn.microsoft.com/en-us/library/ie/ms533542%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
+<p>Finally, <code>navigator.systemLanguage</code> will give you the locale used by the OS (See <a href="http://msdn.microsoft.com/en-us/library/ie/ms534653%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>.</p>
+<h3><a name="firefox-safari" class="anchor" href="#firefox-safari"><span class="header-link"></span></a>Firefox &amp; Safari</h3>
+<p><code>navigator.language</code> returns the first language in the list of languages.</p>
+<p>In Firefox, you can define it in Options &gt; Content &gt; Languages.</p>
+<p>Safari uses the language set at the system level (See <code>navigator.systemLanguage</code> of IE above). You cannot just override it in Safari.</p>
+<p>Some details are available on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage.language">navigator.language page on MDN</a>.</p>
+<h3><a name="chrome" class="anchor" href="#chrome"><span class="header-link"></span></a>Chrome</h3>
+<p>Invariantly returns the language of the UI through <code>navigator.language</code> without a <a href="https://code.google.com/p/chromium/issues/detail?id=1862">possibility to change it</a>. The value is similar to <code>navigator.browserLanguage</code> of IE.</p>
+<p>Chrome extensions can retrieve the full list of languages as set by the user thanks to <code>chrome.i18n.getAcceptLanguages()</code> (Not sure why this API is async):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">chrome</span><span class="p">.</span><span class="nx">i18n</span><span class="p">.</span><span class="nx">getAcceptLanguages</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">requestedLocales</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// &#39;requestedLocales&#39; is an array of strings.</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="whats-wrong-with-the-current-approach" class="anchor" href="#whats-wrong-with-the-current-approach"><span class="header-link"></span></a>What&#39;s wrong with the current approach?</h2>
+<p>Well, apart from the semantic inconsistencies, knowing only the main language is a serious limitation. Let&#39;s illustrate this with my personal experience. My browsers have the following configuration:</p>
+<ol>
+<li>Japanese</li>
+<li>English (GB)</li>
+<li>English</li>
+<li>English (US)</li>
+<li>French</li>
+<li>Spanish</li>
+<li>Korean</li>
+<li>German</li>
+</ol>
+<p>(Yeah, I want to train my Japanese, so I listed it first!)</p>
+<p>A website available in several languages will show the interface in Japanese and English if not available.</p>
+<p>But a local app will only get the first language, Japanese. So if this language is not available, the UI will be shown in a totally random language that I may not understand.</p>
+<p>Also, if the app knows the full list, it could use it to detect visitors speaking rare languages and ask them to collaborate on translation.</p>
+<h2><a name="how-to-fix-it" class="anchor" href="#how-to-fix-it"><span class="header-link"></span></a>How to fix it?</h2>
+<p>First of all, an easy cross browser way to get the preferred language is to do:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/** @const */</span> <span class="nx">DEFAULT_VALUE</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">;</span>
+<span class="cm">/** @const */</span> <span class="nx">PREFERRED_LANGUAGE</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">browserLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">systemLanguage</span> <span class="o">||</span> <span class="nx">DEFAULT_VALUE</span><span class="p">;</span>
+</pre></div>
+</code></pre>
+<p>That&#39;s fine as long as your app supports this language.</p>
+<p>If not, you could always ping a server, get the <code>accept-language</code> HTTP header, send the response back to JavaScript and parse it. That means that you need a scriptable server, so you cannot do it for, offline apps or for apps hosted on a static web server like Github Pages.
+Oh and Mac have only one language configured at a time: you will never get more than 1 element in the list of this header on Safari.</p>
+<h2><a name="what-to-do-next" class="anchor" href="#what-to-do-next"><span class="header-link"></span></a>What to do next?</h2>
+<p>The good news is things are being worked on.</p>
+<p>First, there is <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23517">this bug</a> on the WHATWG bug tracker to discuss this feature, with all <a href="https://github.com/marcoscaceres/Locale-Preferences-API/blob/master/proposal.md">the details here</a>. Firefox is already <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=889335">thinking of implementing it</a>.</p>
+<p>To put it in a nutshell, the current consensus is to have a new JavaScript property called <code>navigator.languages</code> that returns an array of language codes sorted by preference order:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">);</span>
+<span class="c1">// The configuration above would give something like:</span>
+<span class="c1">// [&#39;ja&#39;, &#39;en-GB&#39;, &#39;en&#39;, &#39;en-US&#39;, &#39;fr&#39;, &#39;es&#39;, &#39;ko&#39;, &#39;de&#39;];</span>
+</pre></div>
+</code></pre>
+<p>Also, firing an event when language changes is also being discussed. Firefox OS allows this on certified apps with a proprietary API:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">navigator</span><span class="p">.</span><span class="nx">mozSettings</span><span class="p">.</span><span class="nx">addObserver</span><span class="p">(</span><span class="s1">&#39;language.current&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;New language&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">settingValue</span><span class="p">);</span> <span class="c1">// Default value is &#39;en-US&#39;.</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
+<p>Making the full list of languages configured in a browser available to JavaScript can&#39;t be done front-end at all and partially using back-end. But this information is stored in the OS/browser itself. Am I the only one to think something is wrong here?</p>
+<p>This topic is hard and has been around for a while, so some of the resources I consulted might be outdated. Use the comments below if you spotted any error.</p>
+]]></description><link>http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/</link><guid isPermaLink="true">http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 28 Jan 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[Don't optimise JavaScript]]></title><description><![CDATA[<p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
 <blockquote>
 <p><strong>tl;dr</strong> in case of slow web app:</p>
 <ul>
