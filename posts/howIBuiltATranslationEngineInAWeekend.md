@@ -19,10 +19,10 @@ I had a late night and woke up on Saturday around 11 o'clock. I spent a few hour
 I also spent some time sketching solutions on paper, to make sure I hadn't missed an important point.
 
 ## Day 3: Make it work
-I got back to the project in the early afternoon. I mostly did coding this day. I was so excited to see my translation engine work that I sat in front of my computer for ~10 hours. At the end of the day, I had something working. After a bit of cleaning, I created the repo on Github and pushed the code.
+I got back to the project in the early afternoon. I mostly did coding this day. I was so excited to see my translation engine work that I sat in front of my computer for ~10 hours. At the end of the day, I had something working. After a bit of cleaning, I created [the repo on Github](https://github.com/gmarty/syntactic-machine-translation) and pushed the code.
 
 ## After day 3
-Whatever happened after day 3 is not important. Most of the work has been done over the weekend and I had a working prototype. Obviously, it is just a toy system, that is nothing comparable to Google Translate, but I'm happy I was able to do it in a rather limited amount of time. And most importantly, I can iterate on it and progressively make it better.
+Whatever happened after day 3 is not important. Most of the work has been done over the weekend and I had a working prototype. Obviously, it is just a toy system, that is nothing comparable to Google Translate, but I'm happy I was able to do it in a rather limited amount of time. And most importantly, I can iterate on it and progressively make it better. [Try it for yourself!](http://gmarty.github.io/syntactic-machine-translation/)
 
 ## Conclusion
 I was able to achieve this because JavaScript is very suited for fast prototyping. If it were a business, I could have started generating profit from day 4. I really love the idea of hacking a quick and dirty prototype and see how it works. Next time you have an idea for a business, do some quick prototyping and launch it as early as possible!
