@@ -11,7 +11,43 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/polyfilling-generators/"><h1 class="post-title">Polyfilling generators</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 5</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I blogged a bit about ES6 generators lately. I think they are a great improvement to JavaScript and I can&#39;t wait to get them available in all environments.</p>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="http://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
+<ul>
+<li>Simple</li>
+<li>Hosted for free</li>
+<li>Editable from anywhere</li>
+<li>and of course based on open source tools</li>
+</ul>
+<h2><a name="finding-tools-and-solutions" class="anchor" href="#finding-tools-and-solutions"><span class="header-link"></span></a>Finding tools and solutions</h2>
+<p>I&#39;m a lazy person and I find it very difficult to do things routinely. So, if I start a blog, I must make sure that nothing gets in my way. The writing/publishing process must be as easy as possible. It took me a while to love the simplicity of Markdown. But ever since I started working heavily with Github, I fell in love with its syntax. Markdown powers the simplicity I needed.</p>
+<p>I admire the logic behind the static websites generators. They move the complexity of blogs from the server to your computer. The resulting blogs are incredible fast. We can then use Github as a web hosting platform for free! I choose <a href="http://www.cabinjs.com/">Cabin</a> because it is simple and I wanted to experiment with Jade templates.</p>
+<p>The mobile aspect was important to me. I wanted to start or edit posts directly from my mobile, wherever I am, whenever I have time. Also I always use several browsers on different computers all the time, sometime on a bad connexion, if any at all. That&#39;s why I needed something distributed and not dependent on network status. A few months ago I came upon <a href="https://stackedit.io/">StackEdit</a> and was struck by its simplicity, beauty and powerfulness. It works on the browser, offline by default, can synchronise to many services (including Dropbox and Google Drive). The interface is split vertically with the original Markdown view on the left hand side next to the resulting formatted post, a UI pattern used by the <a href="https://ghost.org/">blogging platform Ghost</a> that received a lot of attention lately.</p>
+<h2><a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="header-link"></span></a>Putting it all together</h2>
+<p>A typical blog post starts like this. I launch a browser on the device available (laptop, mobile...), start StackEdit and open a new document. I&#39;ve modified the default document to start with the metadata used by Cabin (Think of it as YAML front matter used by Jekyll, but in JSON):</p>
+<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="err">title:</span> <span class="nt">&quot;Title&quot;</span><span class="p">,</span>
+  <span class="err">date:</span> <span class="nt">&quot;2013-11-01&quot;</span><span class="p">,</span>
+  <span class="err">description:</span> <span class="nt">&quot;Description&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>I edit these metadata, start writing my draft and save it to Google Drive. I guess I could publish it directly to the Github repo as a draft (prefixed by <code>_</code>), but I prefer to keep my drafts private until they are ready for publication. Then I can synchronise and edit the posts from whatever device is available.</p>
+<p>When the post is ready, I publish it to <a href="https://github.com/gmarty/blog">my blog repo</a> on Github, in the <code>posts</code> folder. The tricky part now is that I need to launch the terminal, navigate to the blog folder on my computer and type:</p>
+<pre><code class="lang-bash"><div class="highlight"><pre>git pull <span class="o">&amp;&amp;</span> grunt deploy
+</pre></div>
+</code></pre>
+<p>The Grunt task <code>deploy</code> of Cabin is responsible for generating a static version and push it to the <code>gh-pages</code> branch of the repo.</p>
+<p>That&#39;s it.</p>
+<h2><a name="wrapping-up" class="anchor" href="#wrapping-up"><span class="header-link"></span></a>Wrapping up</h2>
+<p>This blog is powered by:</p>
+<ol>
+<li><a href="https://stackedit.io/">Stackedit</a></li>
+<li><a href="http://www.cabinjs.com/">Cabin</a></li>
+<li><a href="https://github.com/gmarty/blog">Github</a></li>
+<li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
+</ol>
+<p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
+</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/polyfilling-generators/"><h1 class="post-title">Polyfilling generators</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 5</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I blogged a bit about ES6 generators lately. I think they are a great improvement to JavaScript and I can&#39;t wait to get them available in all environments.</p>
 <p>But before this day arrives, we have to use polyfills to support older browsers.</p>
 <h2><a name="polyfilling-generators" class="anchor" href="#polyfilling-generators"><span class="header-link"></span></a>Polyfilling generators</h2>
 <p>First of all, generators introduce some syntactical changes:</p>
@@ -130,77 +166,7 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 <li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
 <li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
 </ul>
-</div><div class="comments"><a href="/posts/polyfilling-generators/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 1</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
-<h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
-<p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
-<p>The obvious way to achieve this is to use <code>eval()</code>:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;function dynamicFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>However, as you may have heard:</p>
-<blockquote>
-<p>eval is evil</p>
-</blockquote>
-<p>The reason is because it gives JavaScript VM a hard time optimising the generated function and can lead to security concerns.</p>
-<p>A better approach is to use the <code>Function</code> constructor:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>Just pass the body of the function as a string. You can also pass arguments before the code body:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;arg1&#39;</span><span class="p">,</span> <span class="s1">&#39;arg2&#39;</span><span class="p">,</span> <span class="s1">&#39;/* Do crazy stuff with arg1 and arg2. */&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<h2><a name="caveat-1-the-scope" class="anchor" href="#caveat-1-the-scope"><span class="header-link"></span></a>Caveat 1: the scope</h2>
-<p>That said, you need to keep in mind that using <code>Function</code> always create functions in the global scope. You can&#39;t refer to variables used in the local lexical scope they were created. The following code will not work as expected:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;console.log(SCOPED_VAR)&#39;</span><span class="p">);</span>
-  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// ReferenceError: SCOPED_VAR is not defined</span>
-<span class="p">})();</span>
-</pre></div>
-</code></pre>
-<p>So if you really need to expose <code>SCOPED_VAR</code> to <code>dynamicFn()</code>, the solution might be to wrap it inside another function created with the <code>Function</code> constructor and execute the latter immediately:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;SCOPED_VAR&#39;</span><span class="p">,</span> <span class="s1">&#39;return function() {console.log(SCOPED_VAR)}&#39;</span><span class="p">)(</span><span class="nx">SCOPED_VAR</span><span class="p">);</span>
-  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// &quot;local&quot;</span>
-<span class="p">})();</span>
-</pre></div>
-</code></pre>
-<p>But, any updates to <code>SCOPED_VAR</code> in the outter scope won&#39;t reflect inside <code>dynamicFn()</code>. The value of <code>SCOPED_VAR</code> in the scope of <code>dynamicFn()</code> is bound forever to the one it had at creation.</p>
-<p>This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with <code>eval</code>.</p>
-<p><strong>Edit:</strong> You can take advantage of this scoping behaviour to reference the global scope regardless of the environment you&#39;re running in and whatever your local scope is. Just use the code below and you&#39;ll be certain that <code>this</code> will always reference the global scope:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">global</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return this&#39;</span><span class="p">)();</span>
-</pre></div>
-</code></pre>
-<h2><a name="caveat-2-named-functions" class="anchor" href="#caveat-2-named-functions"><span class="header-link"></span></a>Caveat 2: named functions</h2>
-<p>Another issue with <code>new Function</code> is that it generates only anonymous functions:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;&quot; (empty string)</span>
-</pre></div>
-</code></pre>
-<p>Named functions are required for debugging in order to get meaningful stack traces.</p>
-<p>A workaround is to use the solution presented above:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function dynFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">)();</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;dynFn&quot;</span>
-</pre></div>
-</code></pre>
-<p>This is how <a href="https://github.com/mbebenita/shumway/blob/master/src/avm2/runtime.js#L1384">Shumway generates dynamic named functions</a> and that causes <a href="https://github.com/mozilla/shumway/issues/287#issuecomment-17507860">no performance issue</a>.</p>
-<h2><a name="how-to-generate-generator-functions" class="anchor" href="#how-to-generate-generator-functions"><span class="header-link"></span></a>How to generate generator functions</h2>
-<p>Now, back to our main topic: generator functions.</p>
-<p><strong>Edit:</strong> In the future, we will have the <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorfunction"><code>GeneratorFunction</code> constructor</a> to create generator functions from a string, but this is not implemented anywhere AFAIK. So in the meantime...</p>
-<p>We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it&#39;s actually very easy:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function* () { yield 5 }&#39;</span><span class="p">)();</span>
-</pre></div>
-</code></pre>
-<p>Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.</p>
-<p>Now back to your code editor and have fun creating functions on the fly with JavaScript.</p>
-<p>This article is part of a series about ES6 generators, together with:</p>
-<ul>
-<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
-<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
-</ul>
-</div><div class="comments"><a href="/posts/generating-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a><a href="/page/3/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/polyfilling-generators/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a><a href="/page/3/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
