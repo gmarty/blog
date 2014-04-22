@@ -1,3 +1,9 @@
+{
+  title: "Building a syntactic translation engine",
+  date: "2014-04-21",
+  description: "An indepth write up about a simple syntactic machine translation engine developped in JavaScript."
+}
+
 # Building a syntactic translation engine
 
 I recently blogged about how [I prototyped a very simplistic translation engine](http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/). Here's a follow up to describe the logic involved.
@@ -38,7 +44,7 @@ I then normalise both languages to keep semantic equivalents while reducing infl
 
 Then, the next thing to do is to tag the POS of all the pairs in the corpus.
 
-The Engish sentences are tagged using [pos-js](https://github.com/fortnightlabs/pos-js) written in JavaScript (an in-browser and Node.JS versions both exist).
+The English sentences are tagged using [pos-js](https://github.com/fortnightlabs/pos-js) written in JavaScript (an in-browser and Node.JS versions both exist).
 
 The Japanese is tagged using [ChaSen](http://en.wikipedia.org/wiki/ChaSen). ChaSen is a famous command line utility, but this is a serious limitation here. To make it work, the sentence to translate must be tagged too (more on this later). I wanted the app to work offline and use frontend code only, but the lack of a JavaScript implementation of a Japanese POS tagger forced me to reject Japanese to English translation. Only English to Japanese is supported.
 
