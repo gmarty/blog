@@ -4,8 +4,6 @@
   description: "An indepth write up about a simple syntactic machine translation engine developped in JavaScript."
 }
 
-# Building a syntactic translation engine
-
 I recently blogged about how [I prototyped a very simplistic translation engine](http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/). Here's a follow up to describe the logic involved.
 
 ## Disclaimer
