@@ -1,0 +1,115 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Software gamepad</title><meta name="description" content="Everything you need to write an efficient and performant gamepad in JavaScript for touch screens."><base href="http://gu.illau.me/posts/software-gamepad/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
+
+// We store the client ID in the local storage rather than in a cookie.
+(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+ga('create', 'UA-207391-17', {
+  'storage': 'none',
+  'clientId': localStorage.getItem('gaClientId'),
+  'siteSpeedSampleRate': 100,
+  'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+});
+ga(function(tracker) {
+  localStorage.setItem('gaClientId', tracker.get('clientId'));
+});
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/software-gamepad/"><h1 class="post-title">Software gamepad</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 8 &#183; 10</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="software-gamepad" class="anchor" href="#software-gamepad"><span class="header-link"></span></a>Software gamepad</h2>
+<p>I recently resumed my work on <a href="https://github.com/gmarty/jsSMS">jsSMS a JavaScript recompiler for Sega Master System and Game Gear</a>. Among the new features, I wanted to improve the software gamepad for touch screens.</p>
+<h3><a name="naive-implementation" class="anchor" href="#naive-implementation"><span class="header-link"></span></a>Naive implementation</h3>
+<p>When I started adding the software gamepad, I did something quick and dirty. I didn&#39;t really have time to waste developping a nice looking controller in canvas (though that would have been easier). So I just threw some <code>&lt;div&gt;</code> tags, styled them and attached a couple of event listeners.</p>
+<p>To have a gamepad compatible with touch screens, I naturally listened to touch event on each key (up, down, left, right, fire1, fire2 and start).  <code>touchstart</code> and <code>touchmove</code> communicate the active key to the emulator and <code>touchend</code> release it.</p>
+<p>The main issue I found was that if the user moves her finger, the JavaScript will recognise the activation of a particular key, but will release a different one. In other word, the key initially pressed will never be released.</p>
+<p>Clearly, this was unusable.</p>
+<h3><a name="better-implementation" class="anchor" href="#better-implementation"><span class="header-link"></span></a>Better implementation</h3>
+<p>I looked for tutorials and references about how to build a gamepad using HTML5, but it looks like most HTML5 games use canvas and detect the currently touched key using the location of the touch.</p>
+<p>The location of the finger relative to the screen is stored in <code>clientX</code> and <code>clientY</code> properties of the touch event. If you use jQuery, like myself, make sure to reference the original event using <code>originalEvent</code> property (i.e. <code>evt.originalEvent.clientX</code>).</p>
+<p>To get the position of the currently touch key in HTML, I could have computed the position and size of each buttons, then loop through them to find the element touched. In my case, that wasn&#39;t possible because I use a complex layout made of rounded and rotated elements and not just square buttons.</p>
+<p>Thanks to StackOverflow, the answer was actually quite easy and requires a single DOM method: <code>document.elementFromPoint</code>.</p>
+<p>To get the currently touched element just pass the touch event coordinates to <code>document.elementFromPoint</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">touchedElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Then, you need to implement a mechanism to map back the DOM element touched to the emulated key  (I personally use CSS class name and a map object).</p>
+<p>Also, you&#39;ll want to iterate over the <code>changedTouches</code> array to properly activate all the buttons pressed on multi-touch devices.</p>
+<p>To put it in a nutshell:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">onTouch</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">changedTouches</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">touch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">touch</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">touch</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">getKeyFromElement</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
+    <span class="nx">emulator</span><span class="p">.</span><span class="nx">pressKey</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">onTouchEnd</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchstart&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span> <span class="nx">onTouchEnd</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Obviously, you&#39;ll want to code your own <code>getKeyFromElement</code> and emulator communicating functions.</p>
+<h3><a name="how-optimised" class="anchor" href="#how-optimised"><span class="header-link"></span></a>How optimised?</h3>
+<p>The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.</p>
+<p>I don&#39;t think you could do simpler and according to my coworker, the brilliant Chris Lord, if your DOM tree is simple then you shouldn&#39;t get any performance penalty for using <code>document.elementFromPoint</code>.</p>
+<p>Happy gaming!</p>
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
+  var $navBar = document.querySelector('nav');
+  
+  // If touchscreen listen for touch, if not listen for click.
+  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+  
+  // Toggle the nav menu list when the user clicks the nav menu button.
+  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+    $navBar.classList.toggle('nav-show');
+  }, false);
+  
+  document.querySelector('.content').addEventListener(hitEvent, function(event) {
+    if ($navBar.classList.contains('nav-show')) {
+      $navBar.classList.remove('nav-show');
+    }
+  }, false);
+});
+
+// For each post, add the estimated reading time.
+var headersElt = document.querySelectorAll('div.post-head');
+var postCounter = 0;
+Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
+  var postEltClone = postElt.cloneNode(true);
+  var codeEltList = postEltClone.getElementsByTagName('code');
+  for (var i = codeEltList.length - 1; i >= 0; i--) {
+    var codeElt = codeEltList[i];
+    codeElt.parentNode.removeChild(codeElt);
+  }
+  var text = postEltClone.textContent;
+  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
+  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
+    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
+});</script></body></html>

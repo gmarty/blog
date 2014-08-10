@@ -11,7 +11,24 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-problem-of-user-language-lists-in-javascript/"><h1 class="post-title">The problem of user language lists in JavaScript</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 1 &#183; 28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><a href="https://twitter.com/g_marty/status/412527722410553344">I&#39;ve always wondered</a> why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.</p>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
+<p>Google Translate is powered by the technique called <a href="https://en.wikipedia.org/wiki/Machine_translation">machine translation</a>. It can translate sentences from one natural language to another, without human interactions.
+I recently heard that Mozilla was starting a project to create an open source machine translation engine. That immediately resonated in me and I decided to give it a try and build my own English-Japanese translator in JavaScript.</p>
+<h2><a name="day-1-get-ready" class="anchor" href="#day-1-get-ready"><span class="header-link"></span></a>Day 1: Get ready</h2>
+<p>On the Friday late afternoon, I had a general idea of what I wanted to implement: a machine translation engine using syntax to translate sentences. I wanted something simple and couldn&#39;t wait to see it working. I realized I had this &quot;fire in the belly&quot; and jumped directly into the action.
+I spent a small amount of time gathering what I needed: a corpus of translated pairs in English and Japanese and a part-of-speech tagger for these languages.
+I started fiddling around with the tools with as few coding as possible.</p>
+<h2><a name="day-2-put-it-together" class="anchor" href="#day-2-put-it-together"><span class="header-link"></span></a>Day 2: Put it together</h2>
+<p>I had a late night and woke up on Saturday around 11 o&#39;clock. I spent a few hours cleaning up what I had done the day before, creating a dedicated folder and project in my IDE. I started coding and refactor the code.
+I also spent some time sketching solutions on paper, to make sure I hadn&#39;t missed an important point.</p>
+<h2><a name="day-3-make-it-work" class="anchor" href="#day-3-make-it-work"><span class="header-link"></span></a>Day 3: Make it work</h2>
+<p>I got back to the project in the early afternoon. I mostly did coding this day. I was so excited to see my translation engine work that I sat in front of my computer for ~10 hours. At the end of the day, I had something working. After a bit of cleaning, I created <a href="https://github.com/gmarty/syntactic-machine-translation">the repo on Github</a> and pushed the code.</p>
+<h2><a name="after-day-3" class="anchor" href="#after-day-3"><span class="header-link"></span></a>After day 3</h2>
+<p>Whatever happened after day 3 is not important. Most of the work has been done over the weekend and I had a working prototype. Obviously, it is just a toy system, that is nothing comparable to Google Translate, but I&#39;m happy I was able to do it in a rather limited amount of time. And most importantly, I can iterate on it and progressively make it better. <a href="http://gmarty.github.io/syntactic-machine-translation/">Try it for yourself!</a></p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>I was able to achieve this because JavaScript is very suited for fast prototyping. If it were a business, I could have started generating profit from day 4. I really love the idea of hacking a quick and dirty prototype and see how it works. Next time you have an idea for a business, do some quick prototyping and launch it as early as possible!</p>
+<p>And if you&#39;re wondering, I had dinner in a <a href="http://pastacibo.com/">lovely Italian restaurant</a> on Saturday night :-)</p>
+</div><div class="comments"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-problem-of-user-language-lists-in-javascript/"><h1 class="post-title">The problem of user language lists in JavaScript</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 1 &#183; 28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><a href="https://twitter.com/g_marty/status/412527722410553344">I&#39;ve always wondered</a> why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.</p>
 <p>On the other hand, JavaScript can only get the first language using:</p>
 <pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">);</span> <span class="c1">// &#39;en&#39;, &#39;fr&#39;, &#39;de&#39; or whatever</span>
 </pre></div>
@@ -78,67 +95,7 @@ Oh and Mac have only one language configured at a time: you will never get more 
 <h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
 <p>Making the full list of languages configured in a browser available to JavaScript can&#39;t be done front-end at all and partially using back-end. But this information is stored in the OS/browser itself. Am I the only one to think something is wrong here?</p>
 <p>This topic is hard and has been around for a while, so some of the resources I consulted might be outdated. Use the comments below if you spotted any error.</p>
-</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 12 &#183; 16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
-<blockquote>
-<p><strong>tl;dr</strong> in case of slow web app:</p>
-<ul>
-<li>Don&#39;t immediately jump into JavaScript optimisation; instead investigate network, DOM, rendering... and fix accordingly</li>
-<li>Profile your application and optimise the code logic</li>
-<li>Optimise JavaScript only when required</li>
-</ul>
-</blockquote>
-<h2><a name="find-the-culprit" class="anchor" href="#find-the-culprit"><span class="header-link"></span></a>Find the culprit</h2>
-<p>In modern browsers, JavaScript is rarely the cause of slow applications. There are many layers involved in web applications that are way slower.</p>
-<p>The first thing to do is to investigate to find out where the performance issue is coming from. The causes can be multiple:</p>
-<ul>
-<li>Relying too much on the connexion</li>
-<li>Extensive DOM manipulation</li>
-<li>Rendering issues (forced layout...)</li>
-<li>io (e.g. repeated usage of <code>localStorage</code>)</li>
-</ul>
-<p>Use the Network tab of your favourite browser&#39;s development tool. Make sure your requests don&#39;t have any impact on your application at start and run time. Repeated Ajax calls can slow down applications too.</p>
-<p>Identifying slow DOM manipulation is a bit harder. The Timeline tab of Chrome&#39;s dev tools can help you pinpointing such issues. Of course, you must get familiar with the best practices. For example, when rendering a list of items in a templating engine, move the loop to the template and append all items to the DOM in one operation.</p>
-<p>Rendering issues can also be <a href="https://developers.google.com/chrome-developer-tools/docs/demos/too-much-layout/">captured by Chrome&#39;s dev tools</a> and starting from version 27, Firefox can now <a href="https://hacks.mozilla.org/2013/11/firefox-developer-tools-episode-27-edit-as-html-codemirror-more/">log functions that trigger a reflow</a>!</p>
-<p>There are a lot of valuable resources on the net about how to track down and fix these issues, so I won&#39;t cover them here. Once fixed, your application should work smoother. Not the case with yours? Keep reading then.</p>
-<h2><a name="profile-and-improve-logic-rinse-and-repeat" class="anchor" href="#profile-and-improve-logic-rinse-and-repeat"><span class="header-link"></span></a>Profile and improve logic. Rinse and repeat</h2>
-<p>So you made all these checks and you realised that JavaScript is actually what causes your application to perform badly.</p>
-<p>Nice, my favourite part of the optimisation process starts here! You need to profile your application.</p>
-<p>Grab your modern browser. Start the profiler then your app and interact with it like a normal user would. After a while, stop the profiler.</p>
-<p>You can now drill down to the most frequently called functions. If you&#39;re using closures or generated functions, make sure to <a href="http://gu.illau.me/posts/generating-generator-functions/#caveat-2-named-functions">name them to get meaningful results</a>.</p>
-<p>Now, have a look at the logic of the calls. There is certainly room for optimisation. Common mistakes include:</p>
-<ul>
-<li>Calling a function too many times, where the result could be cached and reused</li>
-<li>Deeply nested loops</li>
-<li>Iterating too many times when you could stop the iteration prematurely</li>
-</ul>
-<p>You also need to profile the memory used and track potential leak or heavy garbage collections.</p>
-<p>By operating at the code logic level, you can improve the speed of your application. The fixes applied here are not directly related to the JavaScript language, but rather to the logic of your code.</p>
-<p>You found and fixed these bottlenecks and now your application is running faster and smoother. You are now done, no need to read further.</p>
-<h2><a name="about-javascript-optimisation" class="anchor" href="#about-javascript-optimisation"><span class="header-link"></span></a>About JavaScript optimisation</h2>
-<p>You are still reading? I assume you are working on a signal processing tool, a game or a fundamental piece of software that must run fast.</p>
-<p>Before looking into the optimisation of JavaScript, I must clarify a couple of things.</p>
-<p>Keep in mind that JavaScript VMs are very good at running your code at a fast speed.</p>
-<p>Trust the VM.</p>
-<p>The second thing is using an alternate JavaScript syntax in your code is likely to never have any significant impact on speed. This belief dates back from the time browsers didn&#39;t have a JIT. Back then, using different syntaxes could make a difference. These kind of statements flourished over the web:</p>
-<ul>
-<li><code>if</code> are faster than <code>switch</code>.</li>
-<li>bitwise operations are faster than mathematical operators.</li>
-<li>join array to do strings concatenation</li>
-</ul>
-<p>Optimising JavaScript is not about the syntax. You can&#39;t base an optimisation strategy on syntax rewriting only. You&#39;ll end up wasting your time and get a little to no results. I&#39;m not even mentioning the impact on readability and maintainability of your code.</p>
-<p>Also, VM are constantly evolving. What perform best today might not tomorrow. VM implementors take code from the real world to see what developers do and what patterns to optimise. Using weird syntax is likely to never be optimised. Just write your code in a way that makes sense and that should be enough.</p>
-<h2><a name="finally-youre-ready-to-optimise-javascript" class="anchor" href="#finally-youre-ready-to-optimise-javascript"><span class="header-link"></span></a>Finally, you&#39;re ready to optimise JavaScript</h2>
-<p>After reading and understanding the statements above, you are now ready to improve your code using advanced optimisations. These crazy techniques include:</p>
-<ul>
-<li>Enforcing type stability</li>
-<li>Tracking deoptimisations</li>
-<li>Use web workers to do parrallel processing</li>
-</ul>
-<p>In the 2nd part of <a href="http://www.youtube.com/watch?v=65-RbBwZQdU">this talk</a>, Vyacheslav shows a tool to inspect the code generated by V8. It&#39;s complex to dive into the VM internals, but that&#39;s the only way to gain some performance points.</p>
-<p>To track deoptimisations, using Chrome or V8, you can pass some flags like <code>--trace_deopt</code> (trace deoptimization). You&#39;ll get a more or less descriptive message about why V8 is not able to optimise your code. Fix it if possible.</p>
-<p>There are no such tools for Firefox (since <a href="https://addons.mozilla.org/ja/firefox/addon/jit-inspector/">JIT inspector</a> is not working) or IE. So I have to recommend Chrome to optimise JavaScript this way. However, try as much as possible not to be too specific so that your code run fast, or at least not slower, on other browsers too.</p>
-<p>Optimisation is a complex topic, but there are techniques we can apply to make your code run fast. I&#39;d like to elaborate on each step described in this process in the form of blog posts. But for now, just take the time to locate the cause of slowness and don&#39;t incriminate JavaScript right away, the culprit can be hiding elsewhere!</p>
-</div><div class="comments"><a href="/posts/dont-optimise-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

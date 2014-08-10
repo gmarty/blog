@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Wed, 11 Jun 2014 21:51:35 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Wed, 11 Jun 2014 21:51:35 GMT</pubDate><copyright><![CDATA[2014 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Building a syntactic translation engine]]></title><description><![CDATA[<p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Sun, 10 Aug 2014 22:08:04 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Sun, 10 Aug 2014 22:08:04 GMT</pubDate><copyright><![CDATA[2014 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Software gamepad]]></title><description><![CDATA[<h2><a name="software-gamepad" class="anchor" href="#software-gamepad"><span class="header-link"></span></a>Software gamepad</h2>
+<p>I recently resumed my work on <a href="https://github.com/gmarty/jsSMS">jsSMS a JavaScript recompiler for Sega Master System and Game Gear</a>. Among the new features, I wanted to improve the software gamepad for touch screens.</p>
+<h3><a name="naive-implementation" class="anchor" href="#naive-implementation"><span class="header-link"></span></a>Naive implementation</h3>
+<p>When I started adding the software gamepad, I did something quick and dirty. I didn&#39;t really have time to waste developping a nice looking controller in canvas (though that would have been easier). So I just threw some <code>&lt;div&gt;</code> tags, styled them and attached a couple of event listeners.</p>
+<p>To have a gamepad compatible with touch screens, I naturally listened to touch event on each key (up, down, left, right, fire1, fire2 and start).  <code>touchstart</code> and <code>touchmove</code> communicate the active key to the emulator and <code>touchend</code> release it.</p>
+<p>The main issue I found was that if the user moves her finger, the JavaScript will recognise the activation of a particular key, but will release a different one. In other word, the key initially pressed will never be released.</p>
+<p>Clearly, this was unusable.</p>
+<h3><a name="better-implementation" class="anchor" href="#better-implementation"><span class="header-link"></span></a>Better implementation</h3>
+<p>I looked for tutorials and references about how to build a gamepad using HTML5, but it looks like most HTML5 games use canvas and detect the currently touched key using the location of the touch.</p>
+<p>The location of the finger relative to the screen is stored in <code>clientX</code> and <code>clientY</code> properties of the touch event. If you use jQuery, like myself, make sure to reference the original event using <code>originalEvent</code> property (i.e. <code>evt.originalEvent.clientX</code>).</p>
+<p>To get the position of the currently touch key in HTML, I could have computed the position and size of each buttons, then loop through them to find the element touched. In my case, that wasn&#39;t possible because I use a complex layout made of rounded and rotated elements and not just square buttons.</p>
+<p>Thanks to StackOverflow, the answer was actually quite easy and requires a single DOM method: <code>document.elementFromPoint</code>.</p>
+<p>To get the currently touched element just pass the touch event coordinates to <code>document.elementFromPoint</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">touchedElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Then, you need to implement a mechanism to map back the DOM element touched to the emulated key  (I personally use CSS class name and a map object).</p>
+<p>Also, you&#39;ll want to iterate over the <code>changedTouches</code> array to properly activate all the buttons pressed on multi-touch devices.</p>
+<p>To put it in a nutshell:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">onTouch</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">changedTouches</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">touch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">touch</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">touch</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">getKeyFromElement</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
+    <span class="nx">emulator</span><span class="p">.</span><span class="nx">pressKey</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">onTouchEnd</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchstart&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span> <span class="nx">onTouchEnd</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Obviously, you&#39;ll want to code your own <code>getKeyFromElement</code> and emulator communicating functions.</p>
+<h3><a name="how-optimised" class="anchor" href="#how-optimised"><span class="header-link"></span></a>How optimised?</h3>
+<p>The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.</p>
+<p>I don&#39;t think you could do simpler and according to my coworker, the brilliant Chris Lord, if your DOM tree is simple then you shouldn&#39;t get any performance penalty for using <code>document.elementFromPoint</code>.</p>
+<p>Happy gaming!</p>
+]]></description><link>http://gu.illau.me/posts/software-gamepad/</link><guid isPermaLink="true">http://gu.illau.me/posts/software-gamepad/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Sun, 10 Aug 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[Building a syntactic translation engine]]></title><description><![CDATA[<p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
 <h2><a name="disclaimer" class="anchor" href="#disclaimer"><span class="header-link"></span></a>Disclaimer</h2>
 <p>I wish I had a serious background in NLP and machine translation, but I don&#39;t and the logic described here is solely based on my scarce knowledge in this field and my experience as a foreign language speaker.</p>
 <h2><a name="definition" class="anchor" href="#definition"><span class="header-link"></span></a>Definition</h2>
