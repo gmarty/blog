@@ -8,7 +8,7 @@ I recently resumed my work on [jsSMS a JavaScript recompiler for Sega Master Sys
 
 ### Naive implementation
 
-When I started adding the software gamepad, I did something quick and dirty. I didn't really have time to waste developping a nice looking controller in canvas (though that would have been easier). So I just threw some `<div>` tags, styled them and attached a couple of event listeners.
+When I started adding the software gamepad, I did something quick and dirty. I didn't really have time to waste developing a nice looking controller in canvas (though that would have been easier). So I just threw some `<div>` tags, styled them and attached a couple of event listeners.
 
 To have a gamepad compatible with touch screens, I naturally listened to touch event on each key (up, down, left, right, fire1, fire2 and start).  `touchstart` and `touchmove` communicate the active key to the emulator and `touchend` release it.
 
@@ -65,6 +65,6 @@ Obviously, you'll want to code your own `getKeyFromElement` and emulator communi
 
 The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.
 
-I don't think you could do simpler and according to my coworker, the brilliant Chris Lord, if your DOM tree is simple then you shouldn't get any performance penalty for using `document.elementFromPoint`.
+I don't think you could do simpler and according to my coworker, the brilliant [Chris Lord](https://twitter.com/cwiiis), if your DOM tree is simple you shouldn't get any performance penalty from using `document.elementFromPoint`.
 
 Happy gaming!
