@@ -4,8 +4,6 @@ date: "2014-08-10",
 description: "Everything you need to write an efficient and performant gamepad in JavaScript for touch screens."
 }
 
-## Software gamepad
-
 I recently resumed my work on [jsSMS a JavaScript recompiler for Sega Master System and Game Gear](https://github.com/gmarty/jsSMS). Among the new features, I wanted to improve the software gamepad for touch screens.
 
 ### Naive implementation
