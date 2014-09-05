@@ -1,7 +1,7 @@
 {
   title: "Building a syntactic translation engine",
   date: "2014-04-21",
-  description: "An indepth write up about a simple syntactic machine translation engine developped in JavaScript."
+  description: "An in-depth write up about a simple syntactic machine translation engine developed in JavaScript."
 }
 
 I recently blogged about how [I prototyped a very simplistic translation engine](http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/). Here's a follow up to describe the logic involved.
@@ -22,7 +22,7 @@ This is to be remembered when assessing the accuracy of the translated phrases.
 
 However, the advantage of this method lays in the fact that it is very easy to develop, doesn't require a deep understanding of MT and can be hacked in a weekend!
 
-## How doest it work?
+## How does it work?
 
 I'll now describe the mechanism I implemented to hack a quick and dirty syntactic MT engine for English and Japanese.
 
