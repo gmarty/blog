@@ -1,0 +1,97 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Follow-up on navigator.languages</title><meta name="description" content="navigator.languages started to get implemented in browsers."><base href="http://gu.illau.me/posts/follow-up-on-navigator-languages/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
+
+// We store the client ID in the local storage rather than in a cookie.
+(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+ga('create', 'UA-207391-17', {
+  'storage': 'none',
+  'clientId': localStorage.getItem('gaClientId'),
+  'siteSpeedSampleRate': 100,
+  'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+});
+ga(function(tracker) {
+  localStorage.setItem('gaClientId', tracker.get('clientId'));
+});
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 9 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
+<h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
+<p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
+<p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>
+<p>You can do cool things like:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">langNum</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">code</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">).</span><span class="nx">shift</span><span class="p">();</span>
+<span class="p">})).</span><span class="nx">size</span><span class="p">;</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;It looks like you can read %i %s.&#39;</span><span class="p">,</span> 
+  <span class="nx">langNum</span><span class="p">,</span> <span class="nx">langNum</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">?</span> <span class="s1">&#39;different languages&#39;</span> <span class="o">:</span> <span class="s1">&#39;language&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>(<code>Set</code> is used here to dedupe the array.)</p>
+<p>Use this to show the best matching language by comparing <code>navigator.languages</code> to the ones supported by your app. But of course, also offer an option to change the language.</p>
+<h2><a name="languagechange-event" class="anchor" href="#languagechange-event"><span class="header-link"></span></a><code>languagechange</code> event</h2>
+<p>In addition to <code>navigator.languages</code>, browsers can now listen to the <code>languagechange</code> event fired by the <code>window</code> object to update the UI language accordingly:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;languagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;You updated your browser languages to &quot;%s&quot;&#39;</span><span class="p">,</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">));</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<p>I set up this quick demo that <a href="http://jsbin.com/difen/1/">lists the languages set in your browser</a> and stays up to date.</p>
+<p>This powerful event means web apps don&#39;t require to be reloaded to update their UI language and can integrate perfectly in the browser/OS.</p>
+<h2><a name="setting-the-language-independently-to-the-os" class="anchor" href="#setting-the-language-independently-to-the-os"><span class="header-link"></span></a>Setting the language independently to the OS</h2>
+<p>As a side note on this topic, on most mobile OSes (and some others like MacOS), the language of the browser is tied to that of the OS. Since last year, it&#39;s now possible to change the language of Firefox for Android independently (and without restarting the browser!).
+Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-in-firefox-for-android/">this blog post</a> for more details.</p>
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
+  var $navBar = document.querySelector('nav');
+  
+  // If touchscreen listen for touch, if not listen for click.
+  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+  
+  // Toggle the nav menu list when the user clicks the nav menu button.
+  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+    $navBar.classList.toggle('nav-show');
+  }, false);
+  
+  document.querySelector('.content').addEventListener(hitEvent, function(event) {
+    if ($navBar.classList.contains('nav-show')) {
+      $navBar.classList.remove('nav-show');
+    }
+  }, false);
+});
+
+// For each post, add the estimated reading time.
+var headersElt = document.querySelectorAll('div.post-head');
+var postCounter = 0;
+Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
+  var postEltClone = postElt.cloneNode(true);
+  var codeEltList = postEltClone.getElementsByTagName('code');
+  for (var i = codeEltList.length - 1; i >= 0; i--) {
+    var codeElt = codeEltList[i];
+    codeElt.parentNode.removeChild(codeElt);
+  }
+  var text = postEltClone.textContent;
+  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
+  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
+    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
+});</script></body></html>
