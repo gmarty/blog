@@ -38,6 +38,15 @@ I set up this quick demo that [lists the languages set in your browser](http://j
 
 This powerful event means web apps don't require to be reloaded to update their UI language and can integrate perfectly in the browser/OS.
 
+## Polyfill
+
+Polyfilling `navigator.languages` couldn't get any easier:
+```javascript
+if (!navigator.languages) {
+  navigator.languages = [navigator.language];
+}
+```
+
 ## Setting the language independently to the OS
 
 As a side note on this topic, on most mobile OSes (and some others like MacOS), the language of the browser is tied to that of the OS. Since last year, it's now possible to change the language of Firefox for Android independently (and without restarting the browser!).
