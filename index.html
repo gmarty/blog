@@ -34,6 +34,13 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 </code></pre>
 <p>I set up this quick demo that <a href="http://jsbin.com/difen/1/">lists the languages set in your browser</a> and stays up to date.</p>
 <p>This powerful event means web apps don&#39;t require to be reloaded to update their UI language and can integrate perfectly in the browser/OS.</p>
+<h2><a name="polyfill" class="anchor" href="#polyfill"><span class="header-link"></span></a>Polyfill</h2>
+<p>Polyfilling <code>navigator.languages</code> couldn&#39;t get any easier:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span> <span class="o">=</span> <span class="p">[</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
 <h2><a name="setting-the-language-independently-to-the-os" class="anchor" href="#setting-the-language-independently-to-the-os"><span class="header-link"></span></a>Setting the language independently to the OS</h2>
 <p>As a side note on this topic, on most mobile OSes (and some others like MacOS), the language of the browser is tied to that of the OS. Since last year, it&#39;s now possible to change the language of Firefox for Android independently (and without restarting the browser!).
 Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-in-firefox-for-android/">this blog post</a> for more details.</p>
