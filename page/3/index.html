@@ -11,7 +11,67 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 12 &#183; 16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
+<blockquote>
+<p><strong>tl;dr</strong> in case of slow web app:</p>
+<ul>
+<li>Don&#39;t immediately jump into JavaScript optimisation; instead investigate network, DOM, rendering... and fix accordingly</li>
+<li>Profile your application and optimise the code logic</li>
+<li>Optimise JavaScript only when required</li>
+</ul>
+</blockquote>
+<h2><a name="find-the-culprit" class="anchor" href="#find-the-culprit"><span class="header-link"></span></a>Find the culprit</h2>
+<p>In modern browsers, JavaScript is rarely the cause of slow applications. There are many layers involved in web applications that are way slower.</p>
+<p>The first thing to do is to investigate to find out where the performance issue is coming from. The causes can be multiple:</p>
+<ul>
+<li>Relying too much on the connexion</li>
+<li>Extensive DOM manipulation</li>
+<li>Rendering issues (forced layout...)</li>
+<li>io (e.g. repeated usage of <code>localStorage</code>)</li>
+</ul>
+<p>Use the Network tab of your favourite browser&#39;s development tool. Make sure your requests don&#39;t have any impact on your application at start and run time. Repeated Ajax calls can slow down applications too.</p>
+<p>Identifying slow DOM manipulation is a bit harder. The Timeline tab of Chrome&#39;s dev tools can help you pinpointing such issues. Of course, you must get familiar with the best practices. For example, when rendering a list of items in a templating engine, move the loop to the template and append all items to the DOM in one operation.</p>
+<p>Rendering issues can also be <a href="https://developers.google.com/chrome-developer-tools/docs/demos/too-much-layout/">captured by Chrome&#39;s dev tools</a> and starting from version 27, Firefox can now <a href="https://hacks.mozilla.org/2013/11/firefox-developer-tools-episode-27-edit-as-html-codemirror-more/">log functions that trigger a reflow</a>!</p>
+<p>There are a lot of valuable resources on the net about how to track down and fix these issues, so I won&#39;t cover them here. Once fixed, your application should work smoother. Not the case with yours? Keep reading then.</p>
+<h2><a name="profile-and-improve-logic-rinse-and-repeat" class="anchor" href="#profile-and-improve-logic-rinse-and-repeat"><span class="header-link"></span></a>Profile and improve logic. Rinse and repeat</h2>
+<p>So you made all these checks and you realised that JavaScript is actually what causes your application to perform badly.</p>
+<p>Nice, my favourite part of the optimisation process starts here! You need to profile your application.</p>
+<p>Grab your modern browser. Start the profiler then your app and interact with it like a normal user would. After a while, stop the profiler.</p>
+<p>You can now drill down to the most frequently called functions. If you&#39;re using closures or generated functions, make sure to <a href="http://gu.illau.me/posts/generating-generator-functions/#caveat-2-named-functions">name them to get meaningful results</a>.</p>
+<p>Now, have a look at the logic of the calls. There is certainly room for optimisation. Common mistakes include:</p>
+<ul>
+<li>Calling a function too many times, where the result could be cached and reused</li>
+<li>Deeply nested loops</li>
+<li>Iterating too many times when you could stop the iteration prematurely</li>
+</ul>
+<p>You also need to profile the memory used and track potential leak or heavy garbage collections.</p>
+<p>By operating at the code logic level, you can improve the speed of your application. The fixes applied here are not directly related to the JavaScript language, but rather to the logic of your code.</p>
+<p>You found and fixed these bottlenecks and now your application is running faster and smoother. You are now done, no need to read further.</p>
+<h2><a name="about-javascript-optimisation" class="anchor" href="#about-javascript-optimisation"><span class="header-link"></span></a>About JavaScript optimisation</h2>
+<p>You are still reading? I assume you are working on a signal processing tool, a game or a fundamental piece of software that must run fast.</p>
+<p>Before looking into the optimisation of JavaScript, I must clarify a couple of things.</p>
+<p>Keep in mind that JavaScript VMs are very good at running your code at a fast speed.</p>
+<p>Trust the VM.</p>
+<p>The second thing is using an alternate JavaScript syntax in your code is likely to never have any significant impact on speed. This belief dates back from the time browsers didn&#39;t have a JIT. Back then, using different syntaxes could make a difference. These kind of statements flourished over the web:</p>
+<ul>
+<li><code>if</code> are faster than <code>switch</code>.</li>
+<li>bitwise operations are faster than mathematical operators.</li>
+<li>join array to do strings concatenation</li>
+</ul>
+<p>Optimising JavaScript is not about the syntax. You can&#39;t base an optimisation strategy on syntax rewriting only. You&#39;ll end up wasting your time and get a little to no results. I&#39;m not even mentioning the impact on readability and maintainability of your code.</p>
+<p>Also, VM are constantly evolving. What perform best today might not tomorrow. VM implementors take code from the real world to see what developers do and what patterns to optimise. Using weird syntax is likely to never be optimised. Just write your code in a way that makes sense and that should be enough.</p>
+<h2><a name="finally-youre-ready-to-optimise-javascript" class="anchor" href="#finally-youre-ready-to-optimise-javascript"><span class="header-link"></span></a>Finally, you&#39;re ready to optimise JavaScript</h2>
+<p>After reading and understanding the statements above, you are now ready to improve your code using advanced optimisations. These crazy techniques include:</p>
+<ul>
+<li>Enforcing type stability</li>
+<li>Tracking deoptimisations</li>
+<li>Use web workers to do parrallel processing</li>
+</ul>
+<p>In the 2nd part of <a href="http://www.youtube.com/watch?v=65-RbBwZQdU">this talk</a>, Vyacheslav shows a tool to inspect the code generated by V8. It&#39;s complex to dive into the VM internals, but that&#39;s the only way to gain some performance points.</p>
+<p>To track deoptimisations, using Chrome or V8, you can pass some flags like <code>--trace_deopt</code> (trace deoptimization). You&#39;ll get a more or less descriptive message about why V8 is not able to optimise your code. Fix it if possible.</p>
+<p>There are no such tools for Firefox (since <a href="https://addons.mozilla.org/ja/firefox/addon/jit-inspector/">JIT inspector</a> is not working) or IE. So I have to recommend Chrome to optimise JavaScript this way. However, try as much as possible not to be too specific so that your code run fast, or at least not slower, on other browsers too.</p>
+<p>Optimisation is a complex topic, but there are techniques we can apply to make your code run fast. I&#39;d like to elaborate on each step described in this process in the form of blog posts. But for now, just take the time to locate the cause of slowness and don&#39;t incriminate JavaScript right away, the culprit can be hiding elsewhere!</p>
+</div><div class="comments"><a href="/posts/dont-optimise-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
 <h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
 <p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
 <p>On Windows:</p>
@@ -56,43 +116,7 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 <li>whether you know the file location or not</li>
 </ul>
 <p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
-</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
-<ul>
-<li>Simple</li>
-<li>Hosted for free</li>
-<li>Editable from anywhere</li>
-<li>and of course based on open source tools</li>
-</ul>
-<h2><a name="finding-tools-and-solutions" class="anchor" href="#finding-tools-and-solutions"><span class="header-link"></span></a>Finding tools and solutions</h2>
-<p>I&#39;m a lazy person and I find it very difficult to do things routinely. So, if I start a blog, I must make sure that nothing gets in my way. The writing/publishing process must be as easy as possible. It took me a while to love the simplicity of Markdown. But ever since I started working heavily with Github, I fell in love with its syntax. Markdown powers the simplicity I needed.</p>
-<p>I admire the logic behind the static websites generators. They move the complexity of blogs from the server to your computer. The resulting blogs are incredible fast. We can then use Github as a web hosting platform for free! I choose <a href="http://www.cabinjs.com/">Cabin</a> because it is simple and I wanted to experiment with Jade templates.</p>
-<p>The mobile aspect was important to me. I wanted to start or edit posts directly from my mobile, wherever I am, whenever I have time. Also I always use several browsers on different computers all the time, sometime on a bad connexion, if any at all. That&#39;s why I needed something distributed and not dependent on network status. A few months ago I came upon <a href="https://stackedit.io/">StackEdit</a> and was struck by its simplicity, beauty and powerfulness. It works on the browser, offline by default, can synchronise to many services (including Dropbox and Google Drive). The interface is split vertically with the original Markdown view on the left hand side next to the resulting formatted post, a UI pattern used by the <a href="https://ghost.org/">blogging platform Ghost</a> that received a lot of attention lately.</p>
-<h2><a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="header-link"></span></a>Putting it all together</h2>
-<p>A typical blog post starts like this. I launch a browser on the device available (laptop, mobile...), start StackEdit and open a new document. I&#39;ve modified the default document to start with the metadata used by Cabin (Think of it as YAML front matter used by Jekyll, but in JSON):</p>
-<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
-  <span class="err">title:</span> <span class="nt">&quot;Title&quot;</span><span class="p">,</span>
-  <span class="err">date:</span> <span class="nt">&quot;2013-11-01&quot;</span><span class="p">,</span>
-  <span class="err">description:</span> <span class="nt">&quot;Description&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>I edit these metadata, start writing my draft and save it to Google Drive. I guess I could publish it directly to the Github repo as a draft (prefixed by <code>_</code>), but I prefer to keep my drafts private until they are ready for publication. Then I can synchronise and edit the posts from whatever device is available.</p>
-<p>When the post is ready, I publish it to <a href="https://github.com/gmarty/blog">my blog repo</a> on Github, in the <code>posts</code> folder. The tricky part now is that I need to launch the terminal, navigate to the blog folder on my computer and type:</p>
-<pre><code class="lang-bash"><div class="highlight"><pre>git pull <span class="o">&amp;&amp;</span> grunt deploy
-</pre></div>
-</code></pre>
-<p>The Grunt task <code>deploy</code> of Cabin is responsible for generating a static version and push it to the <code>gh-pages</code> branch of the repo.</p>
-<p>That&#39;s it.</p>
-<h2><a name="wrapping-up" class="anchor" href="#wrapping-up"><span class="header-link"></span></a>Wrapping up</h2>
-<p>This blog is powered by:</p>
-<ol>
-<li><a href="https://stackedit.io/">Stackedit</a></li>
-<li><a href="http://www.cabinjs.com/">Cabin</a></li>
-<li><a href="https://github.com/gmarty/blog">Github</a></li>
-<li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
-</ol>
-<p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
-</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

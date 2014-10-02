@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Tue, 09 Sep 2014 16:17:56 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Tue, 09 Sep 2014 16:17:56 GMT</pubDate><copyright><![CDATA[2014 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Follow-up on navigator.languages]]></title><description><![CDATA[<p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Thu, 02 Oct 2014 17:09:51 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Thu, 02 Oct 2014 17:09:51 GMT</pubDate><copyright><![CDATA[2014 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Google Play Music on Firefox OS]]></title><description><![CDATA[<p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
+<p>The only workaround on desktop is to deactivate HTML5 Audio (and enable Flash!) in <code>Settings</code> &gt; <code>Lab</code>:</p>
+<p><img src="https://lh5.googleusercontent.com/xzXQE966E7owgcLWgOzu2HI_9FfS0Q5neQZXaUkuVJcB=s0" alt="How to deactivate HTML5 audio in Google Play Music Settings" title="Deactivate HTML5 playback in Google Play Music."></p>
+<p>The reasons why HTML5 playback doesn&#39;t work is probably because of browser sniffing. A couple of bugs are opened (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=911837">Google Play Music HTML5 Audio Feature broken</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902531">Google Play Music not working on Firefox for Android/Firefox OS</a>), but no clear solution was provided thus far.</p>
+<p>I&#39;m using Google Play Music to play my CD collection that I&#39;ve encoded over the last few years and I want listen to it on Firefox OS.</p>
+<h2><a name="javascript-api-nay" class="anchor" href="#javascript-api-nay"><span class="header-link"></span></a>JavaScript API? Nay</h2>
+<p>There are no official APIs, but some unofficial ones are available. The risk of relying your product on unofficial API is that it can stop working because of a redesign or a protocol change of the original service. Before consider this as an option make sure to check how is the maintainer committed to the API maintenance!</p>
+<p>I&#39;m not enquiring further in this direction because a server is usually required. I want something that works offline.</p>
+<h2><a name="offline-mode-yay" class="anchor" href="#offline-mode-yay"><span class="header-link"></span></a>Offline mode? Yay</h2>
+<p>So, here&#39;s how I use Google Music on my Firefox OS devices:</p>
+<ul>
+<li>Install the official client on my desktop</li>
+<li>Download all of my library (warning: may take time and bandwidth)</li>
+<li>Copy to a memory card.</li>
+</ul>
+<p>I get:</p>
+<ul>
+<li>My albums</li>
+<li>The songs metadata</li>
+<li>The art cover (I <em>really</em> like that)</li>
+</ul>
+<p>I don&#39;t get:</p>
+<ul>
+<li>Uploaded content since last library download</li>
+<li>My playlists</li>
+</ul>
+<p>It&#39;s completely disconnected to the Google Music account, so whenever I upload new CDs, I have to download and copy them to the SD card. But to be honest I don&#39;t really mind and it works for me: I get the album covers and it works offline!</p>
+<p><img src="https://lh4.googleusercontent.com/-NuJrYDM4xSc/VBAjCsT5qvI/AAAAAAAAWxw/j357dFhtYt4/s0/Firefox-OS-play-app.png" alt="Firefox OS Play app showing albums imported from Google Music" title="Firefox OS Play app"></p>
+]]></description><link>http://gu.illau.me/posts/google-play-music-on-firefox-os/</link><guid isPermaLink="true">http://gu.illau.me/posts/google-play-music-on-firefox-os/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Thu, 02 Oct 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[Follow-up on navigator.languages]]></title><description><![CDATA[<p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
 <h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
 <p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
 <p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>

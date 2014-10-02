@@ -11,7 +11,15 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/always-bet-on-semantic/"><h1 class="post-title">Always bet on semantic</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="dont-get-tricked-by-the-visual" class="anchor" href="#dont-get-tricked-by-the-visual"><span class="header-link"></span></a>Don&#39;t get tricked by the visual</h2>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 26</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="achievement-unlocked" class="anchor" href="#achievement-unlocked"><span class="header-link"></span></a>Achievement unlocked!</h2>
+<p>I&#39;m excited to announce that I&#39;ve written an article about <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">video game emulation</a> for Mozilla Hacks. While that doesn&#39;t sound like a big deal, it actually means a lot to me.</p>
+<p>I remember the first day this blog was launched. Since then it has always been a pleasure to read new publications. I think I must have read every single article so far. I love it when a new article is posted because it means an aspect of the web platform will be explained in details.</p>
+<p><a href="https://hacks.mozilla.org/">Mozilla Hacks</a> and <a href="http://www.html5rocks.com/en/">HTML5 Rocks</a> are my favourite resources online, both technical and inspirational. Whenever I&#39;m notified of a new post on these, that usually means stop what I&#39;m doing and read it right away!</p>
+<h2><a name="writing-about-retro-gaming" class="anchor" href="#writing-about-retro-gaming"><span class="header-link"></span></a>Writing about retro gaming</h2>
+<p>Just a note about the <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">blogpost</a>. It&#39;s basically an expanded version of the talk I gave earlier last month at Reject.JS about fast retro gaming on mobile. I tried to be clear and assumed as little knowledge as possible from the reader.</p>
+<p>The writing process was surprisingly easy. I&#39;m working for almost a decade as a freelance writer for texts published in the French edition of some Japanese manga titles. I&#39;m used to have my texts edited/modified/transformed without my consent. Nothing here. The original draft I submitted was almost published as is.</p>
+<p>Anyway, I hope you&#39;ll enjoy reading it!</p>
+</div><div class="comments"><a href="/posts/i-wrote-for-mozilla-hacks/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/always-bet-on-semantic/"><h1 class="post-title">Always bet on semantic</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="dont-get-tricked-by-the-visual" class="anchor" href="#dont-get-tricked-by-the-visual"><span class="header-link"></span></a>Don&#39;t get tricked by the visual</h2>
 <p>My company is working on a mobile website. One of the developers in my team needed to implement a numeric field to input a number of people.</p>
 <p>He did this:</p>
 <pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;tel&quot;</span><span class="nt">&gt;</span>
@@ -31,121 +39,7 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 <p>This implementation is correct: visually we have a numeric keyboard and we maintain the semantic aspect.</p>
 <p>What if in the future phone numbers are replaced by ID? Or if they must be picked up from the contact book? The interface would change and the original snippet in this example wouldn&#39;t work anymore.</p>
 <p>A rule of thumb is you always win by betting on semantic. Semantic informs the browser about your intention. Browsers change but intentions remain.</p>
-</div><div class="comments"><a href="/posts/always-bet-on-semantic/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span style="bottom:30px" class="post-date">2012 &#183; 9 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
-Basically I had to implement a drawing feature using a graphic lib.</p>
-<p>I found a few resources really useful, specially in JavaScript.
-But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
-<p>I thought the following snippets would be useful.</p>
-<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
-<p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
-<span class="cm"> * Named after ES6 Math.hypot(), with only 2 arguments.</span>
-<span class="cm"> * @param {number} segment1 The length of the 1st side.</span>
-<span class="cm"> * @param {number} segment2 The length of the 2nd side.</span>
-<span class="cm"> * @return {number} The size of the 3rd side.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">segment1</span> <span class="o">*</span> <span class="nx">segment1</span> <span class="o">+</span> <span class="nx">segment2</span> <span class="o">*</span> <span class="nx">segment2</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// Alternatively, this function is polyfilled as follow and is said to be faster albeit less precise:</span>
-<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">segment1</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment1</span><span class="p">);</span>
-  <span class="nx">segment2</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment2</span><span class="p">);</span>
-
-  <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="nx">min</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nx">max</span><span class="p">;</span>
-  <span class="k">else</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">min</span> <span class="o">/</span> <span class="nx">max</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">max</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">u</span> <span class="o">*</span> <span class="nx">u</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
-<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
-<p>Using the <code>hypot()</code> function defined above:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the distance between 2 points.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {number} The distance between (x1, y1) and (x2, y2).</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the angle of a triangle given its sides length.</span>
-<span class="cm"> * @param {number} side1 The length of the 1st side.</span>
-<span class="cm"> * @param {number} side2 The length of the 2nd side.</span>
-<span class="cm"> * @param {number} side3 The length of the 3nd side.</span>
-<span class="cm"> * @return {number} The angle opposed to 3rd side.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">segmentsAngle</span><span class="p">(</span><span class="nx">side1</span><span class="p">,</span> <span class="nx">side2</span><span class="p">,</span> <span class="nx">side3</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">acos</span><span class="p">((</span><span class="nx">side1</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">+</span> <span class="nx">side2</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">)</span> <span class="o">-</span> <span class="nx">side3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">))</span><span class="o">:</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the distance of a point to a line.</span>
-<span class="cm"> * @param {number} xP The x coordinate of the point.</span>
-<span class="cm"> * @param {number} yP The y coordinate of the point.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {number} The distance of point (xP, yP) to the line (x1, y1)-(x2, y2).</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">pointToLine</span><span class="p">(</span><span class="nx">xP</span><span class="p">,</span> <span class="nx">yP</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">normalLength</span> <span class="o">=</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">((</span><span class="nx">xP</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">yP</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">))</span> <span class="o">/</span> <span class="nx">normalLength</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
-<p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with a and b properties.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">lineEquation</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">y2</span><span class="p">};</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
-<span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
-<span class="cm"> * @param {number} b1 The b of line 1 equation.</span>
-<span class="cm"> * @param {number} a2 The a of line 2 equation.</span>
-<span class="cm"> * @param {number} b2 The b of line 2 equation.</span>
-<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with x and y properties.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">linesIntersectionPoint</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">b1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="nx">b2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">b2</span> <span class="o">-</span> <span class="nx">b1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">-</span> <span class="nx">a2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b1</span><span class="p">};</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>These functions are pretty basic but are a solid ground base for more complex computations.
-Also I will probably add more snippets here as time/need permits.</p>
-</div><div class="comments"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/5/" class="newer">Newer &#8594;</a><a href="/page/7/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/always-bet-on-semantic/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/5/" class="newer">Newer &#8594;</a><a href="/page/7/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
