@@ -11,7 +11,52 @@ ga('create', 'UA-207391-17', {
 ga(function(tracker) {
   localStorage.setItem('gaClientId', tracker.get('clientId'));
 });
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
+ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
+<h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
+<p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
+<p>On Windows:</p>
+<blockquote>
+<p>C:\Users\<i>USERNAME</i>\AppData\Roaming\Mozilla\Firefox\Profiles\<i>PROFILEKEY</i>\extensions\r2d2b2g@mozilla.org\profile\fake-sdcard</p>
+</blockquote>
+<p>On Ubuntu:</p>
+<blockquote>
+<p>/home/<i>USERNAME</i>/.mozilla/firefox/<i>PROFILEKEY</i>/extensions/r2d2b2g@mozilla.org/profile/fake-sdcard</p>
+</blockquote>
+<p>On Mac:</p>
+<blockquote>
+<p>Let me know via a comment below where is this folder on Mac.</p>
+</blockquote>
+<p>Of course, <i>USERNAME</i> and <i>PROFILEKEY</i> are specific to your configuration, so make sure to look into the right folder.</p>
+<p>Place files in this folder and you’ll be able to access them from the Simulator using a privileged app.</p>
+<p>If this folder doesn&#39;t exist, I believe it&#39;s safe to create it yourself first.</p>
+<h2><a name="the-file-objects" class="anchor" href="#the-file-objects"><span class="header-link"></span></a>The File objects</h2>
+<p>When you call <code>get</code> or <code>enumerate</code> on <code>navigator.getDeviceStorage(&#39;sdcard&#39;)</code> you get File objects.</p>
+<p>For reference, these objects look like this (slightly different than the <a href="https://developer.mozilla.org/en-US/docs/Web/API/File">File API page on MDN</a>):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;file.txt&#39;</span><span class="p">,</span>
+  <span class="nx">size</span><span class="o">:</span> <span class="mi">32768</span><span class="p">,</span> <span class="c1">// In bytes</span>
+  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span> <span class="c1">// MIME type</span>
+  <span class="nx">lastModifiedDate</span><span class="o">:</span> <span class="s1">&#39;Fri Nov 22 2013 12:00:00 GMT+0000 (GMT Standard Time)&#39;</span><span class="p">,</span> <span class="c1">// Date object,</span>
+  <span class="nx">mozFullPath</span><span class="o">:</span> <span class="s1">&#39;path/to/the/file&#39;</span> <span class="c1">// Relative to the SD Card folder</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>They also have 2 methods: <code>slice()</code> and <code>mozSlice()</code>.</p>
+<p>Then if you want to have access to the content of these files in JavaScript, you can just pass them to the FileReader API:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// e.target.result is the content of the file.</span>
+<span class="p">};</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">readAsText</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span> <span class="c1">// Or whatever method suits you best.</span>
+</pre></div>
+</code></pre>
+<p>I found this API complex to work with. There are different way to access files depending on:</p>
+<ul>
+<li>what you do with (read only or write)</li>
+<li>whether you know the file location or not</li>
+</ul>
+<p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
+</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
 <ul>
 <li>Simple</li>
 <li>Hosted for free</li>
@@ -47,126 +92,7 @@ ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Jus
 <li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
 </ol>
 <p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
-</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/polyfilling-generators/"><h1 class="post-title">Polyfilling generators</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 5</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I blogged a bit about ES6 generators lately. I think they are a great improvement to JavaScript and I can&#39;t wait to get them available in all environments.</p>
-<p>But before this day arrives, we have to use polyfills to support older browsers.</p>
-<h2><a name="polyfilling-generators" class="anchor" href="#polyfilling-generators"><span class="header-link"></span></a>Polyfilling generators</h2>
-<p>First of all, generators introduce some syntactical changes:</p>
-<ul>
-<li>The <code>function*</code> notation</li>
-<li>The <code>yield</code> keyword</li>
-</ul>
-<p>Because of that, you can&#39;t polyfill them. Running code with generator in a non supporting environment will cause a syntax error. You have to somehow parse the source code and generate code compliant with these environments. That means, first, get an AST representation of the code, apply changes and generate semantically equivalent code.</p>
-<p>All existing generator polyfills work in a similar way. They use a finite-state machine. The internal state changes whenever a <code>yield</code> keyword is found in generator functions, and the yielded value is returned. Let&#39;s examine some over simplified examples:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span><span class="o">*</span> <span class="nx">meaningOfLife</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">yield</span> <span class="mi">42</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">meaningOfLife</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
-</pre></div>
-</code></pre>
-<p>Is compiled to something like:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">meaningOfLife</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">switch</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
-          <span class="nx">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-          <span class="k">return</span> <span class="p">{</span>
-            <span class="nx">value</span><span class="o">:</span> <span class="mi">42</span><span class="p">,</span> <span class="c1">// The yielded value.</span>
-            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
-          <span class="p">};</span>
-        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
-          <span class="k">return</span> <span class="p">{</span>
-            <span class="nx">value</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
-            <span class="nx">done</span><span class="o">:</span> <span class="kc">true</span>
-          <span class="p">};</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">meaningOfLife</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
-</pre></div>
-</code></pre>
-<p>The variable <code>state</code> is initialized to <code>0</code>. Each time <code>next()</code> is called on the generator object <code>a</code>, the value of <code>state</code> changes. For the sake of simplicity, features like throwing at the end of the iteration are not implemented.</p>
-<p>Here is a slightly more elaborated example:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span><span class="o">*</span> <span class="nx">letters</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
-  <span class="k">yield</span> <span class="s1">&#39;a&#39;</span><span class="p">;</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
-  <span class="k">yield</span> <span class="s1">&#39;b&#39;</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-    <span class="k">yield</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">letters</span><span class="p">();</span>
-<span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
-</pre></div>
-</code></pre>
-<p>Becomes:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">letters</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-  <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="k">switch</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
-          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
-          <span class="nx">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-          <span class="k">return</span> <span class="p">{</span>
-            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="c1">// Return the first yielded value.</span>
-            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
-          <span class="p">};</span>
-        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
-          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
-          <span class="nx">state</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-          <span class="k">return</span> <span class="p">{</span>
-            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="c1">// Return the second yielded value.</span>
-            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
-          <span class="p">};</span>
-        <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
-          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-          <span class="k">return</span> <span class="p">{</span>
-            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="c1">// Return the third yielded value... forever.</span>
-            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
-          <span class="p">};</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">letters</span><span class="p">();</span>
-<span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
-</pre></div>
-</code></pre>
-<p>All calls to <code>a.next()</code> will change the value of <code>state</code> until it receives <code>2</code>. Then the state won&#39;t change and the value <code>&#39;c&#39;</code> is always returned, mimicking the original <code>while(true)</code> loop.</p>
-<p>Another thing to note here is the huge amount of code required to replicate the behaviour of generators. Generators are concise and powerful.</p>
-<h2><a name="traceur" class="anchor" href="#traceur"><span class="header-link"></span></a>Traceur</h2>
-<p><a href="https://github.com/google/traceur-compiler">Traceur</a> is a project maintained by Google. Its goal is to be a transcompiler from ES6 to ES3. It currently supports many features of the next JavaScript thus allowing developers to try, test and even use the code in production.</p>
-<p>Generators are only one of the features supported by Traceur.</p>
-<p>This project does a very good job at compiling functions from code using generators. However I have the feeling that it is a bit over-engineered. The output code is quite complex. Fortunately, you can generate sourcemap for debugging so that should not really be a problem.</p>
-<p>You can <a href="http://traceur-compiler.googlecode.com/git/demo/repl.html#function*%20letters%28%29%20{%0A%20%20console.log%28%27a%27%29%3B%0A%20%20yield%20%27a%27%3B%0A%20%20console.log%28%27b%27%29%3B%0A%20%20yield%20%27b%27%3B%0A%20%20while%20%28true%29%20{%0A%20%20%20%20console.log%28%27c%27%29%3B%0A%20%20%20%20yield%20%27c%27%3B%0A%20%20}%0A}%0A%0Avar%20a%20%3D%20letters%28%29%3B%0Aa.next%28%29%3B%20a.next%28%29%3B%20a.next%28%29%3B%20a.next%28%29%3B">try Traceur</a> on your browser!</p>
-<h2><a name="regenerator" class="anchor" href="#regenerator"><span class="header-link"></span></a>Regenerator</h2>
-<p>The scope of <a href="https://github.com/facebook/regenerator">Regenerator</a> is limited because it only polyfills generators and not all of ES6. It was initiated by Facebook at the end of September 2013.</p>
-<p>According to the <a href="http://facebook.github.io/regenerator/">Regenerator website</a>, it has several advantages over Traceur.</p>
-<p>First, it supports the <code>yield</code> keyword everywhere, not only as the &quot;right-hand sides of assignment statements and variable declarations&quot; (i.e. <code>if (yield val)...</code> is not supported in Traceur).</p>
-<p>It is said to be lighter. On a very simple example like <code>function* gen(){yield 5}</code>, it generates about 10 lines of code when Traceur outputs more than 100. They just omit to say that both projects require an external runtime library to work and the one of Regenerator has more than 200 lines! Come on Facebook, it doesn&#39;t hurt to be honest.</p>
-<p>The last argument they have against Traceur is that this project is very big and you better use Regenerator if you just need to support generators. That&#39;s true, but if you compile offline with Traceur, you can restrain the set of features and activate the compilation of generators only.</p>
-<p>Finally, Regenerator doesn&#39;t do sourcemap, but, unlike Traceur, it preserves comments from the original code. So that may help for matching original code with the one generated.</p>
-<p>An <a href="http://facebook.github.io/regenerator/">online REPL for Regenerator</a> is available.</p>
-<h2><a name="typescript" class="anchor" href="#typescript"><span class="header-link"></span></a>TypeScript</h2>
-<p><a href="http://www.typescriptlang.org/">TypeScrit</a> does not currently support generators, but there are in scope of future releases. You can follow the <a href="https://typescript.codeplex.com/workitem/1363">status of the bug</a>.</p>
-<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
-<p>I can&#39;t really see any limitations to these polyfills (this term is probably not correct in this context). You can even use the generated code with native <code>for-of</code> loops, and on non-supporting browsers, Traceur can also polyfill these loops for you!</p>
-<p>So give the generators a try today!</p>
-<p>This article is part of a series about ES6 generators, together with:</p>
-<ul>
-<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
-<li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
-</ul>
-</div><div class="comments"><a href="/posts/polyfilling-generators/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

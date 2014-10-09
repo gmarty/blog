@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Experimenting with serverless apps</title><meta name="description" content="Can we dream of a serverless web?"><base href="http://gu.illau.me/posts/experimenting-with-serverless-apps/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
 
 // We store the client ID in the local storage rather than in a cookie.
 (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
@@ -95,35 +95,31 @@ Though it is currently implemented in Firefox OS and Android, this needs to be t
 I understand this falls in a particular edge case, but if data URI apps were supported like URL based apps, things would be easier.</p>
 <p>Now I&#39;d love to see a discussion happening around what does the web need to achieve this. Are they any specifications currently being standardised that would go in this direction?</p>
 <p>Let&#39;s move things forward and get a truly serverless web!</p>
-</div><div class="comments"><a href="/posts/experimenting-with-serverless-apps/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 2</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
-<p>The only workaround on desktop is to deactivate HTML5 Audio (and enable Flash!) in <code>Settings</code> &gt; <code>Lab</code>:</p>
-<p><img src="https://lh5.googleusercontent.com/xzXQE966E7owgcLWgOzu2HI_9FfS0Q5neQZXaUkuVJcB=s0" alt="How to deactivate HTML5 audio in Google Play Music Settings" title="Deactivate HTML5 playback in Google Play Music."></p>
-<p>The reasons why HTML5 playback doesn&#39;t work is probably because of browser sniffing. A couple of bugs are opened (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=911837">Google Play Music HTML5 Audio Feature broken</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902531">Google Play Music not working on Firefox for Android/Firefox OS</a>), but no clear solution was provided thus far.</p>
-<p>I&#39;m using Google Play Music to play my CD collection that I&#39;ve encoded over the last few years and I want listen to it on Firefox OS.</p>
-<h2><a name="javascript-api-nay" class="anchor" href="#javascript-api-nay"><span class="header-link"></span></a>JavaScript API? Nay</h2>
-<p>There are no official APIs, but some unofficial ones are available. The risk of relying your product on unofficial API is that it can stop working because of a redesign or a protocol change of the original service. Before consider this as an option make sure to check how is the maintainer committed to the API maintenance!</p>
-<p>I&#39;m not enquiring further in this direction because a server is usually required. I want something that works offline.</p>
-<h2><a name="offline-mode-yay" class="anchor" href="#offline-mode-yay"><span class="header-link"></span></a>Offline mode? Yay</h2>
-<p>So, here&#39;s how I use Google Music on my Firefox OS devices:</p>
-<ul>
-<li>Install the official client on my desktop</li>
-<li>Download all of my library (warning: may take time and bandwidth)</li>
-<li>Copy to a memory card.</li>
-</ul>
-<p>I get:</p>
-<ul>
-<li>My albums</li>
-<li>The songs metadata</li>
-<li>The art cover (I <em>really</em> like that)</li>
-</ul>
-<p>I don&#39;t get:</p>
-<ul>
-<li>Uploaded content since last library download</li>
-<li>My playlists</li>
-</ul>
-<p>It&#39;s completely disconnected to the Google Music account, so whenever I upload new CDs, I have to download and copy them to the SD card. But to be honest I don&#39;t really mind and it works for me: I get the album covers and it works offline!</p>
-<p><img src="https://lh4.googleusercontent.com/-NuJrYDM4xSc/VBAjCsT5qvI/AAAAAAAAWxw/j357dFhtYt4/s0/Firefox-OS-play-app.png" alt="Firefox OS Play app showing albums imported from Google Music" title="Firefox OS Play app"></p>
-</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
