@@ -7,12 +7,14 @@ if (navigator.doNotTrack !== '1') {
   ga('create', 'UA-207391-17', {
     'storage': 'none',
     'clientId': localStorage.getItem('gaClientId'),
-    'siteSpeedSampleRate': 100,
-    'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+    'siteSpeedSampleRate': 100
   });
   ga(function(tracker) {
     localStorage.setItem('gaClientId', tracker.get('clientId'));
   });
+  // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+  ga('set', 'anonymizeIp', true);
+  ga('set', 'forceSSL', true);
   ga('send','pageview')
 }</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/polyfilling-generators/"><h1 class="post-title">Polyfilling generators</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 5</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I blogged a bit about ES6 generators lately. I think they are a great improvement to JavaScript and I can&#39;t wait to get them available in all environments.</p>
 <p>But before this day arrives, we have to use polyfills to support older browsers.</p>
