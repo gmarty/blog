@@ -1,19 +1,20 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>I wrote for Mozilla Hacks!</title><meta name="description" content="I wrote a post for Mozilla Hacks and it's a great achievement to me."><base href="http://gu.illau.me/posts/i-wrote-for-mozilla-hacks/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
 
 // Disable completely tracking if DNT is set.
-window['ga-disable-UA-207391-17'] = (navigator.doNotTrack === '1');
-// We store the client ID in the local storage rather than in a cookie.
-(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-ga('create', 'UA-207391-17', {
-  'storage': 'none',
-  'clientId': localStorage.getItem('gaClientId'),
-  'siteSpeedSampleRate': 100,
-  'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
-});
-ga(function(tracker) {
-  localStorage.setItem('gaClientId', tracker.get('clientId'));
-});
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 26</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="achievement-unlocked" class="anchor" href="#achievement-unlocked"><span class="header-link"></span></a>Achievement unlocked!</h2>
+if (navigator.doNotTrack !== '1') {
+  // We store the client ID in the local storage rather than in a cookie.
+  (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+  ga('create', 'UA-207391-17', {
+    'storage': 'none',
+    'clientId': localStorage.getItem('gaClientId'),
+    'siteSpeedSampleRate': 100,
+    'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+  });
+  ga(function(tracker) {
+    localStorage.setItem('gaClientId', tracker.get('clientId'));
+  });
+  ga('send','pageview')
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 26</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="achievement-unlocked" class="anchor" href="#achievement-unlocked"><span class="header-link"></span></a>Achievement unlocked!</h2>
 <p>I&#39;m excited to announce that I&#39;ve written an article about <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">video game emulation</a> for Mozilla Hacks. While that doesn&#39;t sound like a big deal, it actually means a lot to me.</p>
 <p>I remember the first day this blog was launched. Since then it has always been a pleasure to read new publications. I think I must have read every single article so far. I love it when a new article is posted because it means an aspect of the web platform will be explained in details.</p>
 <p><a href="https://hacks.mozilla.org/">Mozilla Hacks</a> and <a href="http://www.html5rocks.com/en/">HTML5 Rocks</a> are my favourite resources online, both technical and inspirational. Whenever I&#39;m notified of a new post on these, that usually means stop what I&#39;m doing and read it right away!</p>

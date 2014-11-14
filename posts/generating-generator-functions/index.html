@@ -1,19 +1,20 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Generating generator functions</title><meta name="description" content="Use JavaScript to generate functions in general and generator functions in particular."><base href="http://gu.illau.me/posts/generating-generator-functions/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
 
 // Disable completely tracking if DNT is set.
-window['ga-disable-UA-207391-17'] = (navigator.doNotTrack === '1');
-// We store the client ID in the local storage rather than in a cookie.
-(function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-ga('create', 'UA-207391-17', {
-  'storage': 'none',
-  'clientId': localStorage.getItem('gaClientId'),
-  'siteSpeedSampleRate': 100,
-  'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
-});
-ga(function(tracker) {
-  localStorage.setItem('gaClientId', tracker.get('clientId'));
-});
-ga('send','pageview')</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 1</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
+if (navigator.doNotTrack !== '1') {
+  // We store the client ID in the local storage rather than in a cookie.
+  (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+  ga('create', 'UA-207391-17', {
+    'storage': 'none',
+    'clientId': localStorage.getItem('gaClientId'),
+    'siteSpeedSampleRate': 100,
+    'anonymizeIp': true // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
+  });
+  ga(function(tracker) {
+    localStorage.setItem('gaClientId', tracker.get('clientId'));
+  });
+  ga('send','pageview')
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 1</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
 <h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
 <p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
 <p>The obvious way to achieve this is to use <code>eval()</code>:</p>
