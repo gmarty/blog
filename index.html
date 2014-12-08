@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
 
 // Disable completely tracking if DNT is set.
 if (navigator.doNotTrack !== '1') {
@@ -16,7 +16,66 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send','pageview')
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/experimenting-with-serverless-apps/"><h1 class="post-title">Experimenting with serverless apps</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/privacy-and-google-analytics/"><h1 class="post-title">Privacy and Google Analytics</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 12 &#183; 8</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="the-problem" class="anchor" href="#the-problem"><span class="header-link"></span></a>The problem</h2>
+<p>After reading a post comparing analytics solutions, I realised most people ignore that Google Analytics can be fine tuned to comply with stricter privacy policies. In this post, I&#39;ll share the solutions I implemented to keep using Google Analytics without compromising my visitors (a.k.a. yourself) privacy.</p>
+<p>Please note that the code only relates to the latest <code>analytics.js</code> API. Look for support pages for older versions of Google Analytics.</p>
+<h2><a name="the-solutions" class="anchor" href="#the-solutions"><span class="header-link"></span></a>The solutions</h2>
+<h3><a name="disable-data-sharing" class="anchor" href="#disable-data-sharing"><span class="header-link"></span></a>Disable data sharing</h3>
+<p>By default, the data collected from Google Analytics are shared across several services like:</p>
+<ul>
+<li>Other Google products like AdWords</li>
+<li>Industries aggregate trends that allow comparing your result with web sites in the same sector</li>
+<li>Technical support...</li>
+</ul>
+<p>Though this data sharing should be harmless most of the time, you can disable it in your account settings. You can read more about it on the <a href="https://support.google.com/analytics/answer/1011397?hl=en">data sharing settings</a> support page.</p>
+<h3><a name="anonymise-ip-address" class="anchor" href="#anonymise-ip-address"><span class="header-link"></span></a>Anonymise IP address</h3>
+<p>Google Analytics has a built-in feature to anonymise IP address (see this <a href="https://support.google.com/analytics/answer/2763052?hl=en">help page</a> for details). When enabled, the last few digits of the visitor&#39;s IP address are set to 0 (IPv6 is supported).
+In theory it is not possible for Google to map an anonymised IP address to a specific user. Also, according to their documentation, the complete IP address is never logged.</p>
+<p>However, I read the relevant document carefully and noticed it&#39;s not very clear to me if Google logs the IP address when the <code>analytics.js</code> file is requested from their server. If you&#39;re a bit paranoid, you may decide not to trust Google here. In such case, you&#39;ll want to proxy it on your own domain and refresh it as often as possible. I haven&#39;t tried myself, but if you&#39;re doing that, let me know as I&#39;d love to read more.</p>
+<p>Obviously, the down side of this setting is you get a less accurate geographic report as it is based on the IP address. But who needs a granularity to the level of a city?</p>
+<h3><a name="implement-an-opt-out-mechanism" class="anchor" href="#implement-an-opt-out-mechanism"><span class="header-link"></span></a>Implement an opt-out mechanism</h3>
+<p>You can easily give your users the ability to deactivate tracking. Just create a setting in your app that sets the following property to <code>true</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">window</span><span class="p">[</span><span class="s1">&#39;ga-disable-UA-XXXXXX-Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// Replace UA-XXXXXX-Y by your Google Analytics ID</span>
+</pre></div>
+</code></pre>
+<p>You can persist this setting in your user account, so that her preference is is kept whatever the device she&#39;s using to access your website. But for performance reason, I recommend not to load Google Analytics at all when your user has opted out.
+You can read more about <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#optout">user opt-out</a> in the help pages.</p>
+<h3><a name="dont-use-cookies" class="anchor" href="#dont-use-cookies"><span class="header-link"></span></a>Don&#39;t use cookies</h3>
+<p>Though not directly related to privacy, not setting cookies is likely to increase your visitors confidence while removing the need to display a message related to the <a href="https://en.wikipedia.org/wiki/HTTP_cookie#EU_cookie_directive">EU cookie directive</a>.</p>
+<p>Instead of cookies, use local storage for storing the visitor identifier used by Google Analytics, the so called <code>clientId</code> parameter. This technique has a beneficial aspect on performance as well. The browser won&#39;t send all the cookie detail with every request made to an asset located in the same domain as the page.</p>
+<p>Here is the code used in this blog:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">ga</span><span class="p">(</span><span class="s1">&#39;create&#39;</span><span class="p">,</span> <span class="s1">&#39;UA-XXXXXX-Y&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="c1">// Use your own ID!</span>
+  <span class="s1">&#39;storage&#39;</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;clientId&#39;</span><span class="o">:</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;gaClientId&#39;</span><span class="p">)</span>
+<span class="p">});</span>
+<span class="nx">ga</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">tracker</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;gaClientId&#39;</span><span class="p">,</span> <span class="nx">tracker</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;clientId&#39;</span><span class="p">));</span>
+<span class="p">});</span>
+<span class="nx">ga</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span><span class="s1">&#39;pageview&#39;</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<h3><a name="comply-with-do-not-track" class="anchor" href="#comply-with-do-not-track"><span class="header-link"></span></a>Comply with Do Not Track</h3>
+<p>The DNT is not only exposed to the client as a HTTP header but also as a property on the <code>navigator</code> object: <code>navigator.doNotTrack</code>. This returns:</p>
+<ul>
+<li><code>&#39;1&#39;</code> (the visitor does not want to be tracked)</li>
+<li><code>&#39;0&#39;</code> (the visitor wants to be tracked)</li>
+<li><code>null</code> or <code>&#39;unspecified&#39;</code> (the visitor tells nothing about her preference)</li>
+</ul>
+<p>You can wrap the code responsible for loading Google Analytics in a <code>if</code> statement like I do in this blog (examine the source for yourself if you don&#39;t believe me!):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">doNotTrack</span> <span class="o">!==</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Load Google Analytics and track user.</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h3><a name="force-ssl" class="anchor" href="#force-ssl"><span class="header-link"></span></a>Force SSL</h3>
+<p>This blog is hosted on Github pages. Unfortunately, https is not (yet?) supported. The least I could do was to force the <code>analytics.js</code> file and the beacon to be respectively received and sent encrypted.
+More info about the <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#forceSSL"><code>forceSSL</code> setting</a> is available.</p>
+<h2><a name="the-challenge" class="anchor" href="#the-challenge"><span class="header-link"></span></a>The challenge</h2>
+<p>Some of the solutions presented here depend on your level of trust. I decided to trust Google even if I can never have the certitude that they really do what they say they do.
+So after all, your trust level may be different and you can decide whether to apply the solutions mentioned above or turn to other analytics services, like <a href="http://piwik.org/">Piwik</a>.</p>
+<p>Also, I would have loved to see Google making some of these options easier. For example, support of DNT could have been made an option in the account settings. Also, we can&#39;t create a custom IP masking function to push anonymisation even further.</p>
+<p>Google Analytics offer some very basic privacy aware options, but they should offer more!</p>
+</div><div class="comments"><a href="/posts/privacy-and-google-analytics/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/experimenting-with-serverless-apps/"><h1 class="post-title">Experimenting with serverless apps</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
 <p>But is a completely serverless web really achievable?</p>
 <p>Let&#39;s stay very basic for now and let&#39;s not consider issues like security or version update.</p>
 <p>(Note: the content of this post was inspired and developed during an <a href="http://lanyrd.com/2014/decentralizejs/">event</a> and a <a href="http://www.meetup.com/ORG-London/events/202557812/">hack day</a> I attended recently.)</p>
@@ -100,35 +159,7 @@ Though it is currently implemented in Firefox OS and Android, this needs to be t
 I understand this falls in a particular edge case, but if data URI apps were supported like URL based apps, things would be easier.</p>
 <p>Now I&#39;d love to see a discussion happening around what does the web need to achieve this. Are they any specifications currently being standardised that would go in this direction?</p>
 <p>Let&#39;s move things forward and get a truly serverless web!</p>
-</div><div class="comments"><a href="/posts/experimenting-with-serverless-apps/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 2</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
-<p>The only workaround on desktop is to deactivate HTML5 Audio (and enable Flash!) in <code>Settings</code> &gt; <code>Lab</code>:</p>
-<p><img src="https://lh5.googleusercontent.com/xzXQE966E7owgcLWgOzu2HI_9FfS0Q5neQZXaUkuVJcB=s0" alt="How to deactivate HTML5 audio in Google Play Music Settings" title="Deactivate HTML5 playback in Google Play Music."></p>
-<p>The reasons why HTML5 playback doesn&#39;t work is probably because of browser sniffing. A couple of bugs are opened (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=911837">Google Play Music HTML5 Audio Feature broken</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902531">Google Play Music not working on Firefox for Android/Firefox OS</a>), but no clear solution was provided thus far.</p>
-<p>I&#39;m using Google Play Music to play my CD collection that I&#39;ve encoded over the last few years and I want listen to it on Firefox OS.</p>
-<h2><a name="javascript-api-nay" class="anchor" href="#javascript-api-nay"><span class="header-link"></span></a>JavaScript API? Nay</h2>
-<p>There are no official APIs, but some unofficial ones are available. The risk of relying your product on unofficial API is that it can stop working because of a redesign or a protocol change of the original service. Before consider this as an option make sure to check how is the maintainer committed to the API maintenance!</p>
-<p>I&#39;m not enquiring further in this direction because a server is usually required. I want something that works offline.</p>
-<h2><a name="offline-mode-yay" class="anchor" href="#offline-mode-yay"><span class="header-link"></span></a>Offline mode? Yay</h2>
-<p>So, here&#39;s how I use Google Music on my Firefox OS devices:</p>
-<ul>
-<li>Install the official client on my desktop</li>
-<li>Download all of my library (warning: may take time and bandwidth)</li>
-<li>Copy to a memory card.</li>
-</ul>
-<p>I get:</p>
-<ul>
-<li>My albums</li>
-<li>The songs metadata</li>
-<li>The art cover (I <em>really</em> like that)</li>
-</ul>
-<p>I don&#39;t get:</p>
-<ul>
-<li>Uploaded content since last library download</li>
-<li>My playlists</li>
-</ul>
-<p>It&#39;s completely disconnected to the Google Music account, so whenever I upload new CDs, I have to download and copy them to the SD card. But to be honest I don&#39;t really mind and it works for me: I get the album covers and it works offline!</p>
-<p><img src="https://lh4.googleusercontent.com/-NuJrYDM4xSc/VBAjCsT5qvI/AAAAAAAAWxw/j357dFhtYt4/s0/Firefox-OS-play-app.png" alt="Firefox OS Play app showing albums imported from Google Music" title="Firefox OS Play app"></p>
-</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/experimenting-with-serverless-apps/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

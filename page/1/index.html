@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
 
 // Disable completely tracking if DNT is set.
 if (navigator.doNotTrack !== '1') {
@@ -16,7 +16,35 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send','pageview')
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 9 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 2</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
+<p>The only workaround on desktop is to deactivate HTML5 Audio (and enable Flash!) in <code>Settings</code> &gt; <code>Lab</code>:</p>
+<p><img src="https://lh5.googleusercontent.com/xzXQE966E7owgcLWgOzu2HI_9FfS0Q5neQZXaUkuVJcB=s0" alt="How to deactivate HTML5 audio in Google Play Music Settings" title="Deactivate HTML5 playback in Google Play Music."></p>
+<p>The reasons why HTML5 playback doesn&#39;t work is probably because of browser sniffing. A couple of bugs are opened (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=911837">Google Play Music HTML5 Audio Feature broken</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902531">Google Play Music not working on Firefox for Android/Firefox OS</a>), but no clear solution was provided thus far.</p>
+<p>I&#39;m using Google Play Music to play my CD collection that I&#39;ve encoded over the last few years and I want listen to it on Firefox OS.</p>
+<h2><a name="javascript-api-nay" class="anchor" href="#javascript-api-nay"><span class="header-link"></span></a>JavaScript API? Nay</h2>
+<p>There are no official APIs, but some unofficial ones are available. The risk of relying your product on unofficial API is that it can stop working because of a redesign or a protocol change of the original service. Before consider this as an option make sure to check how is the maintainer committed to the API maintenance!</p>
+<p>I&#39;m not enquiring further in this direction because a server is usually required. I want something that works offline.</p>
+<h2><a name="offline-mode-yay" class="anchor" href="#offline-mode-yay"><span class="header-link"></span></a>Offline mode? Yay</h2>
+<p>So, here&#39;s how I use Google Music on my Firefox OS devices:</p>
+<ul>
+<li>Install the official client on my desktop</li>
+<li>Download all of my library (warning: may take time and bandwidth)</li>
+<li>Copy to a memory card.</li>
+</ul>
+<p>I get:</p>
+<ul>
+<li>My albums</li>
+<li>The songs metadata</li>
+<li>The art cover (I <em>really</em> like that)</li>
+</ul>
+<p>I don&#39;t get:</p>
+<ul>
+<li>Uploaded content since last library download</li>
+<li>My playlists</li>
+</ul>
+<p>It&#39;s completely disconnected to the Google Music account, so whenever I upload new CDs, I have to download and copy them to the SD card. But to be honest I don&#39;t really mind and it works for me: I get the album covers and it works offline!</p>
+<p><img src="https://lh4.googleusercontent.com/-NuJrYDM4xSc/VBAjCsT5qvI/AAAAAAAAWxw/j357dFhtYt4/s0/Firefox-OS-play-app.png" alt="Firefox OS Play app showing albums imported from Google Music" title="Firefox OS Play app"></p>
+</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 9 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
 <h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
 <p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
 <p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>
@@ -49,50 +77,7 @@ if (navigator.doNotTrack !== '1') {
 <h2><a name="setting-the-language-independently-to-the-os" class="anchor" href="#setting-the-language-independently-to-the-os"><span class="header-link"></span></a>Setting the language independently to the OS</h2>
 <p>As a side note on this topic, on most mobile OSes (and some others like MacOS), the language of the browser is tied to that of the OS. Since last year, it&#39;s now possible to change the language of Firefox for Android independently (and without restarting the browser!).
 Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-in-firefox-for-android/">this blog post</a> for more details.</p>
-</div><div class="comments"><a href="/posts/follow-up-on-navigator-languages/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/software-gamepad/"><h1 class="post-title">Software gamepad</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 8 &#183; 10</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently resumed my work on <a href="https://github.com/gmarty/jsSMS">jsSMS a JavaScript recompiler for Sega Master System and Game Gear</a>. Among the new features, I wanted to improve the software gamepad for touch screens.</p>
-<h3><a name="naive-implementation" class="anchor" href="#naive-implementation"><span class="header-link"></span></a>Naive implementation</h3>
-<p>When I started adding the software gamepad, I did something quick and dirty. I didn&#39;t really have time to waste developing a nice looking controller in canvas (though that would have been easier). So I just threw some <code>&lt;div&gt;</code> tags, styled them and attached a couple of event listeners.</p>
-<p>To have a gamepad compatible with touch screens, I naturally listened to touch event on each key (up, down, left, right, fire1, fire2 and start).  <code>touchstart</code> and <code>touchmove</code> communicate the active key to the emulator and <code>touchend</code> release it.</p>
-<p>The main issue I found was that if the user moves her finger, the JavaScript will recognise the activation of a particular key, but will release a different one. In other word, the key initially pressed will never be released.</p>
-<p>Clearly, this was unusable.</p>
-<h3><a name="better-implementation" class="anchor" href="#better-implementation"><span class="header-link"></span></a>Better implementation</h3>
-<p>I looked for tutorials and references about how to build a gamepad using HTML5, but it looks like most HTML5 games use canvas and detect the currently touched key using the location of the touch.</p>
-<p>The location of the finger relative to the screen is stored in <code>clientX</code> and <code>clientY</code> properties of the touch event. If you use jQuery, like myself, make sure to reference the original event using <code>originalEvent</code> property (i.e. <code>evt.originalEvent.clientX</code>).</p>
-<p>To get the position of the currently touch key in HTML, I could have computed the position and size of each buttons, then loop through them to find the element touched. In my case, that wasn&#39;t possible because I use a complex layout made of rounded and rotated elements and not just square buttons.</p>
-<p>Thanks to StackOverflow, the answer was actually quite easy and requires a single DOM method: <code>document.elementFromPoint</code>.</p>
-<p>To get the currently touched element just pass the touch event coordinates to <code>document.elementFromPoint</code>:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">touchedElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>Then, you need to implement a mechanism to map back the DOM element touched to the emulated key  (I personally use CSS class name and a map object).</p>
-<p>Also, you&#39;ll want to iterate over the <code>changedTouches</code> array to properly activate all the buttons pressed on multi-touch devices.</p>
-<p>To put it in a nutshell:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">onTouch</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
-  <span class="nx">evt</span><span class="p">.</span><span class="nx">changedTouches</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">touch</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">touch</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">touch</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">getKeyFromElement</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
-    <span class="nx">emulator</span><span class="p">.</span><span class="nx">pressKey</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
-  <span class="p">});</span>
-
-  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">onTouchEnd</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchstart&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
-<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
-<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span> <span class="nx">onTouchEnd</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>Obviously, you&#39;ll want to code your own <code>getKeyFromElement</code> and emulator communicating functions.</p>
-<h3><a name="how-optimised" class="anchor" href="#how-optimised"><span class="header-link"></span></a>How optimised?</h3>
-<p>The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.</p>
-<p>I don&#39;t think you could do simpler and according to my coworker, the brilliant <a href="https://twitter.com/cwiiis">Chris Lord</a>, if your DOM tree is simple you shouldn&#39;t get any performance penalty from using <code>document.elementFromPoint</code>.</p>
-<p>Happy gaming!</p>
-</div><div class="comments"><a href="/posts/software-gamepad/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/follow-up-on-navigator-languages/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

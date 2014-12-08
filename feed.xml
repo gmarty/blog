@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Fri, 14 Nov 2014 22:05:33 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Fri, 14 Nov 2014 22:05:33 GMT</pubDate><copyright><![CDATA[2014 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Experimenting with serverless apps]]></title><description><![CDATA[<p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Mon, 08 Dec 2014 23:02:40 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Mon, 08 Dec 2014 23:02:40 GMT</pubDate><copyright><![CDATA[2014 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Privacy and Google Analytics]]></title><description><![CDATA[<h2><a name="the-problem" class="anchor" href="#the-problem"><span class="header-link"></span></a>The problem</h2>
+<p>After reading a post comparing analytics solutions, I realised most people ignore that Google Analytics can be fine tuned to comply with stricter privacy policies. In this post, I&#39;ll share the solutions I implemented to keep using Google Analytics without compromising my visitors (a.k.a. yourself) privacy.</p>
+<p>Please note that the code only relates to the latest <code>analytics.js</code> API. Look for support pages for older versions of Google Analytics.</p>
+<h2><a name="the-solutions" class="anchor" href="#the-solutions"><span class="header-link"></span></a>The solutions</h2>
+<h3><a name="disable-data-sharing" class="anchor" href="#disable-data-sharing"><span class="header-link"></span></a>Disable data sharing</h3>
+<p>By default, the data collected from Google Analytics are shared across several services like:</p>
+<ul>
+<li>Other Google products like AdWords</li>
+<li>Industries aggregate trends that allow comparing your result with web sites in the same sector</li>
+<li>Technical support...</li>
+</ul>
+<p>Though this data sharing should be harmless most of the time, you can disable it in your account settings. You can read more about it on the <a href="https://support.google.com/analytics/answer/1011397?hl=en">data sharing settings</a> support page.</p>
+<h3><a name="anonymise-ip-address" class="anchor" href="#anonymise-ip-address"><span class="header-link"></span></a>Anonymise IP address</h3>
+<p>Google Analytics has a built-in feature to anonymise IP address (see this <a href="https://support.google.com/analytics/answer/2763052?hl=en">help page</a> for details). When enabled, the last few digits of the visitor&#39;s IP address are set to 0 (IPv6 is supported).
+In theory it is not possible for Google to map an anonymised IP address to a specific user. Also, according to their documentation, the complete IP address is never logged.</p>
+<p>However, I read the relevant document carefully and noticed it&#39;s not very clear to me if Google logs the IP address when the <code>analytics.js</code> file is requested from their server. If you&#39;re a bit paranoid, you may decide not to trust Google here. In such case, you&#39;ll want to proxy it on your own domain and refresh it as often as possible. I haven&#39;t tried myself, but if you&#39;re doing that, let me know as I&#39;d love to read more.</p>
+<p>Obviously, the down side of this setting is you get a less accurate geographic report as it is based on the IP address. But who needs a granularity to the level of a city?</p>
+<h3><a name="implement-an-opt-out-mechanism" class="anchor" href="#implement-an-opt-out-mechanism"><span class="header-link"></span></a>Implement an opt-out mechanism</h3>
+<p>You can easily give your users the ability to deactivate tracking. Just create a setting in your app that sets the following property to <code>true</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">window</span><span class="p">[</span><span class="s1">&#39;ga-disable-UA-XXXXXX-Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// Replace UA-XXXXXX-Y by your Google Analytics ID</span>
+</pre></div>
+</code></pre>
+<p>You can persist this setting in your user account, so that her preference is is kept whatever the device she&#39;s using to access your website. But for performance reason, I recommend not to load Google Analytics at all when your user has opted out.
+You can read more about <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/advanced#optout">user opt-out</a> in the help pages.</p>
+<h3><a name="dont-use-cookies" class="anchor" href="#dont-use-cookies"><span class="header-link"></span></a>Don&#39;t use cookies</h3>
+<p>Though not directly related to privacy, not setting cookies is likely to increase your visitors confidence while removing the need to display a message related to the <a href="https://en.wikipedia.org/wiki/HTTP_cookie#EU_cookie_directive">EU cookie directive</a>.</p>
+<p>Instead of cookies, use local storage for storing the visitor identifier used by Google Analytics, the so called <code>clientId</code> parameter. This technique has a beneficial aspect on performance as well. The browser won&#39;t send all the cookie detail with every request made to an asset located in the same domain as the page.</p>
+<p>Here is the code used in this blog:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">ga</span><span class="p">(</span><span class="s1">&#39;create&#39;</span><span class="p">,</span> <span class="s1">&#39;UA-XXXXXX-Y&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="c1">// Use your own ID!</span>
+  <span class="s1">&#39;storage&#39;</span><span class="o">:</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;clientId&#39;</span><span class="o">:</span> <span class="nx">localStorage</span><span class="p">.</span><span class="nx">getItem</span><span class="p">(</span><span class="s1">&#39;gaClientId&#39;</span><span class="p">)</span>
+<span class="p">});</span>
+<span class="nx">ga</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">tracker</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">localStorage</span><span class="p">.</span><span class="nx">setItem</span><span class="p">(</span><span class="s1">&#39;gaClientId&#39;</span><span class="p">,</span> <span class="nx">tracker</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;clientId&#39;</span><span class="p">));</span>
+<span class="p">});</span>
+<span class="nx">ga</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span><span class="s1">&#39;pageview&#39;</span><span class="p">)</span>
+</pre></div>
+</code></pre>
+<h3><a name="comply-with-do-not-track" class="anchor" href="#comply-with-do-not-track"><span class="header-link"></span></a>Comply with Do Not Track</h3>
+<p>The DNT is not only exposed to the client as a HTTP header but also as a property on the <code>navigator</code> object: <code>navigator.doNotTrack</code>. This returns:</p>
+<ul>
+<li><code>&#39;1&#39;</code> (the visitor does not want to be tracked)</li>
+<li><code>&#39;0&#39;</code> (the visitor wants to be tracked)</li>
+<li><code>null</code> or <code>&#39;unspecified&#39;</code> (the visitor tells nothing about her preference)</li>
+</ul>
+<p>You can wrap the code responsible for loading Google Analytics in a <code>if</code> statement like I do in this blog (examine the source for yourself if you don&#39;t believe me!):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">doNotTrack</span> <span class="o">!==</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Load Google Analytics and track user.</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h3><a name="force-ssl" class="anchor" href="#force-ssl"><span class="header-link"></span></a>Force SSL</h3>
+<p>This blog is hosted on Github pages. Unfortunately, https is not (yet?) supported. The least I could do was to force the <code>analytics.js</code> file and the beacon to be respectively received and sent encrypted.
+More info about the <a href="https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#forceSSL"><code>forceSSL</code> setting</a> is available.</p>
+<h2><a name="the-challenge" class="anchor" href="#the-challenge"><span class="header-link"></span></a>The challenge</h2>
+<p>Some of the solutions presented here depend on your level of trust. I decided to trust Google even if I can never have the certitude that they really do what they say they do.
+So after all, your trust level may be different and you can decide whether to apply the solutions mentioned above or turn to other analytics services, like <a href="http://piwik.org/">Piwik</a>.</p>
+<p>Also, I would have loved to see Google making some of these options easier. For example, support of DNT could have been made an option in the account settings. Also, we can&#39;t create a custom IP masking function to push anonymisation even further.</p>
+<p>Google Analytics offer some very basic privacy aware options, but they should offer more!</p>
+]]></description><link>http://gu.illau.me/posts/privacy-and-google-analytics/</link><guid isPermaLink="true">http://gu.illau.me/posts/privacy-and-google-analytics/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Mon, 08 Dec 2014 00:00:00 GMT</pubDate></item><item><title><![CDATA[Experimenting with serverless apps]]></title><description><![CDATA[<p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
 <p>But is a completely serverless web really achievable?</p>
 <p>Let&#39;s stay very basic for now and let&#39;s not consider issues like security or version update.</p>
 <p>(Note: the content of this post was inspired and developed during an <a href="http://lanyrd.com/2014/decentralizejs/">event</a> and a <a href="http://www.meetup.com/ORG-London/events/202557812/">hack day</a> I attended recently.)</p>
