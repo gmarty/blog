@@ -1,8 +1,8 @@
 <!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"><link href="/css/main.css" rel="stylesheet"><title>Experimenting with serverless apps</title><meta name="description" content="Can we dream of a serverless web?"><base href="http://gu.illau.me/posts/experimenting-with-serverless-apps/" target="_top"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><script>'use strict';
 
-// Disable completely tracking if DNT is set.
+// Learn about privacy and Google Analytics in this post:
+// http://gu.illau.me/posts/privacy-and-google-analytics/
 if (navigator.doNotTrack !== '1') {
-  // We store the client ID in the local storage rather than in a cookie.
   (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
   ga('create', 'UA-207391-17', {
     'storage': 'none',
@@ -12,10 +12,9 @@ if (navigator.doNotTrack !== '1') {
   ga(function(tracker) {
     localStorage.setItem('gaClientId', tracker.get('clientId'));
   });
-  // If privacy is a matter to you, activate this setting and read https://support.google.com/analytics/answer/2763052
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
-  ga('send','pageview')
+  ga('send', 'pageview');
 }</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/experimenting-with-serverless-apps/"><h1 class="post-title">Experimenting with serverless apps</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
 <p>But is a completely serverless web really achievable?</p>
 <p>Let&#39;s stay very basic for now and let&#39;s not consider issues like security or version update.</p>
