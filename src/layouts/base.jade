@@ -15,13 +15,14 @@ html(lang="en-GB")
   head
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width,initial-scale=1")
-    link(rel="shortcut icon", type="image/x-icon", href="#{data.baseUrl}favicon.ico")
     link(href="#{data.baseUrl}css/main.css", rel="stylesheet")
     block head
       title="Just a blog by G.C. Marty"
       meta(name="description", content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!")
       base(href="http://gu.illau.me#{data.baseUrl}", target="_top")
+    link(href="manifest.json", rel="manifest")
     link(href="http://feeds.feedburner.com/just-a-blog", rel="alternate", type="application/rss+xml", title="Just a blog by G.C. Marty")
+    link(href="#{data.baseUrl}favicon.ico", rel="shortcut icon", type="image/x-icon")
     script.
       'use strict';
 

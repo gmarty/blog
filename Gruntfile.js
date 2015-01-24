@@ -51,6 +51,7 @@ module.exports = function(grunt) {
               'CNAME',
               'favicon.ico',
               'googlea15f277b4e0d89d7.html',
+              'manifest.json',
               'manifest.webapp',
               // Other resources.
               'img/**',
