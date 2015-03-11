@@ -1,3 +1,9 @@
+{
+  title: "The Physical Web",
+  date: "2015-03-11",
+  description: "The Physical Web will bring the back to the local level"
+}
+
 "Walk up and use anything" is the promise of the [Physical Web](http://google.github.io/physical-web/).
 It is an open source project started by Google that allows you to access to online resource via physical objects.
 
