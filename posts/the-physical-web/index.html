@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="/css/main.css" rel="stylesheet"><title>The Physical Web</title><meta name="description" content="The Physical Web will bring the back to the local level"><base href="http://gu.illau.me/posts/the-physical-web/" target="_top"><link href="manifest.json" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
+
+// Learn about privacy and Google Analytics in this post:
+// http://gu.illau.me/posts/privacy-and-google-analytics/
+if (navigator.doNotTrack !== '1') {
+  (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
+  ga('create', 'UA-207391-17', {
+    'storage': 'none',
+    'clientId': localStorage.getItem('gaClientId'),
+    'siteSpeedSampleRate': 100
+  });
+  ga(function(tracker) {
+    localStorage.setItem('gaClientId', tracker.get('clientId'));
+  });
+  ga('set', 'anonymizeIp', true);
+  ga('set', 'forceSSL', true);
+  ga('send', 'pageview');
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-physical-web/"><h1 class="post-title">The Physical Web</h1></a><span style="bottom:30px" class="post-date">2015 &#183; 3 &#183; 11</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>&quot;Walk up and use anything&quot; is the promise of the <a href="http://google.github.io/physical-web/">Physical Web</a>.
+It is an open source project started by Google that allows you to access to online resource via physical objects.</p>
+<h2><a name="the-concept" class="anchor" href="#the-concept"><span class="header-link"></span></a>The concept</h2>
+<p>The physical web is based on hardware beacons that broadcast data using Bluetooth Low Energy (BLE) without the need to pair the device. In this case, the data is an URL. For now, it requires you to install an app on your mobile device. This app will scan in the background the surroundings for beacons and will inform you whenever you come across one. You&#39;ll then be presented with a list of URL, one per beacon. If the project is successful, this feature may be built-in your mobile OS in the future, thus removing the need for an external app.</p>
+<p>There are already some beacons available. I bought a <a href="https://www.blesh.com/product/blesh-pack-3-beacons/">physical web pack from Blesh</a>, but there are more <a href="http://store.twocanoes.com/collections/physical-web-beacons">providers</a>. You can also turn your laptop or other devices into beacons using the <a href="https://github.com/google/uribeacon/blob/master/beacons/README.md">projects listed here</a>. There&#39;s even an implementation for Node.js.</p>
+<p><img src="https://lh3.googleusercontent.com/THMrcnE8cMC3H8ymn_HVIp1uyGZ7I58PcEiJfndWy9Ci=s600" alt="The Physical Web beacons by Blesh" title="The Physical Web beacons by Blesh"></p>
+<p>These projects allow you do to both reading and advertising. The app required to read physical web beacons is available on Android and iOS.</p>
+<h2><a name="mdns-support" class="anchor" href="#mdns-support"><span class="header-link"></span></a>mDNS support</h2>
+<p>Advertising URL on a local network is also supported thanks to <a href="https://github.com/google/physical-web/blob/master/documentation/mDNS_Support.md">mDNS</a>. It works essentially by using a <code>_http._tcp</code> service with an optional TXT record for the path.
+As noted on the website, the advantage over BLE is that reading is limited to the devices connected to the local network and won&#39;t leak to unauthorised people. It also enables broadcasting longer URLs.</p>
+<h2><a name="criticism" class="anchor" href="#criticism"><span class="header-link"></span></a>Criticism</h2>
+<p>This project is really interesting because it helps discovering content useful locally using the P2P web.
+Unfortunately I wish the concept had been taken further and instead of advertising URL that requires an Internet connection to be visited, it could have advertised content stored locally, on a embedded server. You can always advertise URL from a local network using mDNS, but how to make sure the visitors are connected to the correct local network if you use BLE?
+I understand it is probably in Google&#39;s own interest to promote Internet and force users to remain connected at all time. They&#39;re not making money on local content completely disconnected from the Internet.</p>
+<p>Also it looks like the main use case is to advertise products and services. I strongly think the web and the Internet of things shouldn&#39;t be about consumption and profit only. The P2P Web should reinforce local communities and make people to help each other. It should enable you to connect with local people (It sounds cheesy, I know...).
+Anyway, the web being what you make of it, I still think the physical web is an interesting project.</p>
+<h2><a name="next-step" class="anchor" href="#next-step"><span class="header-link"></span></a>Next step</h2>
+<p>I&#39;ve started building an app to implement the <a href="https://github.com/gmarty/fxos-physical-web">Physical Web on Firefox OS</a>. It will allow you to read and act as a physical web beacons. At the moment BLE is not implemented on B2G, but it&#39;s coming to v3, later this year. So in the meantime, I&#39;m relaying on mDNS.</p>
+<p>I&#39;ve set up one of the physical web beacons to advertise the URL of this blog. I&#39;m carrying this beacon with me most of the time. So if you come across it in the streets of London, you&#39;ll know I&#39;m not far away!</p>
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
+  var $navBar = document.querySelector('nav');
+  
+  // If touchscreen listen for touch, if not listen for click.
+  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
+  
+  // Toggle the nav menu list when the user clicks the nav menu button.
+  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
+    $navBar.classList.toggle('nav-show');
+  }, false);
+  
+  document.querySelector('.content').addEventListener(hitEvent, function(event) {
+    if ($navBar.classList.contains('nav-show')) {
+      $navBar.classList.remove('nav-show');
+    }
+  }, false);
+});
+
+// For each post, add the estimated reading time.
+var headersElt = document.querySelectorAll('div.post-head');
+var postCounter = 0;
+Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
+  var postEltClone = postElt.cloneNode(true);
+  var codeEltList = postEltClone.getElementsByTagName('code');
+  for (var i = codeEltList.length - 1; i >= 0; i--) {
+    var codeElt = codeEltList[i];
+    codeElt.parentNode.removeChild(codeElt);
+  }
+  var text = postEltClone.textContent;
+  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
+  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
+    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
+  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
+});</script></body></html>

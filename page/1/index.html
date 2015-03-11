@@ -15,7 +15,91 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 2</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/experimenting-with-serverless-apps/"><h1 class="post-title">Experimenting with serverless apps</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
+<p>But is a completely serverless web really achievable?</p>
+<p>Let&#39;s stay very basic for now and let&#39;s not consider issues like security or version update.</p>
+<p>(Note: the content of this post was inspired and developed during an <a href="http://lanyrd.com/2014/decentralizejs/">event</a> and a <a href="http://www.meetup.com/ORG-London/events/202557812/">hack day</a> I attended recently.)</p>
+<h2><a name="a-dystopian-example" class="anchor" href="#a-dystopian-example"><span class="header-link"></span></a>A dystopian example</h2>
+<p>Imagine you are demonstrating against the government in place in your country. They are powerful and control the communication. In order to slow and confuse you they cut all network. Without internet you can&#39;t communicate with your peers and can&#39;t organise the movement.</p>
+<p>You want to be able to send and receive information. How can you do that when all you have is a web enabled device and no network?</p>
+<h2><a name="distribute-serverless-apps" class="anchor" href="#distribute-serverless-apps"><span class="header-link"></span></a>Distribute serverless apps</h2>
+<p>Let&#39;s see if it&#39;s possible to distribute apps from device to device, using web technologies only but without servers.</p>
+<h3><a name="file-uri-scheme" class="anchor" href="#file-uri-scheme"><span class="header-link"></span></a>file:// URI scheme</h3>
+<p>The most obvious and direct approach is to create a file on your computer and open it in your browser using the <code>file://</code> protocol.
+It works for simple documents but comes with a huge list of limitations:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Same-origin_policy_for_file:_URIs">Same-origin policy limitations</a></li>
+<li>Can&#39;t open a <code>file://</code> URI from a <code>http://</code> web page</li>
+<li>The reference to the document is local and can&#39;t be shared</li>
+<li>Does it even work on mobile browsers?</li>
+</ul>
+<h3><a name="data-uri" class="anchor" href="#data-uri"><span class="header-link"></span></a>Data URI</h3>
+<p>Data URIs allow to package all of your app logic and resources in a string format that your browser can recognise and execute.
+Rather than using a URL as a reference to a content located somewhere, the URL contains everything. The address IS the content.</p>
+<p>A very simple example is the following:
+<a href="data:text/html;utf-8,%3Cb%3EHello%2C%20world!%3C%2Fb%3E">data:text/html;utf-8,&lt;b&gt;Hello, world!&lt;/b&gt;</a></p>
+<p>Clicking on the link will display the text &quot;Hello, world!&quot; in bold. Everything is self-contained.</p>
+<p>There is a limitation, however, in the number of characters such a URI can contain: no more than 65535. Here is the function I use to convert HTML code to data URI:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">dataUriEncode</span><span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">encoded</span> <span class="o">=</span> <span class="s1">&#39;data:text/html;utf-8,&#39;</span> <span class="o">+</span> <span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">string</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">encoded</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;=</span> <span class="mi">65535</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;The string generated is too long.&#39;</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">encoded</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="abusing-data-uris" class="anchor" href="#abusing-data-uris"><span class="header-link"></span></a>Abusing data Uris</h2>
+<p>Let&#39;s now abuse this simple mechanism to create web pages and distribute them without server.</p>
+<p>For the sake of an example, I shamelessly stole <a href="http://www.p01.org/releases/WOLF1K/">WOLF1K</a>, a clone of Wolfenstein in JavaScript that only weights 1K. Here is the complete source code of the app that I&#39;ll try to distribute:</p>
+<pre><code><div class="highlight"><pre><span class="nx">data</span><span class="o">:</span><span class="nx">text</span><span class="o">/</span><span class="nx">html</span><span class="p">;</span><span class="nx">utf</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span><span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">WOLF1K</span><span class="o">&lt;</span><span class="err">/title&gt;&lt;canvas id=c&gt;&lt;/canvas&gt;&lt;script&gt;E=&quot;A=document.body.children.c;B=A.getContext(&#39;2d&#39;~=1$&amp;31$&amp;992(E&amp;19)?1;    n=@nB#[A#)onkeyup=0};D=[setInterval(@=innerWidth-30;A.heigh@/2;    n=@n=[t,n,S,8+$*S&amp;8)|(X+y+t*s+t*c8&amp;7]){w=X=x=;v=y=;z=2]z+n/@ a=s=yG=F,r=u;a=c=X    ;$~)F&lt;G?(F,F1/uS=c/u):(G,G1/rS=32*s/r)}    n=@i&lt;15;i++){2];j=38;i?1X=(+,;Y=(,+;ji?random(8-42]=(b-t/16+9.42%6.28)-3.14;z-atan2(Y-=v,X-=w~i&amp;&amp;&gt;.5?=[sqrt(X*X+Y*Y),@/2-@*b,i,0,++n]    D.sort(+x[-y[}~n)    a=[,a/@ F=@/2//[,c=8,u=v=+1=[3]=c=1,@,0%)&#39;):a!ca)    &#39;+v+&#39;%)&#39;atob(&#39;CBF+/p6f9AC9bsP/w/dqvdvb2NvD29sb&#39;),y=8,@/4,b!yb)d&gt;&gt;y&amp;1,v),9)]&quot;;&quot;@A.widthMath.cos(b)B[i][function(x,y){B.fillStyle=&#39;hsl(&#39;+D[n][2]+&#39;1,99%,%=1;u=a&lt;0?-a:a,F=(a&lt;0?d:1-d)/u;onkeydownMath.sin(b).charCodeAt(x++%73)    for(?B.fillRect(a,b,u:A[j]-A[j+2];D[n]A[x.which]=--;*t/8;x|=y&lt;&lt;5;,i=0;Math.+=0]1.1,return)*b=,d=:0}F/41]t= -.5,!-=F;#[n]=$(x~);,x&quot;.replace(/.([%-}]+)/g,function(x,y){E=E.split(x[0]).join(y)});eval(E)&lt;/script&gt;</span>
+</pre></div>
+</code></pre>
+<p>I will now run this web page and distribute it to other devices without using a server.
+The tests below are based on the following browser/OS configuration:</p>
+<ul>
+<li>Firefox OS</li>
+<li>Firefox for Android</li>
+<li>Chrome for Android</li>
+<li>Firefox and Chrome desktop (on Ubuntu ; where it makes sense)</li>
+</ul>
+<p>Feel free to test and send me the results on other OS configurations.</p>
+<h2><a name="distribution-strategies" class="anchor" href="#distribution-strategies"><span class="header-link"></span></a>Distribution strategies</h2>
+<h3><a name="link" class="anchor" href="#link"><span class="header-link"></span></a>Link</h3>
+<p>This is the easier way of sharing a data URI app and it works everywhere! Just click the link below to start the app:
+<a href="data:text/html;utf-8,%3Ctitle%3EWOLF1K%3C%2Ftitle%3E%3Ccanvas%20id%3Dc%3E%3C%2Fcanvas%3E%3Cscript%3EE%3D%22A%3Ddocument.body.children.c%3BB%3DA.getContext('2d'~%06%3D%03%0F1%12%18%24%2631%19%24%26992%19(E%08%2619)%3F1%1C%3B%09n%3D%40%13n%10B%23%5B%17%17%17A%23%16)onkeyup%3D%03%0F0%7D%3BD%3D%5BsetInterval(%03%40%3DinnerWidth-30%3BA.heigh%1F%40%2F2%3B%09n%3D%40%13n%10%0E%3D%5Bt%2Cn%2CS%2C8%2B%24*S%268)%7C(X%2By%2Bt*s%2Bt*c%198%267%5D)%7Bw%3DX%3Dx%3D%02%16%3Bv%3Dy%3D%02%1E%3Bz%3D%022%5D%12%1Az%2Bn%2F%40%20a%3Ds%3D%07%1By%05G%3DF%2Cr%3Du%3Ba%3Dc%3D%01%1BX%05%09%3B%06%24~)F%3CG%3F(%1FF%2CF%151%2Fu%7F%15S%3Dc%2Fu)%3A(%1FG%2CG%151%2Fr%7F%15S%3D32*s%2Fr)%7D%09n%3D%40%13i%3C15%3Bi%2B%2B)%7B%1A%022%5D%3Bj%3D38%3B%1Fi%3F1%0CX%3D%02%16%15%06(%02%16%2B%01%11%2C%02%1E%19%01%11%3BY%3D%02%1E%15%06(%02%16%2C%02%1E%2B%07%11%19%07%11%3Bj%10%1Fi%3F%14random(%198-4%0C%022%5D%3D(b-t%2F16%2B9.42%256.28)-3.14%3B%1Az-%14atan2(Y-%3Dv%2CX-%3Dw~i%26%26%01%3E.5%3F%0E%3D%5B%14sqrt(X*X%2BY*Y)%2C%40%2F2-%40*b%2Ci%2C0%2C%2B%2Bn%5D%1C%09D.sort(%03%18%2Bx%5B%16-y%5B%16%7D~n%10)%09a%3D%0E%5B%1E%2C%1Aa%2F%40%20F%3D%40%2F2%2F%01%2F%0E%5B%1A%16%2Cc%3D8%2Cu%3Dv%3D%1D%2B1%7F%3D%0E%5B3%5D%7F%0B%3Dc%3D1%2C%40%2C%040%25)')%3Aa!c%10a%15%1D)%09%04'%2Bv%2B'%25)'%1Batob('CBF%2B%2Fp6f9AC9bsP%2Fw%2Fdqvdvb2NvD29sb')%08%2Cy%3D8%2C%1A%40%2F4%2Cb!y%10b%15%1D)d%3E%3Ey%261%0B%2Cv)%1C%2C9)%5D%22%3B%22%40A.width%01Math.cos(b)%02B%5Bi%5D%5B%03function(x%2Cy)%7B%04B.fillStyle%3D'hsl('%2BD%5Bn%5D%5B2%5D%2B'1%2C99%25%2C%05%25%3D1%3Bu%3Da%3C0%3F-a%3Aa%2CF%3D(a%3C0%3Fd%3A1-d)%2Fu%3B%06onkeydown%07Math.sin(b)%08.charCodeAt(x%2B%2B%2573)%09for(%0B%3FB.fillRect(a%2Cb%2Cu%0C%3AA%5Bj%5D-A%5Bj%2B2%5D%3B%0ED%5Bn%5D%0FA%5Bx.which%5D%3D%10--%3B%11*t%2F8%12%3Bx%7C%3Dy%3C%3C5%3B%13%2Ci%3D0%3B%14Math.%15%2B%3D%160%5D%171.1%2C%18return%19)*%1Ab%3D%1B%2Cd%3D%1C%3A0%7D%1DF%2F4%1E1%5D%1Ft%3D%20-.5%2C!-%3DF%3B%23%5Bn%5D%3D%24(x~)%3B%7F%2Cx%22.replace(%2F.(%5B%25-%7D%5D%2B)%2Fg%2Cfunction(x%2Cy)%7BE%3DE.split(x%5B0%5D).join(y)%7D)%3Beval(E)%3C%2Fscript%3E">WOLF1K</a></p>
+<p>Obviously a link means that a web page is required and possibly a server to host it.</p>
+<h3><a name="emails" class="anchor" href="#emails"><span class="header-link"></span></a>Emails</h3>
+<p>I haven&#39;t been able to send or receive a data URI link from an email. This is due to security reasons.
+What works though is to paste the source code of the app and ask the recipient to copy and paste it in her browser address bar.</p>
+<h3><a name="sms" class="anchor" href="#sms"><span class="header-link"></span></a>SMS</h3>
+<p>Likewise, copy/pasting content from a text message is the only way to use SMS to send such an app.</p>
+<h3><a name="bluetooth-and-nfc" class="anchor" href="#bluetooth-and-nfc"><span class="header-link"></span></a>Bluetooth and NFC</h3>
+<p>This methods were a major disappointment to me. I was really hoping that one can send a data URI app from a device to another. But it doesn&#39;t work due to &quot;Can&#39;t open media type&quot; (Bluetooth) and &quot;Unknown tag type&quot; (NFC) errors.
+That said, I suspect it can be fixed on Firefox OS.</p>
+<h3><a name="qr-code" class="anchor" href="#qr-code"><span class="header-link"></span></a>QR Code</h3>
+<p>1084 characters are too much for QR Code and make it impossible to decode.</p>
+<p>This is sad because this prevents us from using printed material to distribute apps.</p>
+<p>If you don&#39;t believe me, try to scan that:
+<img src="https://lh3.googleusercontent.com/b60QnpsZFq0_-xrxhrypM9Tj_rMjoSHWNZjshbtz3aq9=s0" alt="WOLF1K" title="WOLF1K.png"></p>
+<h3><a name="wifi-direct" class="anchor" href="#wifi-direct"><span class="header-link"></span></a>Wifi Direct</h3>
+<p>This is a protocol to discover and communicate with devices connected to the same Wifi network, even if there is no Internet connection.
+Though it is currently implemented in Firefox OS and Android, this needs to be tested to see if it&#39;s possible to send data URI web app via this channel.</p>
+<h2><a name="bookmarking-and-adding-to-homescreen" class="anchor" href="#bookmarking-and-adding-to-homescreen"><span class="header-link"></span></a>Bookmarking and adding to homescreen</h2>
+<p>Once the app received is running on your browser, you want to bookmark it so that you can use it later.</p>
+<p>Desktop browsers permit bookmarking data URI apps, but not to add to homescreen.</p>
+<p>On mobile browsers, things are slightly more complex:</p>
+<ul>
+<li>Firefox for Android: bookmark and add to homescreen both work OK</li>
+<li>Chrome for Android: can bookmark but app added to homescreen can&#39;t be opened (&quot;App isn&#39;t installed&quot; error message)</li>
+<li>Firefox OS: bookmark is replaced by add to homescreen, but this feature doesn&#39;t work as of version 2.1 with data URI (Here again I believe this can be fixed)</li>
+</ul>
+<h2><a name="so-what-now" class="anchor" href="#so-what-now"><span class="header-link"></span></a>So what now?</h2>
+<p>Ironically the only methods that work are the server based one (link, email, text messages). Distributing web documents encoded in data URI without a server is a bit tricky at the moment. OS UI don&#39;t always allow creating, sharing or opening such apps.
+I understand this falls in a particular edge case, but if data URI apps were supported like URL based apps, things would be easier.</p>
+<p>Now I&#39;d love to see a discussion happening around what does the web need to achieve this. Are they any specifications currently being standardised that would go in this direction?</p>
+<p>Let&#39;s move things forward and get a truly serverless web!</p>
+</div><div class="comments"><a href="/posts/experimenting-with-serverless-apps/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 2</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
 <p>The only workaround on desktop is to deactivate HTML5 Audio (and enable Flash!) in <code>Settings</code> &gt; <code>Lab</code>:</p>
 <p><img src="https://lh5.googleusercontent.com/xzXQE966E7owgcLWgOzu2HI_9FfS0Q5neQZXaUkuVJcB=s0" alt="How to deactivate HTML5 audio in Google Play Music Settings" title="Deactivate HTML5 playback in Google Play Music."></p>
 <p>The reasons why HTML5 playback doesn&#39;t work is probably because of browser sniffing. A couple of bugs are opened (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=911837">Google Play Music HTML5 Audio Feature broken</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902531">Google Play Music not working on Firefox for Android/Firefox OS</a>), but no clear solution was provided thus far.</p>
@@ -43,40 +127,7 @@ if (navigator.doNotTrack !== '1') {
 </ul>
 <p>It&#39;s completely disconnected to the Google Music account, so whenever I upload new CDs, I have to download and copy them to the SD card. But to be honest I don&#39;t really mind and it works for me: I get the album covers and it works offline!</p>
 <p><img src="https://lh4.googleusercontent.com/-NuJrYDM4xSc/VBAjCsT5qvI/AAAAAAAAWxw/j357dFhtYt4/s0/Firefox-OS-play-app.png" alt="Firefox OS Play app showing albums imported from Google Music" title="Firefox OS Play app"></p>
-</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 9 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
-<h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
-<p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
-<p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>
-<p>You can do cool things like:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">langNum</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">code</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">).</span><span class="nx">shift</span><span class="p">();</span>
-<span class="p">})).</span><span class="nx">size</span><span class="p">;</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;It looks like you can read %i %s.&#39;</span><span class="p">,</span> 
-  <span class="nx">langNum</span><span class="p">,</span> <span class="nx">langNum</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">?</span> <span class="s1">&#39;different languages&#39;</span> <span class="o">:</span> <span class="s1">&#39;language&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>(<code>Set</code> is used here to dedupe the array.)</p>
-<p>Use this to show the best matching language by comparing <code>navigator.languages</code> to the ones supported by your app. But of course, also offer an option to change the language.</p>
-<h2><a name="languagechange-event" class="anchor" href="#languagechange-event"><span class="header-link"></span></a><code>languagechange</code> event</h2>
-<p>In addition to <code>navigator.languages</code>, browsers can now listen to the <code>languagechange</code> event fired by the <code>window</code> object to update the UI language accordingly:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;languagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;You updated your browser languages to &quot;%s&quot;&#39;</span><span class="p">,</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">));</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<p>I set up this quick demo that <a href="http://jsbin.com/difen/1/">lists the languages set in your browser</a> and stays up to date.</p>
-<p>This powerful event means web apps don&#39;t require to be reloaded to update their UI language and can integrate perfectly in the browser/OS.</p>
-<h2><a name="polyfill" class="anchor" href="#polyfill"><span class="header-link"></span></a>Polyfill</h2>
-<p>Polyfilling <code>navigator.languages</code> couldn&#39;t get any easier:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span> <span class="o">=</span> <span class="p">[</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">];</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="setting-the-language-independently-to-the-os" class="anchor" href="#setting-the-language-independently-to-the-os"><span class="header-link"></span></a>Setting the language independently to the OS</h2>
-<p>As a side note on this topic, on most mobile OSes (and some others like MacOS), the language of the browser is tied to that of the OS. Since last year, it&#39;s now possible to change the language of Firefox for Android independently (and without restarting the browser!).
-Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-in-firefox-for-android/">this blog post</a> for more details.</p>
-</div><div class="comments"><a href="/posts/follow-up-on-navigator-languages/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
