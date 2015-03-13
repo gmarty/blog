@@ -17,6 +17,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "generate-icons": "inkscape -e src/img/icons/128.png -w 128 src/img/icon.svg;inkscape -e src/img/icons/512.png -w 512 src/img/icon.svg;inkscape -e src/img/icons/60.png -w 60 src/img/icon.svg;inkscape -e src/img/icons/16.png -w 16 src/img/icon.svg;inkscape -e src/img/icons/32.png -w 32 src/img/icon.svg;inkscape -e src/img/icons/48.png -w 48 src/img/icon.svg;inkscape -e src/img/icons/64.png -w 64 src/img/icon.svg;inkscape -e src/img/icons/90.png -w 90 src/img/icon.svg;inkscape -e src/img/icons/256.png -w 256 src/img/icon.svg"
+    "generate-icons": "inkscape -e src/img/icons/16.png -w 16 src/img/icon.svg;inkscape -e src/img/icons/32.png -w 32 src/img/icon.svg;inkscape -e src/img/icons/48.png -w 48 src/img/icon.svg;inkscape -e src/img/icons/60.png -w 60 src/img/icon.svg;inkscape -e src/img/icons/64.png -w 64 src/img/icon.svg;inkscape -e src/img/icons/90.png -w 90 src/img/icon.svg;inkscape -e src/img/icons/128.png -w 128 src/img/icon.svg;inkscape -e src/img/icons/144.png -w 144 src/img/icon.svg;inkscape -e src/img/icons/256.png -w 256 src/img/icon.svg;inkscape -e src/img/icons/512.png -w 512 src/img/icon.svg"
   }
 }
