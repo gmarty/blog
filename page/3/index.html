@@ -15,7 +15,50 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/building-a-syntactic-translation-engine/"><h1 class="post-title">Building a syntactic translation engine</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 4 &#183; 21</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/software-gamepad/"><h1 class="post-title">Software gamepad</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 8 &#183; 10</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently resumed my work on <a href="https://github.com/gmarty/jsSMS">jsSMS a JavaScript recompiler for Sega Master System and Game Gear</a>. Among the new features, I wanted to improve the software gamepad for touch screens.</p>
+<h3><a name="naive-implementation" class="anchor" href="#naive-implementation"><span class="header-link"></span></a>Naive implementation</h3>
+<p>When I started adding the software gamepad, I did something quick and dirty. I didn&#39;t really have time to waste developing a nice looking controller in canvas (though that would have been easier). So I just threw some <code>&lt;div&gt;</code> tags, styled them and attached a couple of event listeners.</p>
+<p>To have a gamepad compatible with touch screens, I naturally listened to touch event on each key (up, down, left, right, fire1, fire2 and start).  <code>touchstart</code> and <code>touchmove</code> communicate the active key to the emulator and <code>touchend</code> release it.</p>
+<p>The main issue I found was that if the user moves her finger, the JavaScript will recognise the activation of a particular key, but will release a different one. In other word, the key initially pressed will never be released.</p>
+<p>Clearly, this was unusable.</p>
+<h3><a name="better-implementation" class="anchor" href="#better-implementation"><span class="header-link"></span></a>Better implementation</h3>
+<p>I looked for tutorials and references about how to build a gamepad using HTML5, but it looks like most HTML5 games use canvas and detect the currently touched key using the location of the touch.</p>
+<p>The location of the finger relative to the screen is stored in <code>clientX</code> and <code>clientY</code> properties of the touch event. If you use jQuery, like myself, make sure to reference the original event using <code>originalEvent</code> property (i.e. <code>evt.originalEvent.clientX</code>).</p>
+<p>To get the position of the currently touch key in HTML, I could have computed the position and size of each buttons, then loop through them to find the element touched. In my case, that wasn&#39;t possible because I use a complex layout made of rounded and rotated elements and not just square buttons.</p>
+<p>Thanks to StackOverflow, the answer was actually quite easy and requires a single DOM method: <code>document.elementFromPoint</code>.</p>
+<p>To get the currently touched element just pass the touch event coordinates to <code>document.elementFromPoint</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">touchedElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Then, you need to implement a mechanism to map back the DOM element touched to the emulated key  (I personally use CSS class name and a map object).</p>
+<p>Also, you&#39;ll want to iterate over the <code>changedTouches</code> array to properly activate all the buttons pressed on multi-touch devices.</p>
+<p>To put it in a nutshell:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">onTouch</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">changedTouches</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">touch</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">touch</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">touch</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">getKeyFromElement</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
+    <span class="nx">emulator</span><span class="p">.</span><span class="nx">pressKey</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">onTouchEnd</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchstart&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
+<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span> <span class="nx">onTouchEnd</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Obviously, you&#39;ll want to code your own <code>getKeyFromElement</code> and emulator communicating functions.</p>
+<h3><a name="how-optimised" class="anchor" href="#how-optimised"><span class="header-link"></span></a>How optimised?</h3>
+<p>The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.</p>
+<p>I don&#39;t think you could do simpler and according to my coworker, the brilliant <a href="https://twitter.com/cwiiis">Chris Lord</a>, if your DOM tree is simple you shouldn&#39;t get any performance penalty from using <code>document.elementFromPoint</code>.</p>
+<p>Happy gaming!</p>
+</div><div class="comments"><a href="/posts/software-gamepad/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/building-a-syntactic-translation-engine/"><h1 class="post-title">Building a syntactic translation engine</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 4 &#183; 21</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
 <h2><a name="disclaimer" class="anchor" href="#disclaimer"><span class="header-link"></span></a>Disclaimer</h2>
 <p>I wish I had a serious background in NLP and machine translation, but I don&#39;t and the logic described here is solely based on my scarce knowledge in this field and my experience as a foreign language speaker.</p>
 <h2><a name="definition" class="anchor" href="#definition"><span class="header-link"></span></a>Definition</h2>
@@ -75,24 +118,7 @@ if (navigator.doNotTrack !== '1') {
 <li>Use a bigger corpus.</li>
 </ul>
 <p>But that&#39;s it for now, I may work on this later, but in the meantime, feel free to contribute!</p>
-</div><div class="comments"><a href="/posts/building-a-syntactic-translation-engine/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
-<p>Google Translate is powered by the technique called <a href="https://en.wikipedia.org/wiki/Machine_translation">machine translation</a>. It can translate sentences from one natural language to another, without human interactions.
-I recently heard that Mozilla was starting a project to create an open source machine translation engine. That immediately resonated in me and I decided to give it a try and build my own English-Japanese translator in JavaScript.</p>
-<h2><a name="day-1-get-ready" class="anchor" href="#day-1-get-ready"><span class="header-link"></span></a>Day 1: Get ready</h2>
-<p>On the Friday late afternoon, I had a general idea of what I wanted to implement: a machine translation engine using syntax to translate sentences. I wanted something simple and couldn&#39;t wait to see it working. I realized I had this &quot;fire in the belly&quot; and jumped directly into the action.
-I spent a small amount of time gathering what I needed: a corpus of translated pairs in English and Japanese and a part-of-speech tagger for these languages.
-I started fiddling around with the tools with as few coding as possible.</p>
-<h2><a name="day-2-put-it-together" class="anchor" href="#day-2-put-it-together"><span class="header-link"></span></a>Day 2: Put it together</h2>
-<p>I had a late night and woke up on Saturday around 11 o&#39;clock. I spent a few hours cleaning up what I had done the day before, creating a dedicated folder and project in my IDE. I started coding and refactor the code.
-I also spent some time sketching solutions on paper, to make sure I hadn&#39;t missed an important point.</p>
-<h2><a name="day-3-make-it-work" class="anchor" href="#day-3-make-it-work"><span class="header-link"></span></a>Day 3: Make it work</h2>
-<p>I got back to the project in the early afternoon. I mostly did coding this day. I was so excited to see my translation engine work that I sat in front of my computer for ~10 hours. At the end of the day, I had something working. After a bit of cleaning, I created <a href="https://github.com/gmarty/syntactic-machine-translation">the repo on Github</a> and pushed the code.</p>
-<h2><a name="after-day-3" class="anchor" href="#after-day-3"><span class="header-link"></span></a>After day 3</h2>
-<p>Whatever happened after day 3 is not important. Most of the work has been done over the weekend and I had a working prototype. Obviously, it is just a toy system, that is nothing comparable to Google Translate, but I&#39;m happy I was able to do it in a rather limited amount of time. And most importantly, I can iterate on it and progressively make it better. <a href="http://gmarty.github.io/syntactic-machine-translation/">Try it for yourself!</a></p>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>I was able to achieve this because JavaScript is very suited for fast prototyping. If it were a business, I could have started generating profit from day 4. I really love the idea of hacking a quick and dirty prototype and see how it works. Next time you have an idea for a business, do some quick prototyping and launch it as early as possible!</p>
-<p>And if you&#39;re wondering, I had dinner in a <a href="http://pastacibo.com/">lovely Italian restaurant</a> on Saturday night :-)</p>
-</div><div class="comments"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/building-a-syntactic-translation-engine/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

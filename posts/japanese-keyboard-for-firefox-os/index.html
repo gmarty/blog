@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/manifest.json" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Japanese keyboard for Firefox OS</title><meta name="description" content="There is not yet any good solution to input Japanese on Firefox OS"><base href="http://gu.illau.me/posts/japanese-keyboard-for-firefox-os/" target="_top"><link href="/manifest.json" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
 
 // Learn about privacy and Google Analytics in this post:
 // http://gu.illau.me/posts/privacy-and-google-analytics/
@@ -42,26 +42,31 @@ That is the reason why it is not available to current builds. I love how the des
 <p><img src="https://lh3.googleusercontent.com/HZ53_An9tjhWPoveJ4XCbOLdQ-DKCwOxY1hTrcneicTH=s0" alt="Gaia jp-kanji Keyboard" title="Gaia jp-kanji Keyboard"></p>
 <p>So unfortunately, there is no easy way to install a Japanese keyboard on Firefox OS, but we&#39;re working on it!
 If you&#39;re wondering what I&#39;m doing with my device, I use the iWnn IME keyboard, but because of its limitations, I avoid typing in Japanese on my mobile whenever I can :-)</p>
-</div><div class="comments"><a href="/posts/japanese-keyboard-for-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-physical-web/"><h1 class="post-title">The Physical Web</h1></a><span style="bottom:30px" class="post-date">2015 &#183; 3 &#183; 11</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>&quot;Walk up and use anything&quot; is the promise of the <a href="http://google.github.io/physical-web/">Physical Web</a>.
-It is an open source project started by Google that allows you to access to online resource via physical objects.</p>
-<h2><a name="the-concept" class="anchor" href="#the-concept"><span class="header-link"></span></a>The concept</h2>
-<p>The physical web is based on hardware beacons that broadcast data using Bluetooth Low Energy (BLE) without the need to pair the device. In this case, the data is an URL. For now, it requires you to install an app on your mobile device. This app will scan in the background the surroundings for beacons and will inform you whenever you come across one. You&#39;ll then be presented with a list of URL, one per beacon. If the project is successful, this feature may be built-in your mobile OS in the future, thus removing the need for an external app.</p>
-<p>There are already some beacons available. I bought a <a href="https://www.blesh.com/product/blesh-pack-3-beacons/">physical web pack from Blesh</a>, but there are more <a href="http://store.twocanoes.com/collections/physical-web-beacons">providers</a>. You can also turn your laptop or other devices into beacons using the <a href="https://github.com/google/uribeacon/blob/master/beacons/README.md">projects listed here</a>. There&#39;s even an implementation for Node.js.</p>
-<p><img src="https://lh3.googleusercontent.com/THMrcnE8cMC3H8ymn_HVIp1uyGZ7I58PcEiJfndWy9Ci=s600" alt="The Physical Web beacons by Blesh" title="The Physical Web beacons by Blesh"></p>
-<p>These projects allow you do to both reading and advertising. The app required to read physical web beacons is available on Android and iOS.</p>
-<h2><a name="mdns-support" class="anchor" href="#mdns-support"><span class="header-link"></span></a>mDNS support</h2>
-<p>Advertising URL on a local network is also supported thanks to <a href="https://github.com/google/physical-web/blob/master/documentation/mDNS_Support.md">mDNS</a>. It works essentially by using a <code>_http._tcp</code> service with an optional TXT record for the path.
-As noted on the website, the advantage over BLE is that reading is limited to the devices connected to the local network and won&#39;t leak to unauthorised people. It also enables broadcasting longer URLs.</p>
-<h2><a name="criticism" class="anchor" href="#criticism"><span class="header-link"></span></a>Criticism</h2>
-<p>This project is really interesting because it helps discovering content useful locally using the P2P web.
-Unfortunately I wish the concept had been taken further and instead of advertising URL that requires an Internet connection to be visited, it could have advertised content stored locally, on a embedded server. You can always advertise URL from a local network using mDNS, but how to make sure the visitors are connected to the correct local network if you use BLE?
-I understand it is probably in Google&#39;s own interest to promote Internet and force users to remain connected at all time. They&#39;re not making money on local content completely disconnected from the Internet.</p>
-<p>Also it looks like the main use case is to advertise products and services. I strongly think the web and the Internet of things shouldn&#39;t be about consumption and profit only. The P2P Web should reinforce local communities and make people to help each other. It should enable you to connect with local people (It sounds cheesy, I know...).
-Anyway, the web being what you make of it, I still think the physical web is an interesting project.</p>
-<h2><a name="next-step" class="anchor" href="#next-step"><span class="header-link"></span></a>Next step</h2>
-<p>I&#39;ve started building an app to implement the <a href="https://github.com/gmarty/fxos-physical-web">Physical Web on Firefox OS</a>. It will allow you to read and act as a physical web beacons. At the moment BLE is not implemented on B2G, but it&#39;s coming to v3, later this year. So in the meantime, I&#39;m relaying on mDNS.</p>
-<p>I&#39;ve set up one of the physical web beacons to advertise the URL of this blog. I&#39;m carrying this beacon with me most of the time. So if you come across it in the streets of London, you&#39;ll know I&#39;m not far away!</p>
-</div><div class="comments"><a href="/posts/the-physical-web/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
