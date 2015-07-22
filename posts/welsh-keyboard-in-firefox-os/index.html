@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Welsh keyboard in Firefox OS</title><meta name="description" content="Word suggestion for Welsh landed in Firefox OS. Please help us testing it."><base href="http://gu.illau.me/posts/welsh-keyboard-in-firefox-os/" target="_top"><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
 
 // Learn about privacy and Google Analytics in this post:
 // http://gu.illau.me/posts/privacy-and-google-analytics/
@@ -28,34 +28,31 @@ If you speak Welsh, even a little, and use Firefox OS on the master branch, plea
 <h2><a name="we-need-you" class="anchor" href="#we-need-you"><span class="header-link"></span></a>We need you!</h2>
 <p>If you speak Welsh, please, try it for yourself. I&#39;d love to hear your feedback and if you have any comments, please use the field below, or reach me on Twitter at <a href="https://twitter.com/g_marty">@g_marty</a>. If this method is proved to give good results, I&#39;d love to give it a go at producing dictionary in more languages.</p>
 <p><em>Diolch!</em></p>
-</div><div class="comments"><a href="/posts/welsh-keyboard-in-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/japanese-keyboard-for-firefox-os/"><h1 class="post-title">Japanese keyboard for Firefox OS</h1></a><span style="bottom:30px" class="post-date">2015 &#183; 6 &#183; 29</span><span class="post-reading-time"></span></div><div class="post-body markdown"><blockquote>
-<p><strong>tldr:</strong> You can&#39;t efficiently type in Japanese on a Firefox OS device, unless you buy a fx0 device or you build Gaia yourself and are very patient!</p>
-</blockquote>
-<p>Firefox OS is targeting a global audience. You can set your interface in 90 different languages and there are over 70 language specific keyboards!
-But developing a keyboard is more challenging for some languages than others and Japanese is one of them.</p>
-<p>I won&#39;t give much details about why is a Japanese IME hard to implement, but the main reason is that there is a massive amount of  suggestions that need to be stored on the device somehow. In Japanese, any word can be usually written in several different ways. Storing such a dictionary can cause serious issues on low-end devices with limited memory and processing power.</p>
-<p>But that&#39;s not a reason to just giving up typing in Japanese on Firefox OS.</p>
-<h2><a name="fx0" class="anchor" href="#fx0"><span class="header-link"></span></a>fx0</h2>
-<p>Earlier this year, KDDI released the <a href="http://au-fx.kddi.com/products/">fx0</a>, a Firefox OS powered device, on the Japanese market. This phone comes with a Japanese keyboard called <a href="http://www.omronsoft.co.jp/product_text/iwnn-ime-for-firefox-os/">iWnn IME</a> and developed by Omron Software.</p>
-<p>The implementation is efficient and powerful. It comes with many options to configure the keyboard to perfectly suit your needs and habits. Such a high quality is not really surprising as the same keyboard is already available on other platforms (Android notably).</p>
-<p>This keyboard has been open sourced in the <a href="https://github.com/mozilla-japan/iwnn-ime-sample">iwnn-ime-sample</a> Github repo. However the licence is expiring on 30th September 2015 (not sure what&#39;s happening afterwards).</p>
-<p>The readme file claims it&#39;s possible to flash it on a Flame running Firefox OS v2.0. So I tried and everything is working, except for the core feature: the words suggestion. To achieve this in an optimised way, a local server running on the device is used to query words. This part doesn&#39;t work. The keyboard however can still be used to input kana, but you won&#39;t get any word suggestions.</p>
-<p>I then flashed it on a master (tried both on a Flame and Sony Z3C). I encountered the same issue with the words suggestion together with other few minor bugs. But if you use it as a kana only keyboard, then this is probably acceptable.</p>
-<p>Drop me a comment below if you need help on how to install it.</p>
-<p><img src="https://lh3.googleusercontent.com/LdqNqF5ny4xMumE8m9jSZQMrujhFDIGZBA1SUoxYAU0u=s0" alt="iWnn IME for Firefox OS" title="iWnn IME for Firefox OS"></p>
-<h2><a name="gaia-jp-kanji-keyboard" class="anchor" href="#gaia-jp-kanji-keyboard"><span class="header-link"></span></a>Gaia <code>jp-kanji</code> keyboard</h2>
-<p>There is already a <a href="https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/jskanji">Japanese keyboard in Gaia</a>. To install it, you must build Gaia yourself and flash your device. Here is the suggested command line:</p>
-<pre><code class="lang-bash"><div class="highlight"><pre><span class="nv">$ GAIA_KEYBOARD_LAYOUTS</span><span class="o">=</span>en,jp-kanji make reset-gaia
-</pre></div>
-</code></pre>
-<p>Once flashed, you must enable the new keyboard in <code>Settings</code> &gt; <code>Keyboards</code>  &gt; <code>Select keyboards</code>.</p>
-<p>This IME comes with words suggestion, but it is neither as user-friendly nor as fast as the iWnn IME one.
-That is the reason why it is not available to current builds. I love how the design fits in the Firefox OS UI though.</p>
-<p>There are plans to build a better Japanese keyboard for Firefox OS, but nothing has happened yet.</p>
-<p><img src="https://lh3.googleusercontent.com/HZ53_An9tjhWPoveJ4XCbOLdQ-DKCwOxY1hTrcneicTH=s0" alt="Gaia jp-kanji Keyboard" title="Gaia jp-kanji Keyboard"></p>
-<p>So unfortunately, there is no easy way to install a Japanese keyboard on Firefox OS, but we&#39;re working on it!
-If you&#39;re wondering what I&#39;m doing with my device, I use the iWnn IME keyboard, but because of its limitations, I avoid typing in Japanese on my mobile whenever I can :-)</p>
-</div><div class="comments"><a href="/posts/japanese-keyboard-for-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="social"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a><div data-size="medium" data-annotation="bubble" data-width="300" class="g-plusone"></div><a href="http://news.ycombinator.com/submit" class="hn-share-button">Vote on HN</a></div><div id="comments"><div id="disqus_thread"></div></div><script>// Hacker News
+(function(d, t) {
+  var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+  g.src = '//hnbutton.appspot.com/static/hn.min.js';
+  s.parentNode.insertBefore(g, s);
+}(document, 'script'));
+
+// Twitter
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+// Google Plus
+(function() {
+  var po = document.createElement('script'); po.async = true;
+  po.src = 'https://apis.google.com/js/plusone.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+
+// Disqus
+var disqus_shortname = 'gmarty';
+(function() {
+    var dsq = document.createElement('script'); dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();</script></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

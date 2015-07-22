@@ -15,7 +15,67 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/building-a-syntactic-translation-engine/"><h1 class="post-title">Building a syntactic translation engine</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 4 &#183; 21</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
+<h2><a name="disclaimer" class="anchor" href="#disclaimer"><span class="header-link"></span></a>Disclaimer</h2>
+<p>I wish I had a serious background in NLP and machine translation, but I don&#39;t and the logic described here is solely based on my scarce knowledge in this field and my experience as a foreign language speaker.</p>
+<h2><a name="definition" class="anchor" href="#definition"><span class="header-link"></span></a>Definition</h2>
+<p>I&#39;m not sure if the word syntactic machine translation does really exist, but I found it describes what I mean very well. So let&#39;s start off by giving my personal definition of syntactic MT.</p>
+<p>Unlike advanced techniques, the syntactic MT engine only takes the syntax of the languages into account. It doesn&#39;t try to understand the meaning of the phrases to translate. This is major limitation as it can&#39;t understand idiomatic expressions, such as proverbs...</p>
+<p>Also a single word with different meanings will be translated the same way regardless of the context in the sentence to translate.</p>
+<p>This is to be remembered when assessing the accuracy of the translated phrases.</p>
+<p>However, the advantage of this method lays in the fact that it is very easy to develop, doesn&#39;t require a deep understanding of MT and can be hacked in a weekend!</p>
+<h2><a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="header-link"></span></a>How does it work?</h2>
+<p>I&#39;ll now describe the mechanism I implemented to hack a quick and dirty syntactic MT engine for English and Japanese.</p>
+<p>This idea of syntactic MT is that elements in translated pairs bear the same class of Part of Speech (POS ; i.e. noun, verb, adverb...) in both languages, for example, an adjective remains an adjective in the resulting translation. A certain grammatical pattern will be the same in each pairs of the corpus and the resulting translation.</p>
+<h3><a name="spring-cleaning" class="anchor" href="#spring-cleaning"><span class="header-link"></span></a>Spring cleaning</h3>
+<p>First of all, I cleaned up the corpus a bit, applying the following steps:</p>
+<ul>
+<li>Removing incomplete sentences</li>
+<li>Unify punctuations (specially adding an optional question mark at the end of questions in Japanese)</li>
+<li>Normalising the Japanese to use half-width alphanumeric characters and full-width katakana and punctuation signs</li>
+</ul>
+<p>I then normalise both languages to keep semantic equivalents while reducing inflected forms (e.g. <code>can&#39;t</code> -&gt; <code>cannot</code> ; <code>します</code> -&gt; <code>する</code> ; See <code>/utils/ja-normalizer.js</code> and <code>/utils/en-normalizer.js</code>). Doing so reduced noise and helped a lot on quality as the corpus is quite small.</p>
+<h3><a name="tag-the-corpus" class="anchor" href="#tag-the-corpus"><span class="header-link"></span></a>Tag the corpus</h3>
+<p>Then, the next thing to do is to tag the POS of all the pairs in the corpus.</p>
+<p>The English sentences are tagged using <a href="https://github.com/fortnightlabs/pos-js">pos-js</a> written in JavaScript (an in-browser and Node.JS versions both exist).</p>
+<p>The Japanese is tagged using <a href="http://en.wikipedia.org/wiki/ChaSen">ChaSen</a>. ChaSen is a famous command line utility, but this is a serious limitation here. To make it work, the sentence to translate must be tagged too (more on this later). I wanted the app to work offline and use frontend code only, but the lack of a JavaScript implementation of a Japanese POS tagger forced me to reject Japanese to English translation. Only English to Japanese is supported.</p>
+<p>The first problem arising here is the difference between the POS items in English and Japanese. Chasen is very comprehensive, so I had to simplify and match its POS items to the ones returned by pos-js (see <code>/utils/chasen2jspos-map.json</code> and <code>/utils/jspos2simplified-map.json</code>).</p>
+<h3><a name="build-a-dictionary" class="anchor" href="#build-a-dictionary"><span class="header-link"></span></a>Build a dictionary</h3>
+<p>At this stage, I have 2 corpus tagged, I can easily align classes of POS in both languages to build a dictionary. Let&#39;s say a pair has only one adjective in English and in Japanese, we can conclude that this adjective in English is likely to be translated by this other adjective in Japanese. The first pass consists of extracting terms whose class of POS appear only once in each pair.</p>
+<p>For more ambiguous pairs containing more than one class of POS in both sentences, alignment is harder. The method I found makes use of the dictionary we are building.</p>
+<p>Let&#39;s say a phrase has 2 adjectives in both languages. If one of them and its translation are already in the dictionary, we can assume that the remaining adjective matches the other one in the destination sentence. This is the second pass. I repeat this step a couple of times until no new translations are found.</p>
+<p>This dictionary building method gives incredible results. Of course there is some noise, but for frequent words, the translations are very accurate. Here&#39;s an example for the word <code>already</code> and its frequency in Japanese translations:</p>
+<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nt">&quot;すでに&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+  <span class="nt">&quot;既に&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+  <span class="nt">&quot;もう&quot;</span><span class="p">:</span> <span class="mi">8</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>It indeed contains all the translation for <code>already</code> that I know!</p>
+<p>See <code>/build-dico.js</code> for the implementation.</p>
+<h3><a name="build-a-pos-converter" class="anchor" href="#build-a-pos-converter"><span class="header-link"></span></a>Build a POS converter</h3>
+<p>Now we&#39;re still using the POS tagged corpus to match patterns in both languages.</p>
+<p>For each phrase with a certain POS pattern (e.g. Noun Verb Noun), we look for the most common pattern in the translated phrases. The idea is to determine which is the most frequent translated POS pattern of a language given the POS pattern of the source phrase.</p>
+<p>At this stage I also generate what I called placeholders. They are generic sentences for this particular POS pattern where I replaced each word by the most common one (I know it&#39;s completely unscientific!). These are used as a base for translation. I just need to inject the right words (see below).</p>
+<p>See the code at <code>/build-pos-converter.js</code>.</p>
+<h3><a name="finally-translate" class="anchor" href="#finally-translate"><span class="header-link"></span></a>Finally, translate</h3>
+<p>With all these static assets generated (dictionary, POS pattern matcher, POS pattern placeholders), I can try to translate from one language to another.</p>
+<p>The user input in English is first normalised (see above), then POS tagged (Remember? That&#39;s why I can&#39;t use Japanese input on the browser as ChaSen is a command line tool). I then look for the most frequent POS pattern in Japanese.</p>
+<p>Once found, I take the Japanese placeholder sentence for this POS pattern and inject into it the translations from the original English input. For words that don&#39;t have translations, the word is just ignored and the one from the placeholder is preserved (thus creating very weird translations at time, but at least giving complete and correct sentences). Of course this could be improved using a more comprehensive dictionary, but I didn&#39;t try it.</p>
+<p>One of the problem not addressed by this script is the alignment of several identical classes of POS. In this case, I just assign them in order: the first adjective in English is matched to the first in Japanese, then the second... and so on. I know this is quite of an issue, but I just couldn&#39;t be bothered trying to fix it.</p>
+<p>The script is located in <code>/en2ja.js</code>.</p>
+<h2><a name="the-future" class="anchor" href="#the-future"><span class="header-link"></span></a>The future</h2>
+<p>There is a lot of room for improvement in many places:</p>
+<ul>
+<li>Using an unified POS tagger for English and Japanese, ideally written in JavaScript, for a better quality.</li>
+<li>Using an external dictionary to enhance translations.</li>
+<li>Use statistics to reject the less significant pairs in the dictionary and the POS converter.</li>
+<li>Use a stemmer to group several inflections of the same nouns, verbs or adjectives and get a more complete dictionary.</li>
+<li>Use a bigger corpus.</li>
+</ul>
+<p>But that&#39;s it for now, I may work on this later, but in the meantime, feel free to contribute!</p>
+</div><div class="comments"><a href="/posts/building-a-syntactic-translation-engine/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
 <p>Google Translate is powered by the technique called <a href="https://en.wikipedia.org/wiki/Machine_translation">machine translation</a>. It can translate sentences from one natural language to another, without human interactions.
 I recently heard that Mozilla was starting a project to create an open source machine translation engine. That immediately resonated in me and I decided to give it a try and build my own English-Japanese translator in JavaScript.</p>
 <h2><a name="day-1-get-ready" class="anchor" href="#day-1-get-ready"><span class="header-link"></span></a>Day 1: Get ready</h2>
@@ -32,75 +92,7 @@ I also spent some time sketching solutions on paper, to make sure I hadn&#39;t m
 <h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
 <p>I was able to achieve this because JavaScript is very suited for fast prototyping. If it were a business, I could have started generating profit from day 4. I really love the idea of hacking a quick and dirty prototype and see how it works. Next time you have an idea for a business, do some quick prototyping and launch it as early as possible!</p>
 <p>And if you&#39;re wondering, I had dinner in a <a href="http://pastacibo.com/">lovely Italian restaurant</a> on Saturday night :-)</p>
-</div><div class="comments"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-problem-of-user-language-lists-in-javascript/"><h1 class="post-title">The problem of user language lists in JavaScript</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 1 &#183; 28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><a href="http://gu.illau.me/posts/follow-up-on-navigator-languages/">Edit: I wrote a followup post to this one at [Follow-up on navigator.languages</a>]</p>
-<p><a href="https://twitter.com/g_marty/status/412527722410553344">I&#39;ve always wondered</a> why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.</p>
-<p>On the other hand, JavaScript can only get the first language using:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">);</span> <span class="c1">// &#39;en&#39;, &#39;fr&#39;, &#39;de&#39; or whatever</span>
-</pre></div>
-</code></pre>
-<h2><a name="browsers-inconsistencies" class="anchor" href="#browsers-inconsistencies"><span class="header-link"></span></a>Browsers inconsistencies</h2>
-<p>Getting the language of the browser is part of the <a href="http://www.w3.org/TR/html5/webappapis.html#language-preferences">HTML5 specifications</a>, but implementations vary widely.</p>
-<h3><a name="internet-explorer" class="anchor" href="#internet-explorer"><span class="header-link"></span></a>Internet Explorer</h3>
-<p>Let&#39;s start with IE that has (surprisingly) the most complete set of (non standard) features about the environment language. <code>navigator.userLanguage</code> gets the first language set by the user (can be changed in Internet Options &gt; General &gt; Languages ; see <a href="http://msdn.microsoft.com/en-us/library/ie/ms534713%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
-<p><code>navigator.browserLanguage</code> returns the language of the UI of the browser. You can&#39;t change this value, it is decided by the version of the executable you installed (This property and all its subtleties are described in <a href="http://msdn.microsoft.com/en-us/library/ie/ms533542%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
-<p>Finally, <code>navigator.systemLanguage</code> will give you the locale used by the OS (See <a href="http://msdn.microsoft.com/en-us/library/ie/ms534653%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>.</p>
-<h3><a name="firefox-safari" class="anchor" href="#firefox-safari"><span class="header-link"></span></a>Firefox &amp; Safari</h3>
-<p><code>navigator.language</code> returns the first language in the list of languages.</p>
-<p>In Firefox, you can define it in Options &gt; Content &gt; Languages.</p>
-<p>Safari uses the language set at the system level (See <code>navigator.systemLanguage</code> of IE above). You cannot just override it in Safari.</p>
-<p>Some details are available on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage.language">navigator.language page on MDN</a>.</p>
-<h3><a name="chrome" class="anchor" href="#chrome"><span class="header-link"></span></a>Chrome</h3>
-<p>Invariantly returns the language of the UI through <code>navigator.language</code> without a <a href="https://code.google.com/p/chromium/issues/detail?id=1862">possibility to change it</a>. The value is similar to <code>navigator.browserLanguage</code> of IE.</p>
-<p>Chrome extensions can retrieve the full list of languages as set by the user thanks to <code>chrome.i18n.getAcceptLanguages()</code> (Not sure why this API is async):</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">chrome</span><span class="p">.</span><span class="nx">i18n</span><span class="p">.</span><span class="nx">getAcceptLanguages</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">requestedLocales</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// &#39;requestedLocales&#39; is an array of strings.</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h2><a name="whats-wrong-with-the-current-approach" class="anchor" href="#whats-wrong-with-the-current-approach"><span class="header-link"></span></a>What&#39;s wrong with the current approach?</h2>
-<p>Well, apart from the semantic inconsistencies, knowing only the main language is a serious limitation. Let&#39;s illustrate this with my personal experience. My browsers have the following configuration:</p>
-<ol>
-<li>Japanese</li>
-<li>English (GB)</li>
-<li>English</li>
-<li>English (US)</li>
-<li>French</li>
-<li>Spanish</li>
-<li>Korean</li>
-<li>German</li>
-</ol>
-<p>(Yeah, I want to train my Japanese, so I listed it first!)</p>
-<p>A website available in several languages will show the interface in Japanese and English if not available.</p>
-<p>But a local app will only get the first language, Japanese. So if this language is not available, the UI will be shown in a totally random language that I may not understand.</p>
-<p>Also, if the app knows the full list, it could use it to detect visitors speaking rare languages and ask them to collaborate on translation.</p>
-<h2><a name="how-to-fix-it" class="anchor" href="#how-to-fix-it"><span class="header-link"></span></a>How to fix it?</h2>
-<p>First of all, an easy cross browser way to get the preferred language is to do:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/** @const */</span> <span class="nx">DEFAULT_VALUE</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">;</span>
-<span class="cm">/** @const */</span> <span class="nx">PREFERRED_LANGUAGE</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">browserLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">systemLanguage</span> <span class="o">||</span> <span class="nx">DEFAULT_VALUE</span><span class="p">;</span>
-</pre></div>
-</code></pre>
-<p>That&#39;s fine as long as your app supports this language.</p>
-<p>If not, you could always ping a server, get the <code>accept-language</code> HTTP header, send the response back to JavaScript and parse it. That means that you need a scriptable server, so you cannot do it for, offline apps or for apps hosted on a static web server like Github Pages.
-Oh and Mac have only one language configured at a time: you will never get more than 1 element in the list of this header on Safari.</p>
-<h2><a name="what-to-do-next" class="anchor" href="#what-to-do-next"><span class="header-link"></span></a>What to do next?</h2>
-<p>The good news is things are being worked on.</p>
-<p>First, there is <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23517">this bug</a> on the WHATWG bug tracker to discuss this feature, with all <a href="https://github.com/marcoscaceres/Locale-Preferences-API/blob/master/proposal.md">the details here</a>. Firefox is already <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=889335">thinking of implementing it</a>.</p>
-<p>To put it in a nutshell, the current consensus is to have a new JavaScript property called <code>navigator.languages</code> that returns an array of language codes sorted by preference order:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">);</span>
-<span class="c1">// The configuration above would give something like:</span>
-<span class="c1">// [&#39;ja&#39;, &#39;en-GB&#39;, &#39;en&#39;, &#39;en-US&#39;, &#39;fr&#39;, &#39;es&#39;, &#39;ko&#39;, &#39;de&#39;];</span>
-</pre></div>
-</code></pre>
-<p>Also, firing an event when language changes is also being discussed. Firefox OS allows this on certified apps with a proprietary API:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">navigator</span><span class="p">.</span><span class="nx">mozSettings</span><span class="p">.</span><span class="nx">addObserver</span><span class="p">(</span><span class="s1">&#39;language.current&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;New language&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">settingValue</span><span class="p">);</span> <span class="c1">// Default value is &#39;en-US&#39;.</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
-<p>Making the full list of languages configured in a browser available to JavaScript can&#39;t be done front-end at all and partially using back-end. But this information is stored in the OS/browser itself. Am I the only one to think something is wrong here?</p>
-<p>This topic is hard and has been around for a while, so some of the resources I consulted might be outdated. Use the comments below if you spotted any error.</p>
-</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
