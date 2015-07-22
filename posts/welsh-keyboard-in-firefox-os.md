@@ -1,5 +1,5 @@
 {
-  title: "Welsh keyboard in Firefox OS",
+  title: "Welsh keyboard for Firefox OS",
   date: "2015-07-22",
   description: "Word suggestion for Welsh landed in Firefox OS. Please help us testing it."
 }
