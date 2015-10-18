@@ -57,7 +57,8 @@ module.exports = function(grunt) {
               'img/**',
               'js/**',
               'css/**.css',
-              'css/fonts/**'
+              'css/fonts/**',
+              'vcf/gmarty.vcf'
             ]
           }
         ]

@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:2.1
+N:Marty;Guillaume;C;Mr;
+FN:Guillaume Marty
+EMAIL;INTERNET:edo999@gmail.com
+ORG:Mozilla
+TITLE:Software Engineer
+URL;HOME:http://gu.illau.me
+X-TWITTER:g_marty
+END:VCARD
