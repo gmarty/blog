@@ -15,135 +15,170 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-problem-of-user-language-lists-in-javascript/"><h1 class="post-title">The problem of user language lists in JavaScript</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 1 &#183; 28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><a href="http://gu.illau.me/posts/follow-up-on-navigator-languages/">Edit: I wrote a followup post to this one at [Follow-up on navigator.languages</a>]</p>
-<p><a href="https://twitter.com/g_marty/status/412527722410553344">I&#39;ve always wondered</a> why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.</p>
-<p>On the other hand, JavaScript can only get the first language using:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">);</span> <span class="c1">// &#39;en&#39;, &#39;fr&#39;, &#39;de&#39; or whatever</span>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 1</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
+<h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
+<p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
+<p>The obvious way to achieve this is to use <code>eval()</code>:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;function dynamicFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">);</span>
 </pre></div>
 </code></pre>
-<h2><a name="browsers-inconsistencies" class="anchor" href="#browsers-inconsistencies"><span class="header-link"></span></a>Browsers inconsistencies</h2>
-<p>Getting the language of the browser is part of the <a href="http://www.w3.org/TR/html5/webappapis.html#language-preferences">HTML5 specifications</a>, but implementations vary widely.</p>
-<h3><a name="internet-explorer" class="anchor" href="#internet-explorer"><span class="header-link"></span></a>Internet Explorer</h3>
-<p>Let&#39;s start with IE that has (surprisingly) the most complete set of (non standard) features about the environment language. <code>navigator.userLanguage</code> gets the first language set by the user (can be changed in Internet Options &gt; General &gt; Languages ; see <a href="http://msdn.microsoft.com/en-us/library/ie/ms534713%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
-<p><code>navigator.browserLanguage</code> returns the language of the UI of the browser. You can&#39;t change this value, it is decided by the version of the executable you installed (This property and all its subtleties are described in <a href="http://msdn.microsoft.com/en-us/library/ie/ms533542%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
-<p>Finally, <code>navigator.systemLanguage</code> will give you the locale used by the OS (See <a href="http://msdn.microsoft.com/en-us/library/ie/ms534653%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>.</p>
-<h3><a name="firefox-safari" class="anchor" href="#firefox-safari"><span class="header-link"></span></a>Firefox &amp; Safari</h3>
-<p><code>navigator.language</code> returns the first language in the list of languages.</p>
-<p>In Firefox, you can define it in Options &gt; Content &gt; Languages.</p>
-<p>Safari uses the language set at the system level (See <code>navigator.systemLanguage</code> of IE above). You cannot just override it in Safari.</p>
-<p>Some details are available on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage.language">navigator.language page on MDN</a>.</p>
-<h3><a name="chrome" class="anchor" href="#chrome"><span class="header-link"></span></a>Chrome</h3>
-<p>Invariantly returns the language of the UI through <code>navigator.language</code> without a <a href="https://code.google.com/p/chromium/issues/detail?id=1862">possibility to change it</a>. The value is similar to <code>navigator.browserLanguage</code> of IE.</p>
-<p>Chrome extensions can retrieve the full list of languages as set by the user thanks to <code>chrome.i18n.getAcceptLanguages()</code> (Not sure why this API is async):</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">chrome</span><span class="p">.</span><span class="nx">i18n</span><span class="p">.</span><span class="nx">getAcceptLanguages</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">requestedLocales</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// &#39;requestedLocales&#39; is an array of strings.</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h2><a name="whats-wrong-with-the-current-approach" class="anchor" href="#whats-wrong-with-the-current-approach"><span class="header-link"></span></a>What&#39;s wrong with the current approach?</h2>
-<p>Well, apart from the semantic inconsistencies, knowing only the main language is a serious limitation. Let&#39;s illustrate this with my personal experience. My browsers have the following configuration:</p>
-<ol>
-<li>Japanese</li>
-<li>English (GB)</li>
-<li>English</li>
-<li>English (US)</li>
-<li>French</li>
-<li>Spanish</li>
-<li>Korean</li>
-<li>German</li>
-</ol>
-<p>(Yeah, I want to train my Japanese, so I listed it first!)</p>
-<p>A website available in several languages will show the interface in Japanese and English if not available.</p>
-<p>But a local app will only get the first language, Japanese. So if this language is not available, the UI will be shown in a totally random language that I may not understand.</p>
-<p>Also, if the app knows the full list, it could use it to detect visitors speaking rare languages and ask them to collaborate on translation.</p>
-<h2><a name="how-to-fix-it" class="anchor" href="#how-to-fix-it"><span class="header-link"></span></a>How to fix it?</h2>
-<p>First of all, an easy cross browser way to get the preferred language is to do:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/** @const */</span> <span class="nx">DEFAULT_VALUE</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">;</span>
-<span class="cm">/** @const */</span> <span class="nx">PREFERRED_LANGUAGE</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">browserLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">systemLanguage</span> <span class="o">||</span> <span class="nx">DEFAULT_VALUE</span><span class="p">;</span>
-</pre></div>
-</code></pre>
-<p>That&#39;s fine as long as your app supports this language.</p>
-<p>If not, you could always ping a server, get the <code>accept-language</code> HTTP header, send the response back to JavaScript and parse it. That means that you need a scriptable server, so you cannot do it for, offline apps or for apps hosted on a static web server like Github Pages.
-Oh and Mac have only one language configured at a time: you will never get more than 1 element in the list of this header on Safari.</p>
-<h2><a name="what-to-do-next" class="anchor" href="#what-to-do-next"><span class="header-link"></span></a>What to do next?</h2>
-<p>The good news is things are being worked on.</p>
-<p>First, there is <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23517">this bug</a> on the WHATWG bug tracker to discuss this feature, with all <a href="https://github.com/marcoscaceres/Locale-Preferences-API/blob/master/proposal.md">the details here</a>. Firefox is already <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=889335">thinking of implementing it</a>.</p>
-<p>To put it in a nutshell, the current consensus is to have a new JavaScript property called <code>navigator.languages</code> that returns an array of language codes sorted by preference order:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">);</span>
-<span class="c1">// The configuration above would give something like:</span>
-<span class="c1">// [&#39;ja&#39;, &#39;en-GB&#39;, &#39;en&#39;, &#39;en-US&#39;, &#39;fr&#39;, &#39;es&#39;, &#39;ko&#39;, &#39;de&#39;];</span>
-</pre></div>
-</code></pre>
-<p>Also, firing an event when language changes is also being discussed. Firefox OS allows this on certified apps with a proprietary API:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">navigator</span><span class="p">.</span><span class="nx">mozSettings</span><span class="p">.</span><span class="nx">addObserver</span><span class="p">(</span><span class="s1">&#39;language.current&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;New language&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">settingValue</span><span class="p">);</span> <span class="c1">// Default value is &#39;en-US&#39;.</span>
-<span class="p">});</span>
-</pre></div>
-</code></pre>
-<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
-<p>Making the full list of languages configured in a browser available to JavaScript can&#39;t be done front-end at all and partially using back-end. But this information is stored in the OS/browser itself. Am I the only one to think something is wrong here?</p>
-<p>This topic is hard and has been around for a while, so some of the resources I consulted might be outdated. Use the comments below if you spotted any error.</p>
-</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 12 &#183; 16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
+<p>However, as you may have heard:</p>
 <blockquote>
-<p><strong>tl;dr</strong> in case of slow web app:</p>
-<ul>
-<li>Don&#39;t immediately jump into JavaScript optimisation; instead investigate network, DOM, rendering... and fix accordingly</li>
-<li>Profile your application and optimise the code logic</li>
-<li>Optimise JavaScript only when required</li>
-</ul>
+<p>eval is evil</p>
 </blockquote>
-<h2><a name="find-the-culprit" class="anchor" href="#find-the-culprit"><span class="header-link"></span></a>Find the culprit</h2>
-<p>In modern browsers, JavaScript is rarely the cause of slow applications. There are many layers involved in web applications that are way slower.</p>
-<p>The first thing to do is to investigate to find out where the performance issue is coming from. The causes can be multiple:</p>
+<p>The reason is because it gives JavaScript VM a hard time optimising the generated function and can lead to security concerns.</p>
+<p>A better approach is to use the <code>Function</code> constructor:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>Just pass the body of the function as a string. You can also pass arguments before the code body:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;arg1&#39;</span><span class="p">,</span> <span class="s1">&#39;arg2&#39;</span><span class="p">,</span> <span class="s1">&#39;/* Do crazy stuff with arg1 and arg2. */&#39;</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<h2><a name="caveat-1-the-scope" class="anchor" href="#caveat-1-the-scope"><span class="header-link"></span></a>Caveat 1: the scope</h2>
+<p>That said, you need to keep in mind that using <code>Function</code> always create functions in the global scope. You can&#39;t refer to variables used in the local lexical scope they were created. The following code will not work as expected:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;console.log(SCOPED_VAR)&#39;</span><span class="p">);</span>
+  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// ReferenceError: SCOPED_VAR is not defined</span>
+<span class="p">})();</span>
+</pre></div>
+</code></pre>
+<p>So if you really need to expose <code>SCOPED_VAR</code> to <code>dynamicFn()</code>, the solution might be to wrap it inside another function created with the <code>Function</code> constructor and execute the latter immediately:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;SCOPED_VAR&#39;</span><span class="p">,</span> <span class="s1">&#39;return function() {console.log(SCOPED_VAR)}&#39;</span><span class="p">)(</span><span class="nx">SCOPED_VAR</span><span class="p">);</span>
+  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// &quot;local&quot;</span>
+<span class="p">})();</span>
+</pre></div>
+</code></pre>
+<p>But, any updates to <code>SCOPED_VAR</code> in the outter scope won&#39;t reflect inside <code>dynamicFn()</code>. The value of <code>SCOPED_VAR</code> in the scope of <code>dynamicFn()</code> is bound forever to the one it had at creation.</p>
+<p>This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with <code>eval</code>.</p>
+<p><strong>Edit:</strong> You can take advantage of this scoping behaviour to reference the global scope regardless of the environment you&#39;re running in and whatever your local scope is. Just use the code below and you&#39;ll be certain that <code>this</code> will always reference the global scope:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">global</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return this&#39;</span><span class="p">)();</span>
+</pre></div>
+</code></pre>
+<h2><a name="caveat-2-named-functions" class="anchor" href="#caveat-2-named-functions"><span class="header-link"></span></a>Caveat 2: named functions</h2>
+<p>Another issue with <code>new Function</code> is that it generates only anonymous functions:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;&quot; (empty string)</span>
+</pre></div>
+</code></pre>
+<p>Named functions are required for debugging in order to get meaningful stack traces.</p>
+<p>A workaround is to use the solution presented above:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function dynFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">)();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;dynFn&quot;</span>
+</pre></div>
+</code></pre>
+<p>This is how <a href="https://github.com/mbebenita/shumway/blob/master/src/avm2/runtime.js#L1384">Shumway generates dynamic named functions</a> and that causes <a href="https://github.com/mozilla/shumway/issues/287#issuecomment-17507860">no performance issue</a>.</p>
+<h2><a name="how-to-generate-generator-functions" class="anchor" href="#how-to-generate-generator-functions"><span class="header-link"></span></a>How to generate generator functions</h2>
+<p>Now, back to our main topic: generator functions.</p>
+<p><strong>Edit:</strong> In the future, we will have the <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorfunction"><code>GeneratorFunction</code> constructor</a> to create generator functions from a string, but this is not implemented anywhere AFAIK. So in the meantime...</p>
+<p>We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it&#39;s actually very easy:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function* () { yield 5 }&#39;</span><span class="p">)();</span>
+</pre></div>
+</code></pre>
+<p>Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.</p>
+<p>Now back to your code editor and have fun creating functions on the fly with JavaScript.</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
 <ul>
-<li>Relying too much on the connexion</li>
-<li>Extensive DOM manipulation</li>
-<li>Rendering issues (forced layout...)</li>
-<li>io (e.g. repeated usage of <code>localStorage</code>)</li>
+<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
 </ul>
-<p>Use the Network tab of your favourite browser&#39;s development tool. Make sure your requests don&#39;t have any impact on your application at start and run time. Repeated Ajax calls can slow down applications too.</p>
-<p>Identifying slow DOM manipulation is a bit harder. The Timeline tab of Chrome&#39;s dev tools can help you pinpointing such issues. Of course, you must get familiar with the best practices. For example, when rendering a list of items in a templating engine, move the loop to the template and append all items to the DOM in one operation.</p>
-<p>Rendering issues can also be <a href="https://developers.google.com/chrome-developer-tools/docs/demos/too-much-layout/">captured by Chrome&#39;s dev tools</a> and starting from version 27, Firefox can now <a href="https://hacks.mozilla.org/2013/11/firefox-developer-tools-episode-27-edit-as-html-codemirror-more/">log functions that trigger a reflow</a>!</p>
-<p>There are a lot of valuable resources on the net about how to track down and fix these issues, so I won&#39;t cover them here. Once fixed, your application should work smoother. Not the case with yours? Keep reading then.</p>
-<h2><a name="profile-and-improve-logic-rinse-and-repeat" class="anchor" href="#profile-and-improve-logic-rinse-and-repeat"><span class="header-link"></span></a>Profile and improve logic. Rinse and repeat</h2>
-<p>So you made all these checks and you realised that JavaScript is actually what causes your application to perform badly.</p>
-<p>Nice, my favourite part of the optimisation process starts here! You need to profile your application.</p>
-<p>Grab your modern browser. Start the profiler then your app and interact with it like a normal user would. After a while, stop the profiler.</p>
-<p>You can now drill down to the most frequently called functions. If you&#39;re using closures or generated functions, make sure to <a href="http://gu.illau.me/posts/generating-generator-functions/#caveat-2-named-functions">name them to get meaningful results</a>.</p>
-<p>Now, have a look at the logic of the calls. There is certainly room for optimisation. Common mistakes include:</p>
+</div><div class="comments"><a href="/posts/generating-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/cross-browser-generator-functions/"><h1 class="post-title">Cross browser generator functions</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
+<p>This post will not discuss generators as there are valuable resources all over the web. Just remember that generators can be used to create a set of iterable items (possibly a virtual or infinite set like sequences in mathematics) or to do step by step execution of a program.</p>
+<h2><a name="the-current-state-of-generators-implementation" class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
+<p>Chrome implements the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators">latest ES6 draft</a>. So if you follow the spec, you should not have any troubles.</p>
+<p>For Firefox, things are a bit more complicated because from version 2 to 25, an old version of the generators is implemented. Version 26 has generators on par with Chrome, so this post will be outdated in a very near future, but in the meantime, I wanted a way to use generators so that they work on the current version of both browsers.</p>
+<h2><a name="what-firefox-needs" class="anchor" href="#what-firefox-needs"><span class="header-link"></span></a>What Firefox needs</h2>
+<p>To use the generators, Firefox requires to switch to JavaScript version 1.7 mode:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span><span class="cm">/* Code... */</span><span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</code></pre>
+<p>Otherwise, the keyword <code>yield</code> is not recognized.
+Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator</code> as defined by the spec.</p>
+<p>Of course, Chrome doesn&#39;t recognise script tags formatted like this and doesn&#39;t execute their content.</p>
+<h2><a name="a-workaround" class="anchor" href="#a-workaround"><span class="header-link"></span></a>A workaround</h2>
+<p>The solution I came with is not very clean, but it seems to work.</p>
+<p>First, you need to develop your code using the latest draft, the one implemented in Chrome. Then wrap this code in a inactive tag. I used a custom <code>type</code> attribute to prevent its execution.</p>
+<p>Then, this code is appended to the DOM in a newly created <code>script</code> element. In Firefox, we set the correct <code>type</code> attribute and transform the <code>function*</code> notation:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Cross-browser generator functions<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;executeGeneratorCode(document.getElementById(&#39;js-code&#39;).text)&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;js-code&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript-inert&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// Your code using a generator goes here:</span>
+<span class="c1">// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">fibonacci</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fn1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">fn2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">fn2</span><span class="p">;</span>
+    <span class="nx">fn2</span> <span class="o">=</span> <span class="nx">fn1</span><span class="p">;</span>
+    <span class="nx">fn1</span> <span class="o">=</span> <span class="nx">fn1</span> <span class="o">+</span> <span class="nx">current</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="nx">current</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">sequence</span> <span class="o">=</span> <span class="nx">fibonacci</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 3</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 5</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 8</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 13</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// Default value.</span>
+<span class="kd">var</span> <span class="nx">currentScript</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">currentScript</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">executeGeneratorCode</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">scriptElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">OLD_SYNTAX</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">code</span> <span class="o">=</span> <span class="nx">code</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\bfunction *\* +/g</span><span class="p">,</span> <span class="s1">&#39;function &#39;</span><span class="p">);</span>
+    <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/javascript;version=1.7&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">code</span><span class="p">;</span>
+  <span class="nx">currentScript</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">scriptElement</span><span class="p">,</span> <span class="nx">currentScript</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// Here, we test the old syntax in Firefox only.</span>
+<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;(function() { yield 5; }())&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}();</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>This seems to work but I didn&#39;t do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the <code>function*</code> is not  the best way, but at this point, <a href="http://esprima.org/demo/parse.html?code=function*%20fibonacci%28%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20%281%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A">Esprima doesn&#39;t support ES6</a>, so there are no standalone parsers available.</p>
+<p>Hopefully this code will continue to work when Firefox supports the new syntax.</p>
+<p>I reckon this method is a bit complicated, so if you know better/cleaner way to achieve this, let me know via a comment!</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
 <ul>
-<li>Calling a function too many times, where the result could be cached and reused</li>
-<li>Deeply nested loops</li>
-<li>Iterating too many times when you could stop the iteration prematurely</li>
+<li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
 </ul>
-<p>You also need to profile the memory used and track potential leak or heavy garbage collections.</p>
-<p>By operating at the code logic level, you can improve the speed of your application. The fixes applied here are not directly related to the JavaScript language, but rather to the logic of your code.</p>
-<p>You found and fixed these bottlenecks and now your application is running faster and smoother. You are now done, no need to read further.</p>
-<h2><a name="about-javascript-optimisation" class="anchor" href="#about-javascript-optimisation"><span class="header-link"></span></a>About JavaScript optimisation</h2>
-<p>You are still reading? I assume you are working on a signal processing tool, a game or a fundamental piece of software that must run fast.</p>
-<p>Before looking into the optimisation of JavaScript, I must clarify a couple of things.</p>
-<p>Keep in mind that JavaScript VMs are very good at running your code at a fast speed.</p>
-<p>Trust the VM.</p>
-<p>The second thing is using an alternate JavaScript syntax in your code is likely to never have any significant impact on speed. This belief dates back from the time browsers didn&#39;t have a JIT. Back then, using different syntaxes could make a difference. These kind of statements flourished over the web:</p>
-<ul>
-<li><code>if</code> are faster than <code>switch</code>.</li>
-<li>bitwise operations are faster than mathematical operators.</li>
-<li>join array to do strings concatenation</li>
-</ul>
-<p>Optimising JavaScript is not about the syntax. You can&#39;t base an optimisation strategy on syntax rewriting only. You&#39;ll end up wasting your time and get a little to no results. I&#39;m not even mentioning the impact on readability and maintainability of your code.</p>
-<p>Also, VM are constantly evolving. What perform best today might not tomorrow. VM implementors take code from the real world to see what developers do and what patterns to optimise. Using weird syntax is likely to never be optimised. Just write your code in a way that makes sense and that should be enough.</p>
-<h2><a name="finally-youre-ready-to-optimise-javascript" class="anchor" href="#finally-youre-ready-to-optimise-javascript"><span class="header-link"></span></a>Finally, you&#39;re ready to optimise JavaScript</h2>
-<p>After reading and understanding the statements above, you are now ready to improve your code using advanced optimisations. These crazy techniques include:</p>
-<ul>
-<li>Enforcing type stability</li>
-<li>Tracking deoptimisations</li>
-<li>Use web workers to do parrallel processing</li>
-</ul>
-<p>In the 2nd part of <a href="http://www.youtube.com/watch?v=65-RbBwZQdU">this talk</a>, Vyacheslav shows a tool to inspect the code generated by V8. It&#39;s complex to dive into the VM internals, but that&#39;s the only way to gain some performance points.</p>
-<p>To track deoptimisations, using Chrome or V8, you can pass some flags like <code>--trace_deopt</code> (trace deoptimization). You&#39;ll get a more or less descriptive message about why V8 is not able to optimise your code. Fix it if possible.</p>
-<p>There are no such tools for Firefox (since <a href="https://addons.mozilla.org/ja/firefox/addon/jit-inspector/">JIT inspector</a> is not working) or IE. So I have to recommend Chrome to optimise JavaScript this way. However, try as much as possible not to be too specific so that your code run fast, or at least not slower, on other browsers too.</p>
-<p>Optimisation is a complex topic, but there are techniques we can apply to make your code run fast. I&#39;d like to elaborate on each step described in this process in the form of blog posts. But for now, just take the time to locate the cause of slowness and don&#39;t incriminate JavaScript right away, the culprit can be hiding elsewhere!</p>
-</div><div class="comments"><a href="/posts/dont-optimise-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/4/" class="newer">Newer &#8594;</a><a href="/page/6/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/cross-browser-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 26</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="achievement-unlocked" class="anchor" href="#achievement-unlocked"><span class="header-link"></span></a>Achievement unlocked!</h2>
+<p>I&#39;m excited to announce that I&#39;ve written an article about <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">video game emulation</a> for Mozilla Hacks. While that doesn&#39;t sound like a big deal, it actually means a lot to me.</p>
+<p>I remember the first day this blog was launched. Since then it has always been a pleasure to read new publications. I think I must have read every single article so far. I love it when a new article is posted because it means an aspect of the web platform will be explained in details.</p>
+<p><a href="https://hacks.mozilla.org/">Mozilla Hacks</a> and <a href="http://www.html5rocks.com/en/">HTML5 Rocks</a> are my favourite resources online, both technical and inspirational. Whenever I&#39;m notified of a new post on these, that usually means stop what I&#39;m doing and read it right away!</p>
+<h2><a name="writing-about-retro-gaming" class="anchor" href="#writing-about-retro-gaming"><span class="header-link"></span></a>Writing about retro gaming</h2>
+<p>Just a note about the <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">blogpost</a>. It&#39;s basically an expanded version of the talk I gave earlier last month at Reject.JS about fast retro gaming on mobile. I tried to be clear and assumed as little knowledge as possible from the reader.</p>
+<p>The writing process was surprisingly easy. I&#39;m working for almost a decade as a freelance writer for texts published in the French edition of some Japanese manga titles. I&#39;m used to have my texts edited/modified/transformed without my consent. Nothing here. The original draft I submitted was almost published as is.</p>
+<p>Anyway, I hope you&#39;ll enjoy reading it!</p>
+</div><div class="comments"><a href="/posts/i-wrote-for-mozilla-hacks/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/4/" class="newer">Newer &#8594;</a><a href="/page/6/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

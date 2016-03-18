@@ -15,88 +15,154 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
-<h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
-<p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
-<p>On Windows:</p>
-<blockquote>
-<p>C:\Users\<i>USERNAME</i>\AppData\Roaming\Mozilla\Firefox\Profiles\<i>PROFILEKEY</i>\extensions\r2d2b2g@mozilla.org\profile\fake-sdcard</p>
-</blockquote>
-<p>On Ubuntu:</p>
-<blockquote>
-<p>/home/<i>USERNAME</i>/.mozilla/firefox/<i>PROFILEKEY</i>/extensions/r2d2b2g@mozilla.org/profile/fake-sdcard</p>
-</blockquote>
-<p>On Mac:</p>
-<blockquote>
-<p>Let me know via a comment below where is this folder on Mac.</p>
-</blockquote>
-<p>Of course, <i>USERNAME</i> and <i>PROFILEKEY</i> are specific to your configuration, so make sure to look into the right folder.</p>
-<p>Place files in this folder and you’ll be able to access them from the Simulator using a privileged app.</p>
-<p>If this folder doesn&#39;t exist, I believe it&#39;s safe to create it yourself first.</p>
-<h2><a name="the-file-objects" class="anchor" href="#the-file-objects"><span class="header-link"></span></a>The File objects</h2>
-<p>When you call <code>get</code> or <code>enumerate</code> on <code>navigator.getDeviceStorage(&#39;sdcard&#39;)</code> you get File objects.</p>
-<p>For reference, these objects look like this (slightly different than the <a href="https://developer.mozilla.org/en-US/docs/Web/API/File">File API page on MDN</a>):</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">{</span>
-  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;file.txt&#39;</span><span class="p">,</span>
-  <span class="nx">size</span><span class="o">:</span> <span class="mi">32768</span><span class="p">,</span> <span class="c1">// In bytes</span>
-  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span> <span class="c1">// MIME type</span>
-  <span class="nx">lastModifiedDate</span><span class="o">:</span> <span class="s1">&#39;Fri Nov 22 2013 12:00:00 GMT+0000 (GMT Standard Time)&#39;</span><span class="p">,</span> <span class="c1">// Date object,</span>
-  <span class="nx">mozFullPath</span><span class="o">:</span> <span class="s1">&#39;path/to/the/file&#39;</span> <span class="c1">// Relative to the SD Card folder</span>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/always-bet-on-semantic/"><h1 class="post-title">Always bet on semantic</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 10 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="dont-get-tricked-by-the-visual" class="anchor" href="#dont-get-tricked-by-the-visual"><span class="header-link"></span></a>Don&#39;t get tricked by the visual</h2>
+<p>My company is working on a mobile website. One of the developers in my team needed to implement a numeric field to input a number of people.</p>
+<p>He did this:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;tel&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>He tested on iPhone and concluded it was OK.</p>
+<p>And he wasn&#39;t completely wrong. Indeed when tapping the field, a nice numeric keyboard is displayed.</p>
+<h2><a name="semantic-informs-about-your-intention" class="anchor" href="#semantic-informs-about-your-intention"><span class="header-link"></span></a>Semantic informs about your intention</h2>
+<p>Of course, something is wrong in the example above. Even if the visual aspect is correct, the semantic is not. A better way is to use:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>Or better using the <a href="https://developer.apple.com/library/ios/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html#//apple_ref/doc/uid/TP40009542-CH5-SW12">recommended hack for iPhone</a>:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;people&quot;</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span> <span class="na">pattern=</span><span class="s">&quot;[0-9]*&quot;</span><span class="nt">&gt;</span>
+</pre></div>
+</code></pre>
+<p>This implementation is correct: visually we have a numeric keyboard and we maintain the semantic aspect.</p>
+<p>What if in the future phone numbers are replaced by ID? Or if they must be picked up from the contact book? The interface would change and the original snippet in this example wouldn&#39;t work anymore.</p>
+<p>A rule of thumb is you always win by betting on semantic. Semantic informs the browser about your intention. Browsers change but intentions remain.</p>
+</div><div class="comments"><a href="/posts/always-bet-on-semantic/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span style="bottom:30px" class="post-date">2012 &#183; 9 &#183; 18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
+Basically I had to implement a drawing feature using a graphic lib.</p>
+<p>I found a few resources really useful, specially in JavaScript.
+But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
+<p>I thought the following snippets would be useful.</p>
+<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
+<p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
+<span class="cm"> * Named after ES6 Math.hypot(), with only 2 arguments.</span>
+<span class="cm"> * @param {number} segment1 The length of the 1st side.</span>
+<span class="cm"> * @param {number} segment2 The length of the 2nd side.</span>
+<span class="cm"> * @return {number} The size of the 3rd side.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">segment1</span> <span class="o">*</span> <span class="nx">segment1</span> <span class="o">+</span> <span class="nx">segment2</span> <span class="o">*</span> <span class="nx">segment2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Alternatively, this function is polyfilled as follow and is said to be faster albeit less precise:</span>
+<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">segment1</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment1</span><span class="p">);</span>
+  <span class="nx">segment2</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment2</span><span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">min</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">max</span><span class="p">;</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">min</span> <span class="o">/</span> <span class="nx">max</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">max</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">u</span> <span class="o">*</span> <span class="nx">u</span><span class="p">);</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<p>They also have 2 methods: <code>slice()</code> and <code>mozSlice()</code>.</p>
-<p>Then if you want to have access to the content of these files in JavaScript, you can just pass them to the FileReader API:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
-<span class="nx">reader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// e.target.result is the content of the file.</span>
+<p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
+<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
+<p>Using the <code>hypot()</code> function defined above:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the distance between 2 points.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {number} The distance between (x1, y1) and (x2, y2).</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the angle of a triangle given its sides length.</span>
+<span class="cm"> * @param {number} side1 The length of the 1st side.</span>
+<span class="cm"> * @param {number} side2 The length of the 2nd side.</span>
+<span class="cm"> * @param {number} side3 The length of the 3nd side.</span>
+<span class="cm"> * @return {number} The angle opposed to 3rd side.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">segmentsAngle</span><span class="p">(</span><span class="nx">side1</span><span class="p">,</span> <span class="nx">side2</span><span class="p">,</span> <span class="nx">side3</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">acos</span><span class="p">((</span><span class="nx">side1</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">+</span> <span class="nx">side2</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">)</span> <span class="o">-</span> <span class="nx">side3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">))</span><span class="o">:</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the distance of a point to a line.</span>
+<span class="cm"> * @param {number} xP The x coordinate of the point.</span>
+<span class="cm"> * @param {number} yP The y coordinate of the point.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {number} The distance of point (xP, yP) to the line (x1, y1)-(x2, y2).</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">pointToLine</span><span class="p">(</span><span class="nx">xP</span><span class="p">,</span> <span class="nx">yP</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">normalLength</span> <span class="o">=</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">((</span><span class="nx">xP</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">yP</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">))</span> <span class="o">/</span> <span class="nx">normalLength</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
+<p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with a and b properties.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">lineEquation</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">y2</span><span class="p">};</span>
 <span class="p">};</span>
-<span class="nx">reader</span><span class="p">.</span><span class="nx">readAsText</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span> <span class="c1">// Or whatever method suits you best.</span>
 </pre></div>
 </code></pre>
-<p>I found this API complex to work with. There are different way to access files depending on:</p>
+<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
+<span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
+<span class="cm"> * @param {number} b1 The b of line 1 equation.</span>
+<span class="cm"> * @param {number} a2 The a of line 2 equation.</span>
+<span class="cm"> * @param {number} b2 The b of line 2 equation.</span>
+<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with x and y properties.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">linesIntersectionPoint</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">b1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="nx">b2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">b2</span> <span class="o">-</span> <span class="nx">b1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">-</span> <span class="nx">a2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b1</span><span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>These functions are pretty basic but are a solid ground base for more complex computations.
+Also I will probably add more snippets here as time/need permits.</p>
+</div><div class="comments"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/tokenization-is-the-mother-of-nlp/"><h1 class="post-title">Tokenization is the mother of NLP</h1></a><span style="bottom:30px" class="post-date">2012 &#183; 9 &#183; 17</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently started contributing to <a href="https://github.com/NaturalNode/natural">natural, a set of <strong>natural language processing</strong> tools (NLP) in JavaScript for node.js</a>. Here&#39;s what I learned from this.</p>
+<p><a href="http://en.wikipedia.org/wiki/Tokenization">Words tokenization</a> is a critical part of natural language processing. This is often neglected because it sounds so easy. You just need to split a string on spaces.
+And that is enough... for most of the languages. However some languages don&#39;t actually use space to separate words, like Japanese or Chinese.
+I was lucky enough to find out that there is <a href="http://chasen.org/~taku/software/TinySegmenter/">a tokenizer in JavaScript for Japanese by Kudo Taku</a>. The license allowed me to use it on natural. I&#39;m fully satisfied: no dictionary to maintain and no heavy tools to develop! It is using a statistical model to determine where to cut tokens. And it turned out to be quite efficient given its light weight.</p>
+<p>The only sentence that failed to be tokenized properly is the famous “すもももももももものうち。” (that can be written &quot;李も桃も桃のうち。&quot; meaning &quot;plums and peaches are both types of peach&quot;). But this one is a bit tricky.</p>
+<p>Now that we can tokenize Japanese, we can also:</p>
 <ul>
-<li>what you do with (read only or write)</li>
-<li>whether you know the file location or not</li>
+<li>Remove stop words</li>
+<li>Stem tokens</li>
+<li>Compute N-grams</li>
 </ul>
-<p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
-</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
-<ul>
-<li>Simple</li>
-<li>Hosted for free</li>
-<li>Editable from anywhere</li>
-<li>and of course based on open source tools</li>
-</ul>
-<h2><a name="finding-tools-and-solutions" class="anchor" href="#finding-tools-and-solutions"><span class="header-link"></span></a>Finding tools and solutions</h2>
-<p>I&#39;m a lazy person and I find it very difficult to do things routinely. So, if I start a blog, I must make sure that nothing gets in my way. The writing/publishing process must be as easy as possible. It took me a while to love the simplicity of Markdown. But ever since I started working heavily with Github, I fell in love with its syntax. Markdown powers the simplicity I needed.</p>
-<p>I admire the logic behind the static websites generators. They move the complexity of blogs from the server to your computer. The resulting blogs are incredible fast. We can then use Github as a web hosting platform for free! I choose <a href="http://www.cabinjs.com/">Cabin</a> because it is simple and I wanted to experiment with Jade templates.</p>
-<p>The mobile aspect was important to me. I wanted to start or edit posts directly from my mobile, wherever I am, whenever I have time. Also I always use several browsers on different computers all the time, sometime on a bad connexion, if any at all. That&#39;s why I needed something distributed and not dependent on network status. A few months ago I came upon <a href="https://stackedit.io/">StackEdit</a> and was struck by its simplicity, beauty and powerfulness. It works on the browser, offline by default, can synchronise to many services (including Dropbox and Google Drive). The interface is split vertically with the original Markdown view on the left hand side next to the resulting formatted post, a UI pattern used by the <a href="https://ghost.org/">blogging platform Ghost</a> that received a lot of attention lately.</p>
-<h2><a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="header-link"></span></a>Putting it all together</h2>
-<p>A typical blog post starts like this. I launch a browser on the device available (laptop, mobile...), start StackEdit and open a new document. I&#39;ve modified the default document to start with the metadata used by Cabin (Think of it as YAML front matter used by Jekyll, but in JSON):</p>
-<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
-  <span class="err">title:</span> <span class="nt">&quot;Title&quot;</span><span class="p">,</span>
-  <span class="err">date:</span> <span class="nt">&quot;2013-11-01&quot;</span><span class="p">,</span>
-  <span class="err">description:</span> <span class="nt">&quot;Description&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>I edit these metadata, start writing my draft and save it to Google Drive. I guess I could publish it directly to the Github repo as a draft (prefixed by <code>_</code>), but I prefer to keep my drafts private until they are ready for publication. Then I can synchronise and edit the posts from whatever device is available.</p>
-<p>When the post is ready, I publish it to <a href="https://github.com/gmarty/blog">my blog repo</a> on Github, in the <code>posts</code> folder. The tricky part now is that I need to launch the terminal, navigate to the blog folder on my computer and type:</p>
-<pre><code class="lang-bash"><div class="highlight"><pre>git pull <span class="o">&amp;&amp;</span> grunt deploy
-</pre></div>
-</code></pre>
-<p>The Grunt task <code>deploy</code> of Cabin is responsible for generating a static version and push it to the <code>gh-pages</code> branch of the repo.</p>
-<p>That&#39;s it.</p>
-<h2><a name="wrapping-up" class="anchor" href="#wrapping-up"><span class="header-link"></span></a>Wrapping up</h2>
-<p>This blog is powered by:</p>
-<ol>
-<li><a href="https://stackedit.io/">Stackedit</a></li>
-<li><a href="http://www.cabinjs.com/">Cabin</a></li>
-<li><a href="https://github.com/gmarty/blog">Github</a></li>
-<li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
-</ol>
-<p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
-</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/5/" class="newer">Newer &#8594;</a><a href="/page/7/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+<p>I wanted to extend one of my previous NLP project to Japanese, but couldn&#39;t find a tokenizer at the time (it was developed in PHP). So I reluctantly discarded this idea. I hope I&#39;ll be able to help natural enough so that such decisions won&#39;t have to be taken in the future.</p>
+<p>As a side note, there are also many tokenizers for Chinese out there in several programming languages. I will have to check their licenses on my spare time to see if they are compatible with that of natural. But I&#39;m not sure how to benchmark their respective accuracies as I don&#39;t speak Chinese :-(</p>
+</div><div class="comments"><a href="/posts/tokenization-is-the-mother-of-nlp/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/5/" class="newer">Newer &#8594;</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

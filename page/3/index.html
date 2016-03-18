@@ -15,83 +15,152 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 9 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
-<h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
-<p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
-<p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>
-<p>You can do cool things like:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">langNum</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Set</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">code</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">).</span><span class="nx">shift</span><span class="p">();</span>
-<span class="p">})).</span><span class="nx">size</span><span class="p">;</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;It looks like you can read %i %s.&#39;</span><span class="p">,</span> 
-  <span class="nx">langNum</span><span class="p">,</span> <span class="nx">langNum</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="o">?</span> <span class="s1">&#39;different languages&#39;</span> <span class="o">:</span> <span class="s1">&#39;language&#39;</span><span class="p">);</span>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
+<p>Google Translate is powered by the technique called <a href="https://en.wikipedia.org/wiki/Machine_translation">machine translation</a>. It can translate sentences from one natural language to another, without human interactions.
+I recently heard that Mozilla was starting a project to create an open source machine translation engine. That immediately resonated in me and I decided to give it a try and build my own English-Japanese translator in JavaScript.</p>
+<h2><a name="day-1-get-ready" class="anchor" href="#day-1-get-ready"><span class="header-link"></span></a>Day 1: Get ready</h2>
+<p>On the Friday late afternoon, I had a general idea of what I wanted to implement: a machine translation engine using syntax to translate sentences. I wanted something simple and couldn&#39;t wait to see it working. I realized I had this &quot;fire in the belly&quot; and jumped directly into the action.
+I spent a small amount of time gathering what I needed: a corpus of translated pairs in English and Japanese and a part-of-speech tagger for these languages.
+I started fiddling around with the tools with as few coding as possible.</p>
+<h2><a name="day-2-put-it-together" class="anchor" href="#day-2-put-it-together"><span class="header-link"></span></a>Day 2: Put it together</h2>
+<p>I had a late night and woke up on Saturday around 11 o&#39;clock. I spent a few hours cleaning up what I had done the day before, creating a dedicated folder and project in my IDE. I started coding and refactor the code.
+I also spent some time sketching solutions on paper, to make sure I hadn&#39;t missed an important point.</p>
+<h2><a name="day-3-make-it-work" class="anchor" href="#day-3-make-it-work"><span class="header-link"></span></a>Day 3: Make it work</h2>
+<p>I got back to the project in the early afternoon. I mostly did coding this day. I was so excited to see my translation engine work that I sat in front of my computer for ~10 hours. At the end of the day, I had something working. After a bit of cleaning, I created <a href="https://github.com/gmarty/syntactic-machine-translation">the repo on Github</a> and pushed the code.</p>
+<h2><a name="after-day-3" class="anchor" href="#after-day-3"><span class="header-link"></span></a>After day 3</h2>
+<p>Whatever happened after day 3 is not important. Most of the work has been done over the weekend and I had a working prototype. Obviously, it is just a toy system, that is nothing comparable to Google Translate, but I&#39;m happy I was able to do it in a rather limited amount of time. And most importantly, I can iterate on it and progressively make it better. <a href="http://gmarty.github.io/syntactic-machine-translation/">Try it for yourself!</a></p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>I was able to achieve this because JavaScript is very suited for fast prototyping. If it were a business, I could have started generating profit from day 4. I really love the idea of hacking a quick and dirty prototype and see how it works. Next time you have an idea for a business, do some quick prototyping and launch it as early as possible!</p>
+<p>And if you&#39;re wondering, I had dinner in a <a href="http://pastacibo.com/">lovely Italian restaurant</a> on Saturday night :-)</p>
+</div><div class="comments"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-problem-of-user-language-lists-in-javascript/"><h1 class="post-title">The problem of user language lists in JavaScript</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 1 &#183; 28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><a href="http://gu.illau.me/posts/follow-up-on-navigator-languages/">Edit: I wrote a followup post to this one at [Follow-up on navigator.languages</a>]</p>
+<p><a href="https://twitter.com/g_marty/status/412527722410553344">I&#39;ve always wondered</a> why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.</p>
+<p>On the other hand, JavaScript can only get the first language using:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">);</span> <span class="c1">// &#39;en&#39;, &#39;fr&#39;, &#39;de&#39; or whatever</span>
 </pre></div>
 </code></pre>
-<p>(<code>Set</code> is used here to dedupe the array.)</p>
-<p>Use this to show the best matching language by comparing <code>navigator.languages</code> to the ones supported by your app. But of course, also offer an option to change the language.</p>
-<h2><a name="languagechange-event" class="anchor" href="#languagechange-event"><span class="header-link"></span></a><code>languagechange</code> event</h2>
-<p>In addition to <code>navigator.languages</code>, browsers can now listen to the <code>languagechange</code> event fired by the <code>window</code> object to update the UI language accordingly:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;languagechange&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;You updated your browser languages to &quot;%s&quot;&#39;</span><span class="p">,</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">));</span>
+<h2><a name="browsers-inconsistencies" class="anchor" href="#browsers-inconsistencies"><span class="header-link"></span></a>Browsers inconsistencies</h2>
+<p>Getting the language of the browser is part of the <a href="http://www.w3.org/TR/html5/webappapis.html#language-preferences">HTML5 specifications</a>, but implementations vary widely.</p>
+<h3><a name="internet-explorer" class="anchor" href="#internet-explorer"><span class="header-link"></span></a>Internet Explorer</h3>
+<p>Let&#39;s start with IE that has (surprisingly) the most complete set of (non standard) features about the environment language. <code>navigator.userLanguage</code> gets the first language set by the user (can be changed in Internet Options &gt; General &gt; Languages ; see <a href="http://msdn.microsoft.com/en-us/library/ie/ms534713%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
+<p><code>navigator.browserLanguage</code> returns the language of the UI of the browser. You can&#39;t change this value, it is decided by the version of the executable you installed (This property and all its subtleties are described in <a href="http://msdn.microsoft.com/en-us/library/ie/ms533542%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
+<p>Finally, <code>navigator.systemLanguage</code> will give you the locale used by the OS (See <a href="http://msdn.microsoft.com/en-us/library/ie/ms534653%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>.</p>
+<h3><a name="firefox-safari" class="anchor" href="#firefox-safari"><span class="header-link"></span></a>Firefox &amp; Safari</h3>
+<p><code>navigator.language</code> returns the first language in the list of languages.</p>
+<p>In Firefox, you can define it in Options &gt; Content &gt; Languages.</p>
+<p>Safari uses the language set at the system level (See <code>navigator.systemLanguage</code> of IE above). You cannot just override it in Safari.</p>
+<p>Some details are available on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage.language">navigator.language page on MDN</a>.</p>
+<h3><a name="chrome" class="anchor" href="#chrome"><span class="header-link"></span></a>Chrome</h3>
+<p>Invariantly returns the language of the UI through <code>navigator.language</code> without a <a href="https://code.google.com/p/chromium/issues/detail?id=1862">possibility to change it</a>. The value is similar to <code>navigator.browserLanguage</code> of IE.</p>
+<p>Chrome extensions can retrieve the full list of languages as set by the user thanks to <code>chrome.i18n.getAcceptLanguages()</code> (Not sure why this API is async):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">chrome</span><span class="p">.</span><span class="nx">i18n</span><span class="p">.</span><span class="nx">getAcceptLanguages</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">requestedLocales</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// &#39;requestedLocales&#39; is an array of strings.</span>
 <span class="p">});</span>
 </pre></div>
 </code></pre>
-<p>I set up this quick demo that <a href="http://jsbin.com/difen/1/">lists the languages set in your browser</a> and stays up to date.</p>
-<p>This powerful event means web apps don&#39;t require to be reloaded to update their UI language and can integrate perfectly in the browser/OS.</p>
-<h2><a name="polyfill" class="anchor" href="#polyfill"><span class="header-link"></span></a>Polyfill</h2>
-<p>Polyfilling <code>navigator.languages</code> couldn&#39;t get any easier:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span> <span class="o">=</span> <span class="p">[</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">];</span>
-<span class="p">}</span>
+<h2><a name="whats-wrong-with-the-current-approach" class="anchor" href="#whats-wrong-with-the-current-approach"><span class="header-link"></span></a>What&#39;s wrong with the current approach?</h2>
+<p>Well, apart from the semantic inconsistencies, knowing only the main language is a serious limitation. Let&#39;s illustrate this with my personal experience. My browsers have the following configuration:</p>
+<ol>
+<li>Japanese</li>
+<li>English (GB)</li>
+<li>English</li>
+<li>English (US)</li>
+<li>French</li>
+<li>Spanish</li>
+<li>Korean</li>
+<li>German</li>
+</ol>
+<p>(Yeah, I want to train my Japanese, so I listed it first!)</p>
+<p>A website available in several languages will show the interface in Japanese and English if not available.</p>
+<p>But a local app will only get the first language, Japanese. So if this language is not available, the UI will be shown in a totally random language that I may not understand.</p>
+<p>Also, if the app knows the full list, it could use it to detect visitors speaking rare languages and ask them to collaborate on translation.</p>
+<h2><a name="how-to-fix-it" class="anchor" href="#how-to-fix-it"><span class="header-link"></span></a>How to fix it?</h2>
+<p>First of all, an easy cross browser way to get the preferred language is to do:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/** @const */</span> <span class="nx">DEFAULT_VALUE</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">;</span>
+<span class="cm">/** @const */</span> <span class="nx">PREFERRED_LANGUAGE</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">browserLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">systemLanguage</span> <span class="o">||</span> <span class="nx">DEFAULT_VALUE</span><span class="p">;</span>
 </pre></div>
 </code></pre>
-<h2><a name="setting-the-language-independently-to-the-os" class="anchor" href="#setting-the-language-independently-to-the-os"><span class="header-link"></span></a>Setting the language independently to the OS</h2>
-<p>As a side note on this topic, on most mobile OSes (and some others like MacOS), the language of the browser is tied to that of the OS. Since last year, it&#39;s now possible to change the language of Firefox for Android independently (and without restarting the browser!).
-Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-in-firefox-for-android/">this blog post</a> for more details.</p>
-</div><div class="comments"><a href="/posts/follow-up-on-navigator-languages/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/software-gamepad/"><h1 class="post-title">Software gamepad</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 8 &#183; 10</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently resumed my work on <a href="https://github.com/gmarty/jsSMS">jsSMS a JavaScript recompiler for Sega Master System and Game Gear</a>. Among the new features, I wanted to improve the software gamepad for touch screens.</p>
-<h3><a name="naive-implementation" class="anchor" href="#naive-implementation"><span class="header-link"></span></a>Naive implementation</h3>
-<p>When I started adding the software gamepad, I did something quick and dirty. I didn&#39;t really have time to waste developing a nice looking controller in canvas (though that would have been easier). So I just threw some <code>&lt;div&gt;</code> tags, styled them and attached a couple of event listeners.</p>
-<p>To have a gamepad compatible with touch screens, I naturally listened to touch event on each key (up, down, left, right, fire1, fire2 and start).  <code>touchstart</code> and <code>touchmove</code> communicate the active key to the emulator and <code>touchend</code> release it.</p>
-<p>The main issue I found was that if the user moves her finger, the JavaScript will recognise the activation of a particular key, but will release a different one. In other word, the key initially pressed will never be released.</p>
-<p>Clearly, this was unusable.</p>
-<h3><a name="better-implementation" class="anchor" href="#better-implementation"><span class="header-link"></span></a>Better implementation</h3>
-<p>I looked for tutorials and references about how to build a gamepad using HTML5, but it looks like most HTML5 games use canvas and detect the currently touched key using the location of the touch.</p>
-<p>The location of the finger relative to the screen is stored in <code>clientX</code> and <code>clientY</code> properties of the touch event. If you use jQuery, like myself, make sure to reference the original event using <code>originalEvent</code> property (i.e. <code>evt.originalEvent.clientX</code>).</p>
-<p>To get the position of the currently touch key in HTML, I could have computed the position and size of each buttons, then loop through them to find the element touched. In my case, that wasn&#39;t possible because I use a complex layout made of rounded and rotated elements and not just square buttons.</p>
-<p>Thanks to StackOverflow, the answer was actually quite easy and requires a single DOM method: <code>document.elementFromPoint</code>.</p>
-<p>To get the currently touched element just pass the touch event coordinates to <code>document.elementFromPoint</code>:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">touchedElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
+<p>That&#39;s fine as long as your app supports this language.</p>
+<p>If not, you could always ping a server, get the <code>accept-language</code> HTTP header, send the response back to JavaScript and parse it. That means that you need a scriptable server, so you cannot do it for, offline apps or for apps hosted on a static web server like Github Pages.
+Oh and Mac have only one language configured at a time: you will never get more than 1 element in the list of this header on Safari.</p>
+<h2><a name="what-to-do-next" class="anchor" href="#what-to-do-next"><span class="header-link"></span></a>What to do next?</h2>
+<p>The good news is things are being worked on.</p>
+<p>First, there is <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23517">this bug</a> on the WHATWG bug tracker to discuss this feature, with all <a href="https://github.com/marcoscaceres/Locale-Preferences-API/blob/master/proposal.md">the details here</a>. Firefox is already <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=889335">thinking of implementing it</a>.</p>
+<p>To put it in a nutshell, the current consensus is to have a new JavaScript property called <code>navigator.languages</code> that returns an array of language codes sorted by preference order:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">);</span>
+<span class="c1">// The configuration above would give something like:</span>
+<span class="c1">// [&#39;ja&#39;, &#39;en-GB&#39;, &#39;en&#39;, &#39;en-US&#39;, &#39;fr&#39;, &#39;es&#39;, &#39;ko&#39;, &#39;de&#39;];</span>
 </pre></div>
 </code></pre>
-<p>Then, you need to implement a mechanism to map back the DOM element touched to the emulated key  (I personally use CSS class name and a map object).</p>
-<p>Also, you&#39;ll want to iterate over the <code>changedTouches</code> array to properly activate all the buttons pressed on multi-touch devices.</p>
-<p>To put it in a nutshell:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">onTouch</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
-  <span class="nx">evt</span><span class="p">.</span><span class="nx">changedTouches</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">touch</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">elementFromPoint</span><span class="p">(</span><span class="nx">touch</span><span class="p">.</span><span class="nx">clientX</span><span class="p">,</span> <span class="nx">touch</span><span class="p">.</span><span class="nx">clientY</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">key</span> <span class="o">=</span> <span class="nx">getKeyFromElement</span><span class="p">(</span><span class="nx">target</span><span class="p">);</span>
-    <span class="nx">emulator</span><span class="p">.</span><span class="nx">pressKey</span><span class="p">(</span><span class="nx">key</span><span class="p">);</span>
-  <span class="p">});</span>
-
-  <span class="nx">evt</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">onTouchEnd</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">emulator</span><span class="p">.</span><span class="nx">releaseAllKeys</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchstart&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
-<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchmove&#39;</span><span class="p">,</span> <span class="nx">onTouch</span><span class="p">);</span>
-<span class="nx">padElement</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;touchend&#39;</span><span class="p">,</span> <span class="nx">onTouchEnd</span><span class="p">);</span>
+<p>Also, firing an event when language changes is also being discussed. Firefox OS allows this on certified apps with a proprietary API:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">navigator</span><span class="p">.</span><span class="nx">mozSettings</span><span class="p">.</span><span class="nx">addObserver</span><span class="p">(</span><span class="s1">&#39;language.current&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;New language&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">settingValue</span><span class="p">);</span> <span class="c1">// Default value is &#39;en-US&#39;.</span>
+<span class="p">});</span>
 </pre></div>
 </code></pre>
-<p>Obviously, you&#39;ll want to code your own <code>getKeyFromElement</code> and emulator communicating functions.</p>
-<h3><a name="how-optimised" class="anchor" href="#how-optimised"><span class="header-link"></span></a>How optimised?</h3>
-<p>The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.</p>
-<p>I don&#39;t think you could do simpler and according to my coworker, the brilliant <a href="https://twitter.com/cwiiis">Chris Lord</a>, if your DOM tree is simple you shouldn&#39;t get any performance penalty from using <code>document.elementFromPoint</code>.</p>
-<p>Happy gaming!</p>
-</div><div class="comments"><a href="/posts/software-gamepad/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
+<p>Making the full list of languages configured in a browser available to JavaScript can&#39;t be done front-end at all and partially using back-end. But this information is stored in the OS/browser itself. Am I the only one to think something is wrong here?</p>
+<p>This topic is hard and has been around for a while, so some of the resources I consulted might be outdated. Use the comments below if you spotted any error.</p>
+</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 12 &#183; 16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
+<blockquote>
+<p><strong>tl;dr</strong> in case of slow web app:</p>
+<ul>
+<li>Don&#39;t immediately jump into JavaScript optimisation; instead investigate network, DOM, rendering... and fix accordingly</li>
+<li>Profile your application and optimise the code logic</li>
+<li>Optimise JavaScript only when required</li>
+</ul>
+</blockquote>
+<h2><a name="find-the-culprit" class="anchor" href="#find-the-culprit"><span class="header-link"></span></a>Find the culprit</h2>
+<p>In modern browsers, JavaScript is rarely the cause of slow applications. There are many layers involved in web applications that are way slower.</p>
+<p>The first thing to do is to investigate to find out where the performance issue is coming from. The causes can be multiple:</p>
+<ul>
+<li>Relying too much on the connexion</li>
+<li>Extensive DOM manipulation</li>
+<li>Rendering issues (forced layout...)</li>
+<li>io (e.g. repeated usage of <code>localStorage</code>)</li>
+</ul>
+<p>Use the Network tab of your favourite browser&#39;s development tool. Make sure your requests don&#39;t have any impact on your application at start and run time. Repeated Ajax calls can slow down applications too.</p>
+<p>Identifying slow DOM manipulation is a bit harder. The Timeline tab of Chrome&#39;s dev tools can help you pinpointing such issues. Of course, you must get familiar with the best practices. For example, when rendering a list of items in a templating engine, move the loop to the template and append all items to the DOM in one operation.</p>
+<p>Rendering issues can also be <a href="https://developers.google.com/chrome-developer-tools/docs/demos/too-much-layout/">captured by Chrome&#39;s dev tools</a> and starting from version 27, Firefox can now <a href="https://hacks.mozilla.org/2013/11/firefox-developer-tools-episode-27-edit-as-html-codemirror-more/">log functions that trigger a reflow</a>!</p>
+<p>There are a lot of valuable resources on the net about how to track down and fix these issues, so I won&#39;t cover them here. Once fixed, your application should work smoother. Not the case with yours? Keep reading then.</p>
+<h2><a name="profile-and-improve-logic-rinse-and-repeat" class="anchor" href="#profile-and-improve-logic-rinse-and-repeat"><span class="header-link"></span></a>Profile and improve logic. Rinse and repeat</h2>
+<p>So you made all these checks and you realised that JavaScript is actually what causes your application to perform badly.</p>
+<p>Nice, my favourite part of the optimisation process starts here! You need to profile your application.</p>
+<p>Grab your modern browser. Start the profiler then your app and interact with it like a normal user would. After a while, stop the profiler.</p>
+<p>You can now drill down to the most frequently called functions. If you&#39;re using closures or generated functions, make sure to <a href="http://gu.illau.me/posts/generating-generator-functions/#caveat-2-named-functions">name them to get meaningful results</a>.</p>
+<p>Now, have a look at the logic of the calls. There is certainly room for optimisation. Common mistakes include:</p>
+<ul>
+<li>Calling a function too many times, where the result could be cached and reused</li>
+<li>Deeply nested loops</li>
+<li>Iterating too many times when you could stop the iteration prematurely</li>
+</ul>
+<p>You also need to profile the memory used and track potential leak or heavy garbage collections.</p>
+<p>By operating at the code logic level, you can improve the speed of your application. The fixes applied here are not directly related to the JavaScript language, but rather to the logic of your code.</p>
+<p>You found and fixed these bottlenecks and now your application is running faster and smoother. You are now done, no need to read further.</p>
+<h2><a name="about-javascript-optimisation" class="anchor" href="#about-javascript-optimisation"><span class="header-link"></span></a>About JavaScript optimisation</h2>
+<p>You are still reading? I assume you are working on a signal processing tool, a game or a fundamental piece of software that must run fast.</p>
+<p>Before looking into the optimisation of JavaScript, I must clarify a couple of things.</p>
+<p>Keep in mind that JavaScript VMs are very good at running your code at a fast speed.</p>
+<p>Trust the VM.</p>
+<p>The second thing is using an alternate JavaScript syntax in your code is likely to never have any significant impact on speed. This belief dates back from the time browsers didn&#39;t have a JIT. Back then, using different syntaxes could make a difference. These kind of statements flourished over the web:</p>
+<ul>
+<li><code>if</code> are faster than <code>switch</code>.</li>
+<li>bitwise operations are faster than mathematical operators.</li>
+<li>join array to do strings concatenation</li>
+</ul>
+<p>Optimising JavaScript is not about the syntax. You can&#39;t base an optimisation strategy on syntax rewriting only. You&#39;ll end up wasting your time and get a little to no results. I&#39;m not even mentioning the impact on readability and maintainability of your code.</p>
+<p>Also, VM are constantly evolving. What perform best today might not tomorrow. VM implementors take code from the real world to see what developers do and what patterns to optimise. Using weird syntax is likely to never be optimised. Just write your code in a way that makes sense and that should be enough.</p>
+<h2><a name="finally-youre-ready-to-optimise-javascript" class="anchor" href="#finally-youre-ready-to-optimise-javascript"><span class="header-link"></span></a>Finally, you&#39;re ready to optimise JavaScript</h2>
+<p>After reading and understanding the statements above, you are now ready to improve your code using advanced optimisations. These crazy techniques include:</p>
+<ul>
+<li>Enforcing type stability</li>
+<li>Tracking deoptimisations</li>
+<li>Use web workers to do parrallel processing</li>
+</ul>
+<p>In the 2nd part of <a href="http://www.youtube.com/watch?v=65-RbBwZQdU">this talk</a>, Vyacheslav shows a tool to inspect the code generated by V8. It&#39;s complex to dive into the VM internals, but that&#39;s the only way to gain some performance points.</p>
+<p>To track deoptimisations, using Chrome or V8, you can pass some flags like <code>--trace_deopt</code> (trace deoptimization). You&#39;ll get a more or less descriptive message about why V8 is not able to optimise your code. Fix it if possible.</p>
+<p>There are no such tools for Firefox (since <a href="https://addons.mozilla.org/ja/firefox/addon/jit-inspector/">JIT inspector</a> is not working) or IE. So I have to recommend Chrome to optimise JavaScript this way. However, try as much as possible not to be too specific so that your code run fast, or at least not slower, on other browsers too.</p>
+<p>Optimisation is a complex topic, but there are techniques we can apply to make your code run fast. I&#39;d like to elaborate on each step described in this process in the form of blog posts. But for now, just take the time to locate the cause of slowness and don&#39;t incriminate JavaScript right away, the culprit can be hiding elsewhere!</p>
+</div><div class="comments"><a href="/posts/dont-optimise-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.

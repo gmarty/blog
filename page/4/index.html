@@ -15,84 +15,207 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/building-a-syntactic-translation-engine/"><h1 class="post-title">Building a syntactic translation engine</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 4 &#183; 21</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
-<h2><a name="disclaimer" class="anchor" href="#disclaimer"><span class="header-link"></span></a>Disclaimer</h2>
-<p>I wish I had a serious background in NLP and machine translation, but I don&#39;t and the logic described here is solely based on my scarce knowledge in this field and my experience as a foreign language speaker.</p>
-<h2><a name="definition" class="anchor" href="#definition"><span class="header-link"></span></a>Definition</h2>
-<p>I&#39;m not sure if the word syntactic machine translation does really exist, but I found it describes what I mean very well. So let&#39;s start off by giving my personal definition of syntactic MT.</p>
-<p>Unlike advanced techniques, the syntactic MT engine only takes the syntax of the languages into account. It doesn&#39;t try to understand the meaning of the phrases to translate. This is major limitation as it can&#39;t understand idiomatic expressions, such as proverbs...</p>
-<p>Also a single word with different meanings will be translated the same way regardless of the context in the sentence to translate.</p>
-<p>This is to be remembered when assessing the accuracy of the translated phrases.</p>
-<p>However, the advantage of this method lays in the fact that it is very easy to develop, doesn&#39;t require a deep understanding of MT and can be hacked in a weekend!</p>
-<h2><a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="header-link"></span></a>How does it work?</h2>
-<p>I&#39;ll now describe the mechanism I implemented to hack a quick and dirty syntactic MT engine for English and Japanese.</p>
-<p>This idea of syntactic MT is that elements in translated pairs bear the same class of Part of Speech (POS ; i.e. noun, verb, adverb...) in both languages, for example, an adjective remains an adjective in the resulting translation. A certain grammatical pattern will be the same in each pairs of the corpus and the resulting translation.</p>
-<h3><a name="spring-cleaning" class="anchor" href="#spring-cleaning"><span class="header-link"></span></a>Spring cleaning</h3>
-<p>First of all, I cleaned up the corpus a bit, applying the following steps:</p>
-<ul>
-<li>Removing incomplete sentences</li>
-<li>Unify punctuations (specially adding an optional question mark at the end of questions in Japanese)</li>
-<li>Normalising the Japanese to use half-width alphanumeric characters and full-width katakana and punctuation signs</li>
-</ul>
-<p>I then normalise both languages to keep semantic equivalents while reducing inflected forms (e.g. <code>can&#39;t</code> -&gt; <code>cannot</code> ; <code>します</code> -&gt; <code>する</code> ; See <code>/utils/ja-normalizer.js</code> and <code>/utils/en-normalizer.js</code>). Doing so reduced noise and helped a lot on quality as the corpus is quite small.</p>
-<h3><a name="tag-the-corpus" class="anchor" href="#tag-the-corpus"><span class="header-link"></span></a>Tag the corpus</h3>
-<p>Then, the next thing to do is to tag the POS of all the pairs in the corpus.</p>
-<p>The English sentences are tagged using <a href="https://github.com/fortnightlabs/pos-js">pos-js</a> written in JavaScript (an in-browser and Node.JS versions both exist).</p>
-<p>The Japanese is tagged using <a href="http://en.wikipedia.org/wiki/ChaSen">ChaSen</a>. ChaSen is a famous command line utility, but this is a serious limitation here. To make it work, the sentence to translate must be tagged too (more on this later). I wanted the app to work offline and use frontend code only, but the lack of a JavaScript implementation of a Japanese POS tagger forced me to reject Japanese to English translation. Only English to Japanese is supported.</p>
-<p>The first problem arising here is the difference between the POS items in English and Japanese. Chasen is very comprehensive, so I had to simplify and match its POS items to the ones returned by pos-js (see <code>/utils/chasen2jspos-map.json</code> and <code>/utils/jspos2simplified-map.json</code>).</p>
-<h3><a name="build-a-dictionary" class="anchor" href="#build-a-dictionary"><span class="header-link"></span></a>Build a dictionary</h3>
-<p>At this stage, I have 2 corpus tagged, I can easily align classes of POS in both languages to build a dictionary. Let&#39;s say a pair has only one adjective in English and in Japanese, we can conclude that this adjective in English is likely to be translated by this other adjective in Japanese. The first pass consists of extracting terms whose class of POS appear only once in each pair.</p>
-<p>For more ambiguous pairs containing more than one class of POS in both sentences, alignment is harder. The method I found makes use of the dictionary we are building.</p>
-<p>Let&#39;s say a phrase has 2 adjectives in both languages. If one of them and its translation are already in the dictionary, we can assume that the remaining adjective matches the other one in the destination sentence. This is the second pass. I repeat this step a couple of times until no new translations are found.</p>
-<p>This dictionary building method gives incredible results. Of course there is some noise, but for frequent words, the translations are very accurate. Here&#39;s an example for the word <code>already</code> and its frequency in Japanese translations:</p>
-<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
-  <span class="nt">&quot;すでに&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
-  <span class="nt">&quot;既に&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
-  <span class="nt">&quot;もう&quot;</span><span class="p">:</span> <span class="mi">8</span>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
+<h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
+<p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
+<p>On Windows:</p>
+<blockquote>
+<p>C:\Users\<i>USERNAME</i>\AppData\Roaming\Mozilla\Firefox\Profiles\<i>PROFILEKEY</i>\extensions\r2d2b2g@mozilla.org\profile\fake-sdcard</p>
+</blockquote>
+<p>On Ubuntu:</p>
+<blockquote>
+<p>/home/<i>USERNAME</i>/.mozilla/firefox/<i>PROFILEKEY</i>/extensions/r2d2b2g@mozilla.org/profile/fake-sdcard</p>
+</blockquote>
+<p>On Mac:</p>
+<blockquote>
+<p>Let me know via a comment below where is this folder on Mac.</p>
+</blockquote>
+<p>Of course, <i>USERNAME</i> and <i>PROFILEKEY</i> are specific to your configuration, so make sure to look into the right folder.</p>
+<p>Place files in this folder and you’ll be able to access them from the Simulator using a privileged app.</p>
+<p>If this folder doesn&#39;t exist, I believe it&#39;s safe to create it yourself first.</p>
+<h2><a name="the-file-objects" class="anchor" href="#the-file-objects"><span class="header-link"></span></a>The File objects</h2>
+<p>When you call <code>get</code> or <code>enumerate</code> on <code>navigator.getDeviceStorage(&#39;sdcard&#39;)</code> you get File objects.</p>
+<p>For reference, these objects look like this (slightly different than the <a href="https://developer.mozilla.org/en-US/docs/Web/API/File">File API page on MDN</a>):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;file.txt&#39;</span><span class="p">,</span>
+  <span class="nx">size</span><span class="o">:</span> <span class="mi">32768</span><span class="p">,</span> <span class="c1">// In bytes</span>
+  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span> <span class="c1">// MIME type</span>
+  <span class="nx">lastModifiedDate</span><span class="o">:</span> <span class="s1">&#39;Fri Nov 22 2013 12:00:00 GMT+0000 (GMT Standard Time)&#39;</span><span class="p">,</span> <span class="c1">// Date object,</span>
+  <span class="nx">mozFullPath</span><span class="o">:</span> <span class="s1">&#39;path/to/the/file&#39;</span> <span class="c1">// Relative to the SD Card folder</span>
 <span class="p">}</span>
 </pre></div>
 </code></pre>
-<p>It indeed contains all the translation for <code>already</code> that I know!</p>
-<p>See <code>/build-dico.js</code> for the implementation.</p>
-<h3><a name="build-a-pos-converter" class="anchor" href="#build-a-pos-converter"><span class="header-link"></span></a>Build a POS converter</h3>
-<p>Now we&#39;re still using the POS tagged corpus to match patterns in both languages.</p>
-<p>For each phrase with a certain POS pattern (e.g. Noun Verb Noun), we look for the most common pattern in the translated phrases. The idea is to determine which is the most frequent translated POS pattern of a language given the POS pattern of the source phrase.</p>
-<p>At this stage I also generate what I called placeholders. They are generic sentences for this particular POS pattern where I replaced each word by the most common one (I know it&#39;s completely unscientific!). These are used as a base for translation. I just need to inject the right words (see below).</p>
-<p>See the code at <code>/build-pos-converter.js</code>.</p>
-<h3><a name="finally-translate" class="anchor" href="#finally-translate"><span class="header-link"></span></a>Finally, translate</h3>
-<p>With all these static assets generated (dictionary, POS pattern matcher, POS pattern placeholders), I can try to translate from one language to another.</p>
-<p>The user input in English is first normalised (see above), then POS tagged (Remember? That&#39;s why I can&#39;t use Japanese input on the browser as ChaSen is a command line tool). I then look for the most frequent POS pattern in Japanese.</p>
-<p>Once found, I take the Japanese placeholder sentence for this POS pattern and inject into it the translations from the original English input. For words that don&#39;t have translations, the word is just ignored and the one from the placeholder is preserved (thus creating very weird translations at time, but at least giving complete and correct sentences). Of course this could be improved using a more comprehensive dictionary, but I didn&#39;t try it.</p>
-<p>One of the problem not addressed by this script is the alignment of several identical classes of POS. In this case, I just assign them in order: the first adjective in English is matched to the first in Japanese, then the second... and so on. I know this is quite of an issue, but I just couldn&#39;t be bothered trying to fix it.</p>
-<p>The script is located in <code>/en2ja.js</code>.</p>
-<h2><a name="the-future" class="anchor" href="#the-future"><span class="header-link"></span></a>The future</h2>
-<p>There is a lot of room for improvement in many places:</p>
+<p>They also have 2 methods: <code>slice()</code> and <code>mozSlice()</code>.</p>
+<p>Then if you want to have access to the content of these files in JavaScript, you can just pass them to the FileReader API:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// e.target.result is the content of the file.</span>
+<span class="p">};</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">readAsText</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span> <span class="c1">// Or whatever method suits you best.</span>
+</pre></div>
+</code></pre>
+<p>I found this API complex to work with. There are different way to access files depending on:</p>
 <ul>
-<li>Using an unified POS tagger for English and Japanese, ideally written in JavaScript, for a better quality.</li>
-<li>Using an external dictionary to enhance translations.</li>
-<li>Use statistics to reject the less significant pairs in the dictionary and the POS converter.</li>
-<li>Use a stemmer to group several inflections of the same nouns, verbs or adjectives and get a more complete dictionary.</li>
-<li>Use a bigger corpus.</li>
+<li>what you do with (read only or write)</li>
+<li>whether you know the file location or not</li>
 </ul>
-<p>But that&#39;s it for now, I may work on this later, but in the meantime, feel free to contribute!</p>
-</div><div class="comments"><a href="/posts/building-a-syntactic-translation-engine/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
-<p>Google Translate is powered by the technique called <a href="https://en.wikipedia.org/wiki/Machine_translation">machine translation</a>. It can translate sentences from one natural language to another, without human interactions.
-I recently heard that Mozilla was starting a project to create an open source machine translation engine. That immediately resonated in me and I decided to give it a try and build my own English-Japanese translator in JavaScript.</p>
-<h2><a name="day-1-get-ready" class="anchor" href="#day-1-get-ready"><span class="header-link"></span></a>Day 1: Get ready</h2>
-<p>On the Friday late afternoon, I had a general idea of what I wanted to implement: a machine translation engine using syntax to translate sentences. I wanted something simple and couldn&#39;t wait to see it working. I realized I had this &quot;fire in the belly&quot; and jumped directly into the action.
-I spent a small amount of time gathering what I needed: a corpus of translated pairs in English and Japanese and a part-of-speech tagger for these languages.
-I started fiddling around with the tools with as few coding as possible.</p>
-<h2><a name="day-2-put-it-together" class="anchor" href="#day-2-put-it-together"><span class="header-link"></span></a>Day 2: Put it together</h2>
-<p>I had a late night and woke up on Saturday around 11 o&#39;clock. I spent a few hours cleaning up what I had done the day before, creating a dedicated folder and project in my IDE. I started coding and refactor the code.
-I also spent some time sketching solutions on paper, to make sure I hadn&#39;t missed an important point.</p>
-<h2><a name="day-3-make-it-work" class="anchor" href="#day-3-make-it-work"><span class="header-link"></span></a>Day 3: Make it work</h2>
-<p>I got back to the project in the early afternoon. I mostly did coding this day. I was so excited to see my translation engine work that I sat in front of my computer for ~10 hours. At the end of the day, I had something working. After a bit of cleaning, I created <a href="https://github.com/gmarty/syntactic-machine-translation">the repo on Github</a> and pushed the code.</p>
-<h2><a name="after-day-3" class="anchor" href="#after-day-3"><span class="header-link"></span></a>After day 3</h2>
-<p>Whatever happened after day 3 is not important. Most of the work has been done over the weekend and I had a working prototype. Obviously, it is just a toy system, that is nothing comparable to Google Translate, but I&#39;m happy I was able to do it in a rather limited amount of time. And most importantly, I can iterate on it and progressively make it better. <a href="http://gmarty.github.io/syntactic-machine-translation/">Try it for yourself!</a></p>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>I was able to achieve this because JavaScript is very suited for fast prototyping. If it were a business, I could have started generating profit from day 4. I really love the idea of hacking a quick and dirty prototype and see how it works. Next time you have an idea for a business, do some quick prototyping and launch it as early as possible!</p>
-<p>And if you&#39;re wondering, I had dinner in a <a href="http://pastacibo.com/">lovely Italian restaurant</a> on Saturday night :-)</p>
-</div><div class="comments"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+<p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
+</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
+<ul>
+<li>Simple</li>
+<li>Hosted for free</li>
+<li>Editable from anywhere</li>
+<li>and of course based on open source tools</li>
+</ul>
+<h2><a name="finding-tools-and-solutions" class="anchor" href="#finding-tools-and-solutions"><span class="header-link"></span></a>Finding tools and solutions</h2>
+<p>I&#39;m a lazy person and I find it very difficult to do things routinely. So, if I start a blog, I must make sure that nothing gets in my way. The writing/publishing process must be as easy as possible. It took me a while to love the simplicity of Markdown. But ever since I started working heavily with Github, I fell in love with its syntax. Markdown powers the simplicity I needed.</p>
+<p>I admire the logic behind the static websites generators. They move the complexity of blogs from the server to your computer. The resulting blogs are incredible fast. We can then use Github as a web hosting platform for free! I choose <a href="http://www.cabinjs.com/">Cabin</a> because it is simple and I wanted to experiment with Jade templates.</p>
+<p>The mobile aspect was important to me. I wanted to start or edit posts directly from my mobile, wherever I am, whenever I have time. Also I always use several browsers on different computers all the time, sometime on a bad connexion, if any at all. That&#39;s why I needed something distributed and not dependent on network status. A few months ago I came upon <a href="https://stackedit.io/">StackEdit</a> and was struck by its simplicity, beauty and powerfulness. It works on the browser, offline by default, can synchronise to many services (including Dropbox and Google Drive). The interface is split vertically with the original Markdown view on the left hand side next to the resulting formatted post, a UI pattern used by the <a href="https://ghost.org/">blogging platform Ghost</a> that received a lot of attention lately.</p>
+<h2><a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="header-link"></span></a>Putting it all together</h2>
+<p>A typical blog post starts like this. I launch a browser on the device available (laptop, mobile...), start StackEdit and open a new document. I&#39;ve modified the default document to start with the metadata used by Cabin (Think of it as YAML front matter used by Jekyll, but in JSON):</p>
+<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="err">title:</span> <span class="nt">&quot;Title&quot;</span><span class="p">,</span>
+  <span class="err">date:</span> <span class="nt">&quot;2013-11-01&quot;</span><span class="p">,</span>
+  <span class="err">description:</span> <span class="nt">&quot;Description&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>I edit these metadata, start writing my draft and save it to Google Drive. I guess I could publish it directly to the Github repo as a draft (prefixed by <code>_</code>), but I prefer to keep my drafts private until they are ready for publication. Then I can synchronise and edit the posts from whatever device is available.</p>
+<p>When the post is ready, I publish it to <a href="https://github.com/gmarty/blog">my blog repo</a> on Github, in the <code>posts</code> folder. The tricky part now is that I need to launch the terminal, navigate to the blog folder on my computer and type:</p>
+<pre><code class="lang-bash"><div class="highlight"><pre>git pull <span class="o">&amp;&amp;</span> grunt deploy
+</pre></div>
+</code></pre>
+<p>The Grunt task <code>deploy</code> of Cabin is responsible for generating a static version and push it to the <code>gh-pages</code> branch of the repo.</p>
+<p>That&#39;s it.</p>
+<h2><a name="wrapping-up" class="anchor" href="#wrapping-up"><span class="header-link"></span></a>Wrapping up</h2>
+<p>This blog is powered by:</p>
+<ol>
+<li><a href="https://stackedit.io/">Stackedit</a></li>
+<li><a href="http://www.cabinjs.com/">Cabin</a></li>
+<li><a href="https://github.com/gmarty/blog">Github</a></li>
+<li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
+</ol>
+<p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
+</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/polyfilling-generators/"><h1 class="post-title">Polyfilling generators</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 5</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I blogged a bit about ES6 generators lately. I think they are a great improvement to JavaScript and I can&#39;t wait to get them available in all environments.</p>
+<p>But before this day arrives, we have to use polyfills to support older browsers.</p>
+<h2><a name="polyfilling-generators" class="anchor" href="#polyfilling-generators"><span class="header-link"></span></a>Polyfilling generators</h2>
+<p>First of all, generators introduce some syntactical changes:</p>
+<ul>
+<li>The <code>function*</code> notation</li>
+<li>The <code>yield</code> keyword</li>
+</ul>
+<p>Because of that, you can&#39;t polyfill them. Running code with generator in a non supporting environment will cause a syntax error. You have to somehow parse the source code and generate code compliant with these environments. That means, first, get an AST representation of the code, apply changes and generate semantically equivalent code.</p>
+<p>All existing generator polyfills work in a similar way. They use a finite-state machine. The internal state changes whenever a <code>yield</code> keyword is found in generator functions, and the yielded value is returned. Let&#39;s examine some over simplified examples:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span><span class="o">*</span> <span class="nx">meaningOfLife</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">yield</span> <span class="mi">42</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">meaningOfLife</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>Is compiled to something like:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">meaningOfLife</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">switch</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+          <span class="nx">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="mi">42</span><span class="p">,</span> <span class="c1">// The yielded value.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="p">};</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">meaningOfLife</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>The variable <code>state</code> is initialized to <code>0</code>. Each time <code>next()</code> is called on the generator object <code>a</code>, the value of <code>state</code> changes. For the sake of simplicity, features like throwing at the end of the iteration are not implemented.</p>
+<p>Here is a slightly more elaborated example:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span><span class="o">*</span> <span class="nx">letters</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+  <span class="k">yield</span> <span class="s1">&#39;a&#39;</span><span class="p">;</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+  <span class="k">yield</span> <span class="s1">&#39;b&#39;</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
+    <span class="k">yield</span> <span class="s1">&#39;c&#39;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">letters</span><span class="p">();</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>Becomes:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">letters</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="k">switch</span> <span class="p">(</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">);</span>
+          <span class="nx">state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="c1">// Return the first yielded value.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">);</span>
+          <span class="nx">state</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="c1">// Return the second yielded value.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+        <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
+          <span class="k">return</span> <span class="p">{</span>
+            <span class="nx">value</span><span class="o">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="c1">// Return the third yielded value... forever.</span>
+            <span class="nx">done</span><span class="o">:</span> <span class="kc">false</span>
+          <span class="p">};</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">letters</span><span class="p">();</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span> <span class="nx">a</span><span class="p">.</span><span class="nx">next</span><span class="p">();</span>
+</pre></div>
+</code></pre>
+<p>All calls to <code>a.next()</code> will change the value of <code>state</code> until it receives <code>2</code>. Then the state won&#39;t change and the value <code>&#39;c&#39;</code> is always returned, mimicking the original <code>while(true)</code> loop.</p>
+<p>Another thing to note here is the huge amount of code required to replicate the behaviour of generators. Generators are concise and powerful.</p>
+<h2><a name="traceur" class="anchor" href="#traceur"><span class="header-link"></span></a>Traceur</h2>
+<p><a href="https://github.com/google/traceur-compiler">Traceur</a> is a project maintained by Google. Its goal is to be a transcompiler from ES6 to ES3. It currently supports many features of the next JavaScript thus allowing developers to try, test and even use the code in production.</p>
+<p>Generators are only one of the features supported by Traceur.</p>
+<p>This project does a very good job at compiling functions from code using generators. However I have the feeling that it is a bit over-engineered. The output code is quite complex. Fortunately, you can generate sourcemap for debugging so that should not really be a problem.</p>
+<p>You can <a href="http://traceur-compiler.googlecode.com/git/demo/repl.html#function*%20letters%28%29%20{%0A%20%20console.log%28%27a%27%29%3B%0A%20%20yield%20%27a%27%3B%0A%20%20console.log%28%27b%27%29%3B%0A%20%20yield%20%27b%27%3B%0A%20%20while%20%28true%29%20{%0A%20%20%20%20console.log%28%27c%27%29%3B%0A%20%20%20%20yield%20%27c%27%3B%0A%20%20}%0A}%0A%0Avar%20a%20%3D%20letters%28%29%3B%0Aa.next%28%29%3B%20a.next%28%29%3B%20a.next%28%29%3B%20a.next%28%29%3B">try Traceur</a> on your browser!</p>
+<h2><a name="regenerator" class="anchor" href="#regenerator"><span class="header-link"></span></a>Regenerator</h2>
+<p>The scope of <a href="https://github.com/facebook/regenerator">Regenerator</a> is limited because it only polyfills generators and not all of ES6. It was initiated by Facebook at the end of September 2013.</p>
+<p>According to the <a href="http://facebook.github.io/regenerator/">Regenerator website</a>, it has several advantages over Traceur.</p>
+<p>First, it supports the <code>yield</code> keyword everywhere, not only as the &quot;right-hand sides of assignment statements and variable declarations&quot; (i.e. <code>if (yield val)...</code> is not supported in Traceur).</p>
+<p>It is said to be lighter. On a very simple example like <code>function* gen(){yield 5}</code>, it generates about 10 lines of code when Traceur outputs more than 100. They just omit to say that both projects require an external runtime library to work and the one of Regenerator has more than 200 lines! Come on Facebook, it doesn&#39;t hurt to be honest.</p>
+<p>The last argument they have against Traceur is that this project is very big and you better use Regenerator if you just need to support generators. That&#39;s true, but if you compile offline with Traceur, you can restrain the set of features and activate the compilation of generators only.</p>
+<p>Finally, Regenerator doesn&#39;t do sourcemap, but, unlike Traceur, it preserves comments from the original code. So that may help for matching original code with the one generated.</p>
+<p>An <a href="http://facebook.github.io/regenerator/">online REPL for Regenerator</a> is available.</p>
+<h2><a name="typescript" class="anchor" href="#typescript"><span class="header-link"></span></a>TypeScript</h2>
+<p><a href="http://www.typescriptlang.org/">TypeScrit</a> does not currently support generators, but there are in scope of future releases. You can follow the <a href="https://typescript.codeplex.com/workitem/1363">status of the bug</a>.</p>
+<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
+<p>I can&#39;t really see any limitations to these polyfills (this term is probably not correct in this context). You can even use the generated code with native <code>for-of</code> loops, and on non-supporting browsers, Traceur can also polyfill these loops for you!</p>
+<p>So give the generators a try today!</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
+<ul>
+<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
+</ul>
+</div><div class="comments"><a href="/posts/polyfilling-generators/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
