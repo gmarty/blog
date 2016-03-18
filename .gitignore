@@ -1,6 +1,6 @@
-.idea
-.grunt
-.sass-cache
-node_modules
+/.idea
+/.grunt
+/.sass-cache
+/node_modules
+/dist
 TODO.md
-dist
