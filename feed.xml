@@ -1,5 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Fri, 18 Mar 2016 18:53:29 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Fri, 18 Mar 2016 18:53:29 GMT</pubDate><copyright><![CDATA[2016 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Welsh keyboard for Firefox OS]]></title><description><![CDATA[<p>I recently worked on a way to automatise the <a href="https://github.com/gmarty/wordlist-generator">creation of dictionaries for word suggestions when typing in Firefox OS</a> (More on that one day, hopefully). As a test case, I generated a Welsh keyboard, as it is one of the few languages I know a little that didn&#39;t have a keyboard in Firefox OS (<a href="http://gu.illau.me/posts/japanese-keyboard-for-firefox-os/">Japanese keyboard</a> is another exception though). Typing on a mobile is hard enough, so word suggestions and autocorrect are keys for a better experience.
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Just a blog by G.C. Marty]]></title><description><![CDATA[Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Tue, 17 May 2016 16:27:58 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Tue, 17 May 2016 16:27:58 GMT</pubDate><copyright><![CDATA[2016 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Building a Voice Assistant in JavaScript]]></title><description><![CDATA[<p>In the last couple of days, I explored the voice in the browser. Here&#39;s my findings (<strong>tldr:</strong> it works but sucks).</p>
+<h2><a name="whats-available" class="anchor" href="#whats-available"><span class="header-link"></span></a>What&#39;s available</h2>
+<p>Most of the voice related libraries in  JavaScript that I found are simple wrappers around the <a href="https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html">Web Speech API</a>. Under the hood browsers use external services so I ruled out these libraries immediately as I wanted something that works offline.</p>
+<p>What I found:</p>
+<ul>
+<li><a href="https://github.com/syl22-00/pocketsphinx.js">pocketsphinx.js</a> for voice recognition</li>
+<li><a href="https://github.com/kripken/speak.js/">speak.js</a> for voice synthesis (several forks available)</li>
+</ul>
+<p>Both these projects are brought to the web thanks to Emscripten and asm.js.</p>
+<h2><a name="building-a-not-so-intelligent-voice-assistant" class="anchor" href="#building-a-not-so-intelligent-voice-assistant"><span class="header-link"></span></a>Building a (not so) intelligent voice assistant</h2>
+<p>Thanks to a discussion with my friend <a href="https://twitter.com/oncletom">Thomas</a> this weekend, <a href="http://cenode.io/">CENode.js</a> was brought to my attention. It&#39;s an open source project to enable human-machine conversation based on a human-friendly format. It can be used to simulate intelligence.</p>
+<p>I had all the elements at hand to build a browser-based, offline voice assistant (Think Siri, OK Google, Amazon Echo...).</p>
+<h2><a name="coding-or-rather-gluing" class="anchor" href="#coding-or-rather-gluing"><span class="header-link"></span></a>Coding (or rather gluing)</h2>
+<p>Gluing all parts together was unsurprisingly easy. Pocketsphinx.js calls a function when the web worker has a final hypothesis:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">worker</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">hyp</span> <span class="o">!==</span> <span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="kr">final</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">gotHypothesis</span><span class="p">(</span><span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">hyp</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>I can feed this hypothesis to CENode.js by creating a new card:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">function</span> <span class="nx">gotHypothesis</span><span class="p">(</span><span class="nx">hypothesis</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">card</span> <span class="o">=</span> <span class="s2">&quot;there is a nl card named &#39;{uid}&#39; that is to the agent &#39;agent1&#39; and is from the individual &#39;User&#39; and has the timestamp &#39;{now}&#39; as timestamp and has &#39;&quot;</span> <span class="o">+</span> <span class="nx">hypothesis</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/&#39;/g</span><span class="p">,</span> <span class="s2">&quot;\\&#39;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39; as content.&quot;</span><span class="p">;</span>
+  <span class="nx">node</span><span class="p">.</span><span class="nx">add_sentence</span><span class="p">(</span><span class="nx">card</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>Then I just have to wait until the deck is polled for new cards to my attention (my name is <code>User</code>). The new card contains the answer to my request and I can just do:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">speak</span><span class="p">(</span><span class="nx">card</span><span class="p">.</span><span class="nx">content</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>The function <code>speak</code> will call <code>espeak.synth()</code> of speak.js.</p>
+<h2><a name="adding-a-grammar" class="anchor" href="#adding-a-grammar"><span class="header-link"></span></a>Adding a grammar</h2>
+<p>This is it for the JavaScript code. But an important part is still missing. Pocketsphinx.js needs to be fed with a grammar and the pronunciation of all the words used in the grammar. This is used to reduce the scope of detected phrases. So I&#39;ll conveniently reuse all the possible requests supported by CENode.js.</p>
+<p>Considering the <a href="http://cenode.io/demo/">CENode.js demo</a> about astronomy, here&#39;s a list of some requests that it can understand (let me know if I missed any):</p>
+<pre><code><div class="highlight"><pre><span class="nx">What</span> <span class="nx">orbits</span> <span class="nx">Mars</span><span class="o">?</span>
+<span class="nx">What</span> <span class="nx">does</span> <span class="nx">Titan</span> <span class="nx">orbit</span><span class="o">?</span>
+<span class="nx">What</span> <span class="nx">is</span> <span class="nx">Saturn</span><span class="o">?</span>
+<span class="nx">What</span> <span class="nx">is</span> <span class="nx">a</span> <span class="nx">star</span><span class="o">?</span>
+<span class="nx">List</span> <span class="nx">instances</span> <span class="nx">of</span> <span class="nx">type</span> <span class="nx">planet</span>
+</pre></div>
+</code></pre>
+<p>The first step is to compute all the possible permutations that make sense in English and that CENode.js will understand. I found 124 of them. This is the corpus I&#39;ll use in the next steps.</p>
+<p>The grammar used by pocketsphinx.js is a Finite State Grammar. Think of a finite state machine where each state adds a word to the phrase:</p>
+<pre><code><div class="highlight"><pre><span class="nx">s</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">// s is the state with initial value 0.</span>
+
+<span class="p">[]</span>    <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">What</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">does</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="nx">Titan</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="nx">orbit</span><span class="o">?</span>
+<span class="nx">s</span> <span class="o">=</span> <span class="mi">0</span>    <span class="nx">s</span> <span class="o">=</span> <span class="mi">1</span>     <span class="nx">s</span> <span class="o">=</span> <span class="mi">2</span>     <span class="nx">s</span> <span class="o">=</span> <span class="mi">3</span>      <span class="nx">s</span> <span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</code></pre>
+<p>The grammar for this simple phrase is:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kr">const</span> <span class="nx">grammar</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">numStates</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="nx">start</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>
+  <span class="nx">end</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="nx">transitions</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="nx">from</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">to</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">word</span><span class="o">:</span> <span class="s2">&quot;WHAT&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nx">from</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">to</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">word</span><span class="o">:</span> <span class="s2">&quot;DOES&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nx">from</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nx">to</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">word</span><span class="o">:</span> <span class="s2">&quot;TITAN&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nx">from</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nx">to</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nx">word</span><span class="o">:</span> <span class="s2">&quot;ORBIT&quot;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="nx">from</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nx">to</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nx">word</span><span class="o">:</span> <span class="s2">&quot;&lt;sil&gt;&quot;</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>The more phrases you add, the more complex it gets. For each state, pocketsphinx.js uses the grammar to figure out what is a possible next step. If your grammar is correct, you cannot end up with meaningless sentences.</p>
+<p>I wrote a small script to build grammars from a corpus of phrases that I may publish if anyone is interested.</p>
+<h2><a name="adding-pronunciation" class="anchor" href="#adding-pronunciation"><span class="header-link"></span></a>Adding pronunciation</h2>
+<p>For each word in the corpus, pocketsphinx.js needs to know how to pronounce it.</p>
+<p>I fed my corpus to <a href="http://www.speech.cs.cmu.edu/tools/lmtool-new.html">Sphinx Knowledge Base Tool</a>. I simply took the <code>*.dic</code> file from the gz archive, split it on line breaks and split again each line on tabs and I got something like:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kr">const</span> <span class="nx">wordList</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">[</span><span class="s2">&quot;WHAT&quot;</span><span class="p">,</span><span class="s2">&quot;W AH T&quot;</span><span class="p">],</span>
+  <span class="p">[</span><span class="s2">&quot;WHAT(2)&quot;</span><span class="p">,</span><span class="s2">&quot;HH W AH T&quot;</span><span class="p">],</span>
+  <span class="p">[</span><span class="s2">&quot;ORBIT&quot;</span><span class="p">,</span><span class="s2">&quot;AO R B AH T&quot;</span><span class="p">],</span>
+  <span class="p">[</span><span class="s2">&quot;MARS&quot;</span><span class="p">,</span><span class="s2">&quot;M AA R Z&quot;</span><span class="p">],</span>
+  <span class="p">...</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-result" class="anchor" href="#the-result"><span class="header-link"></span></a>The result</h2>
+<p>Et voila ! That&#39;s all I needed to get an astronomy centred voice assistant that can tell me what satellites orbit around what planets and other detailed infos. I have to say it&#39;s pretty cool, specially because I&#39;m a big fan of astronomy and I got this project done in under 2 days.</p>
+<p>As a side note I tested it only on Firefox Nightly on my laptop. Results may differ on Chrome or on mobile devices.</p>
+<p>The result though is not really convincing. First of all pocketsphinx.js voice recognition is bad. I can probably blame it on  my accent (I&#39;m French, remember), but it&#39;s so frustrating to say &quot;What orbits Saturn?&quot; hundreds of time with no results while my colleague got understood at the first try! The good thing at least is it can&#39;t return phrases out of the grammar, so it will always output something that makes sense.</p>
+<p>CENode.js is also super limited and I don&#39;t really know how to improve it beyond the example provided (the format is well documented though). Some simple phrases, outside of the understanding scope, fail miserably:</p>
+<pre><code><div class="highlight"><pre><span class="nx">What</span> <span class="nx">is</span> <span class="nx">orbited</span> <span class="nx">by</span> <span class="nx">Titan</span><span class="o">?</span> <span class="o">--&gt;</span> <span class="nx">fails</span>
+<span class="nx">What</span> <span class="nx">does</span> <span class="nx">Titan</span> <span class="nx">orbit</span><span class="o">?</span>    <span class="o">--&gt;</span> <span class="nx">succeeds</span>
+</pre></div>
+</code></pre>
+<p>But if you ask &quot;What is Saturn?&quot;, you get:</p>
+<pre><code><div class="highlight"><pre><span class="nx">Saturn</span> <span class="nx">is</span> <span class="nx">a</span> <span class="nx">planet</span><span class="p">.</span> <span class="nx">Saturn</span> <span class="nx">orbits</span> <span class="nx">the</span> <span class="nx">star</span> <span class="s1">&#39;sun&#39;</span> <span class="nx">and</span> <span class="nx">is</span> <span class="nx">orbited</span> <span class="nx">by</span> <span class="nx">the</span> <span class="nx">moon</span> <span class="s1">&#39;Titan&#39;</span><span class="p">...</span>
+</pre></div>
+</code></pre>
+<p>The passive voice does not seem to be supported in requests.</p>
+<p>Finally, what is output by speak.js is pretty terrifying. Whatever the voice you choose, they all sound robotic. They have a cool retro feeling if that&#39;s what you&#39;re after (and you can argue that it works better for something related to astronomy and space), but they&#39;re far from the quality of commercial products.</p>
+<h2><a name="going-further" class="anchor" href="#going-further"><span class="header-link"></span></a>Going further</h2>
+<p>This experimentations were limited in time so I didn&#39;t want to spend too much on it, but if I had had a real project to build, I&#39;d had seriously looked at:</p>
+<ul>
+<li>Finding better language packages for pocketsphinx.js.</li>
+<li>Building better grammar files for pocketsphinx.js.</li>
+<li>Using CENode.js&#39; advanced features.</li>
+<li>Using better voice packages in espeak.js.</li>
+<li>Supporting more languages outside of English</li>
+</ul>
+<p>I don&#39;t think it&#39;s worth sharing the code that&#39;s messy and I&#39;ll leave it as an exercise to the reader, unless somebody is really interested.</p>
+<p>What I can share though is the FSG generator from a corpus. It needs some cleaning but the code can run on node or in the browser.</p>
+<p>There&#39;s probably tons of mistakes and approximations in this post, I&#39;m by no means a voice expert, so please correct me if need be. Also if you have any ideas on how to improve it or if I missed an existing library, please do let me know in the comments. Thanks!</p>
+]]></description><link>http://gu.illau.me/posts/building-a-voice-assistant-in-javascript/</link><guid isPermaLink="true">http://gu.illau.me/posts/building-a-voice-assistant-in-javascript/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 17 May 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[Welsh keyboard for Firefox OS]]></title><description><![CDATA[<p>I recently worked on a way to automatise the <a href="https://github.com/gmarty/wordlist-generator">creation of dictionaries for word suggestions when typing in Firefox OS</a> (More on that one day, hopefully). As a test case, I generated a Welsh keyboard, as it is one of the few languages I know a little that didn&#39;t have a keyboard in Firefox OS (<a href="http://gu.illau.me/posts/japanese-keyboard-for-firefox-os/">Japanese keyboard</a> is another exception though). Typing on a mobile is hard enough, so word suggestions and autocorrect are keys for a better experience.
 If you speak Welsh, even a little, and use Firefox OS on the master branch, please help us to test the keyboard and assess its quality.</p>
 <h2><a name="install-and-activate-the-welsh-keyboard" class="anchor" href="#install-and-activate-the-welsh-keyboard"><span class="header-link"></span></a>Install and activate the Welsh keyboard</h2>
 <p>Make sure you are using the latest version of B2G. If your device is a Flame or a Sony Z3C running Firefox OS, then you should get new updates automatically. Otherwise, you&#39;ll want to flash the latest version.</p>
@@ -893,118 +999,4 @@ Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator<
 <p>This implementation is correct: visually we have a numeric keyboard and we maintain the semantic aspect.</p>
 <p>What if in the future phone numbers are replaced by ID? Or if they must be picked up from the contact book? The interface would change and the original snippet in this example wouldn&#39;t work anymore.</p>
 <p>A rule of thumb is you always win by betting on semantic. Semantic informs the browser about your intention. Browsers change but intentions remain.</p>
-]]></description><link>http://gu.illau.me/posts/always-bet-on-semantic/</link><guid isPermaLink="true">http://gu.illau.me/posts/always-bet-on-semantic/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Fri, 18 Oct 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Helpful trigonometric and geometric snippets for JavaScript]]></title><description><![CDATA[<p>I recently worked on a project with a heavy need of trigonometric functions.
-Basically I had to implement a drawing feature using a graphic lib.</p>
-<p>I found a few resources really useful, specially in JavaScript.
-But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
-<p>I thought the following snippets would be useful.</p>
-<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
-<p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
-<span class="cm"> * Named after ES6 Math.hypot(), with only 2 arguments.</span>
-<span class="cm"> * @param {number} segment1 The length of the 1st side.</span>
-<span class="cm"> * @param {number} segment2 The length of the 2nd side.</span>
-<span class="cm"> * @return {number} The size of the 3rd side.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">segment1</span> <span class="o">*</span> <span class="nx">segment1</span> <span class="o">+</span> <span class="nx">segment2</span> <span class="o">*</span> <span class="nx">segment2</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// Alternatively, this function is polyfilled as follow and is said to be faster albeit less precise:</span>
-<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">segment1</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment1</span><span class="p">);</span>
-  <span class="nx">segment2</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment2</span><span class="p">);</span>
-
-  <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="nx">min</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nx">max</span><span class="p">;</span>
-  <span class="k">else</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">min</span> <span class="o">/</span> <span class="nx">max</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">max</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">u</span> <span class="o">*</span> <span class="nx">u</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
-<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
-<p>Using the <code>hypot()</code> function defined above:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the distance between 2 points.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {number} The distance between (x1, y1) and (x2, y2).</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the angle of a triangle given its sides length.</span>
-<span class="cm"> * @param {number} side1 The length of the 1st side.</span>
-<span class="cm"> * @param {number} side2 The length of the 2nd side.</span>
-<span class="cm"> * @param {number} side3 The length of the 3nd side.</span>
-<span class="cm"> * @return {number} The angle opposed to 3rd side.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">segmentsAngle</span><span class="p">(</span><span class="nx">side1</span><span class="p">,</span> <span class="nx">side2</span><span class="p">,</span> <span class="nx">side3</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">acos</span><span class="p">((</span><span class="nx">side1</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">+</span> <span class="nx">side2</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">)</span> <span class="o">-</span> <span class="nx">side3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">))</span><span class="o">:</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the distance of a point to a line.</span>
-<span class="cm"> * @param {number} xP The x coordinate of the point.</span>
-<span class="cm"> * @param {number} yP The y coordinate of the point.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {number} The distance of point (xP, yP) to the line (x1, y1)-(x2, y2).</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">pointToLine</span><span class="p">(</span><span class="nx">xP</span><span class="p">,</span> <span class="nx">yP</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">normalLength</span> <span class="o">=</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">((</span><span class="nx">xP</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">yP</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">))</span> <span class="o">/</span> <span class="nx">normalLength</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
-<p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with a and b properties.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">lineEquation</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">y2</span><span class="p">};</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
-<span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
-<span class="cm"> * @param {number} b1 The b of line 1 equation.</span>
-<span class="cm"> * @param {number} a2 The a of line 2 equation.</span>
-<span class="cm"> * @param {number} b2 The b of line 2 equation.</span>
-<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with x and y properties.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">linesIntersectionPoint</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">b1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="nx">b2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">b2</span> <span class="o">-</span> <span class="nx">b1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">-</span> <span class="nx">a2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b1</span><span class="p">};</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>These functions are pretty basic but are a solid ground base for more complex computations.
-Also I will probably add more snippets here as time/need permits.</p>
-]]></description><link>http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/</link><guid isPermaLink="true">http://gu.illau.me/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 18 Sep 2012 00:00:00 GMT</pubDate></item></channel></rss>
+]]></description><link>http://gu.illau.me/posts/always-bet-on-semantic/</link><guid isPermaLink="true">http://gu.illau.me/posts/always-bet-on-semantic/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Fri, 18 Oct 2013 00:00:00 GMT</pubDate></item></channel></rss>

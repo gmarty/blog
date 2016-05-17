@@ -15,7 +15,67 @@ if (navigator.doNotTrack !== '1') {
   ga('set', 'anonymizeIp', true);
   ga('set', 'forceSSL', true);
   ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
+}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/building-a-syntactic-translation-engine/"><h1 class="post-title">Building a syntactic translation engine</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 4 &#183; 21</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
+<h2><a name="disclaimer" class="anchor" href="#disclaimer"><span class="header-link"></span></a>Disclaimer</h2>
+<p>I wish I had a serious background in NLP and machine translation, but I don&#39;t and the logic described here is solely based on my scarce knowledge in this field and my experience as a foreign language speaker.</p>
+<h2><a name="definition" class="anchor" href="#definition"><span class="header-link"></span></a>Definition</h2>
+<p>I&#39;m not sure if the word syntactic machine translation does really exist, but I found it describes what I mean very well. So let&#39;s start off by giving my personal definition of syntactic MT.</p>
+<p>Unlike advanced techniques, the syntactic MT engine only takes the syntax of the languages into account. It doesn&#39;t try to understand the meaning of the phrases to translate. This is major limitation as it can&#39;t understand idiomatic expressions, such as proverbs...</p>
+<p>Also a single word with different meanings will be translated the same way regardless of the context in the sentence to translate.</p>
+<p>This is to be remembered when assessing the accuracy of the translated phrases.</p>
+<p>However, the advantage of this method lays in the fact that it is very easy to develop, doesn&#39;t require a deep understanding of MT and can be hacked in a weekend!</p>
+<h2><a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="header-link"></span></a>How does it work?</h2>
+<p>I&#39;ll now describe the mechanism I implemented to hack a quick and dirty syntactic MT engine for English and Japanese.</p>
+<p>This idea of syntactic MT is that elements in translated pairs bear the same class of Part of Speech (POS ; i.e. noun, verb, adverb...) in both languages, for example, an adjective remains an adjective in the resulting translation. A certain grammatical pattern will be the same in each pairs of the corpus and the resulting translation.</p>
+<h3><a name="spring-cleaning" class="anchor" href="#spring-cleaning"><span class="header-link"></span></a>Spring cleaning</h3>
+<p>First of all, I cleaned up the corpus a bit, applying the following steps:</p>
+<ul>
+<li>Removing incomplete sentences</li>
+<li>Unify punctuations (specially adding an optional question mark at the end of questions in Japanese)</li>
+<li>Normalising the Japanese to use half-width alphanumeric characters and full-width katakana and punctuation signs</li>
+</ul>
+<p>I then normalise both languages to keep semantic equivalents while reducing inflected forms (e.g. <code>can&#39;t</code> -&gt; <code>cannot</code> ; <code>します</code> -&gt; <code>する</code> ; See <code>/utils/ja-normalizer.js</code> and <code>/utils/en-normalizer.js</code>). Doing so reduced noise and helped a lot on quality as the corpus is quite small.</p>
+<h3><a name="tag-the-corpus" class="anchor" href="#tag-the-corpus"><span class="header-link"></span></a>Tag the corpus</h3>
+<p>Then, the next thing to do is to tag the POS of all the pairs in the corpus.</p>
+<p>The English sentences are tagged using <a href="https://github.com/fortnightlabs/pos-js">pos-js</a> written in JavaScript (an in-browser and Node.JS versions both exist).</p>
+<p>The Japanese is tagged using <a href="http://en.wikipedia.org/wiki/ChaSen">ChaSen</a>. ChaSen is a famous command line utility, but this is a serious limitation here. To make it work, the sentence to translate must be tagged too (more on this later). I wanted the app to work offline and use frontend code only, but the lack of a JavaScript implementation of a Japanese POS tagger forced me to reject Japanese to English translation. Only English to Japanese is supported.</p>
+<p>The first problem arising here is the difference between the POS items in English and Japanese. Chasen is very comprehensive, so I had to simplify and match its POS items to the ones returned by pos-js (see <code>/utils/chasen2jspos-map.json</code> and <code>/utils/jspos2simplified-map.json</code>).</p>
+<h3><a name="build-a-dictionary" class="anchor" href="#build-a-dictionary"><span class="header-link"></span></a>Build a dictionary</h3>
+<p>At this stage, I have 2 corpus tagged, I can easily align classes of POS in both languages to build a dictionary. Let&#39;s say a pair has only one adjective in English and in Japanese, we can conclude that this adjective in English is likely to be translated by this other adjective in Japanese. The first pass consists of extracting terms whose class of POS appear only once in each pair.</p>
+<p>For more ambiguous pairs containing more than one class of POS in both sentences, alignment is harder. The method I found makes use of the dictionary we are building.</p>
+<p>Let&#39;s say a phrase has 2 adjectives in both languages. If one of them and its translation are already in the dictionary, we can assume that the remaining adjective matches the other one in the destination sentence. This is the second pass. I repeat this step a couple of times until no new translations are found.</p>
+<p>This dictionary building method gives incredible results. Of course there is some noise, but for frequent words, the translations are very accurate. Here&#39;s an example for the word <code>already</code> and its frequency in Japanese translations:</p>
+<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nt">&quot;すでに&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
+  <span class="nt">&quot;既に&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
+  <span class="nt">&quot;もう&quot;</span><span class="p">:</span> <span class="mi">8</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>It indeed contains all the translation for <code>already</code> that I know!</p>
+<p>See <code>/build-dico.js</code> for the implementation.</p>
+<h3><a name="build-a-pos-converter" class="anchor" href="#build-a-pos-converter"><span class="header-link"></span></a>Build a POS converter</h3>
+<p>Now we&#39;re still using the POS tagged corpus to match patterns in both languages.</p>
+<p>For each phrase with a certain POS pattern (e.g. Noun Verb Noun), we look for the most common pattern in the translated phrases. The idea is to determine which is the most frequent translated POS pattern of a language given the POS pattern of the source phrase.</p>
+<p>At this stage I also generate what I called placeholders. They are generic sentences for this particular POS pattern where I replaced each word by the most common one (I know it&#39;s completely unscientific!). These are used as a base for translation. I just need to inject the right words (see below).</p>
+<p>See the code at <code>/build-pos-converter.js</code>.</p>
+<h3><a name="finally-translate" class="anchor" href="#finally-translate"><span class="header-link"></span></a>Finally, translate</h3>
+<p>With all these static assets generated (dictionary, POS pattern matcher, POS pattern placeholders), I can try to translate from one language to another.</p>
+<p>The user input in English is first normalised (see above), then POS tagged (Remember? That&#39;s why I can&#39;t use Japanese input on the browser as ChaSen is a command line tool). I then look for the most frequent POS pattern in Japanese.</p>
+<p>Once found, I take the Japanese placeholder sentence for this POS pattern and inject into it the translations from the original English input. For words that don&#39;t have translations, the word is just ignored and the one from the placeholder is preserved (thus creating very weird translations at time, but at least giving complete and correct sentences). Of course this could be improved using a more comprehensive dictionary, but I didn&#39;t try it.</p>
+<p>One of the problem not addressed by this script is the alignment of several identical classes of POS. In this case, I just assign them in order: the first adjective in English is matched to the first in Japanese, then the second... and so on. I know this is quite of an issue, but I just couldn&#39;t be bothered trying to fix it.</p>
+<p>The script is located in <code>/en2ja.js</code>.</p>
+<h2><a name="the-future" class="anchor" href="#the-future"><span class="header-link"></span></a>The future</h2>
+<p>There is a lot of room for improvement in many places:</p>
+<ul>
+<li>Using an unified POS tagger for English and Japanese, ideally written in JavaScript, for a better quality.</li>
+<li>Using an external dictionary to enhance translations.</li>
+<li>Use statistics to reject the less significant pairs in the dictionary and the POS converter.</li>
+<li>Use a stemmer to group several inflections of the same nouns, verbs or adjectives and get a more complete dictionary.</li>
+<li>Use a bigger corpus.</li>
+</ul>
+<p>But that&#39;s it for now, I may work on this later, but in the meantime, feel free to contribute!</p>
+</div><div class="comments"><a href="/posts/building-a-syntactic-translation-engine/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/how-i-built-a-translation-engine-in-a-weekend/"><h1 class="post-title">How I built a translation engine in a weekend</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 3 &#183; 3</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="and-managed-to-go-out-on-friday-and-saturday-nights" class="anchor" href="#and-managed-to-go-out-on-friday-and-saturday-nights"><span class="header-link"></span></a>and managed to go out on Friday and Saturday nights</h2>
 <p>Google Translate is powered by the technique called <a href="https://en.wikipedia.org/wiki/Machine_translation">machine translation</a>. It can translate sentences from one natural language to another, without human interactions.
 I recently heard that Mozilla was starting a project to create an open source machine translation engine. That immediately resonated in me and I decided to give it a try and build my own English-Japanese translator in JavaScript.</p>
 <h2><a name="day-1-get-ready" class="anchor" href="#day-1-get-ready"><span class="header-link"></span></a>Day 1: Get ready</h2>
@@ -100,67 +160,7 @@ Oh and Mac have only one language configured at a time: you will never get more 
 <h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
 <p>Making the full list of languages configured in a browser available to JavaScript can&#39;t be done front-end at all and partially using back-end. But this information is stored in the OS/browser itself. Am I the only one to think something is wrong here?</p>
 <p>This topic is hard and has been around for a while, so some of the resources I consulted might be outdated. Use the comments below if you spotted any error.</p>
-</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 12 &#183; 16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
-<blockquote>
-<p><strong>tl;dr</strong> in case of slow web app:</p>
-<ul>
-<li>Don&#39;t immediately jump into JavaScript optimisation; instead investigate network, DOM, rendering... and fix accordingly</li>
-<li>Profile your application and optimise the code logic</li>
-<li>Optimise JavaScript only when required</li>
-</ul>
-</blockquote>
-<h2><a name="find-the-culprit" class="anchor" href="#find-the-culprit"><span class="header-link"></span></a>Find the culprit</h2>
-<p>In modern browsers, JavaScript is rarely the cause of slow applications. There are many layers involved in web applications that are way slower.</p>
-<p>The first thing to do is to investigate to find out where the performance issue is coming from. The causes can be multiple:</p>
-<ul>
-<li>Relying too much on the connexion</li>
-<li>Extensive DOM manipulation</li>
-<li>Rendering issues (forced layout...)</li>
-<li>io (e.g. repeated usage of <code>localStorage</code>)</li>
-</ul>
-<p>Use the Network tab of your favourite browser&#39;s development tool. Make sure your requests don&#39;t have any impact on your application at start and run time. Repeated Ajax calls can slow down applications too.</p>
-<p>Identifying slow DOM manipulation is a bit harder. The Timeline tab of Chrome&#39;s dev tools can help you pinpointing such issues. Of course, you must get familiar with the best practices. For example, when rendering a list of items in a templating engine, move the loop to the template and append all items to the DOM in one operation.</p>
-<p>Rendering issues can also be <a href="https://developers.google.com/chrome-developer-tools/docs/demos/too-much-layout/">captured by Chrome&#39;s dev tools</a> and starting from version 27, Firefox can now <a href="https://hacks.mozilla.org/2013/11/firefox-developer-tools-episode-27-edit-as-html-codemirror-more/">log functions that trigger a reflow</a>!</p>
-<p>There are a lot of valuable resources on the net about how to track down and fix these issues, so I won&#39;t cover them here. Once fixed, your application should work smoother. Not the case with yours? Keep reading then.</p>
-<h2><a name="profile-and-improve-logic-rinse-and-repeat" class="anchor" href="#profile-and-improve-logic-rinse-and-repeat"><span class="header-link"></span></a>Profile and improve logic. Rinse and repeat</h2>
-<p>So you made all these checks and you realised that JavaScript is actually what causes your application to perform badly.</p>
-<p>Nice, my favourite part of the optimisation process starts here! You need to profile your application.</p>
-<p>Grab your modern browser. Start the profiler then your app and interact with it like a normal user would. After a while, stop the profiler.</p>
-<p>You can now drill down to the most frequently called functions. If you&#39;re using closures or generated functions, make sure to <a href="http://gu.illau.me/posts/generating-generator-functions/#caveat-2-named-functions">name them to get meaningful results</a>.</p>
-<p>Now, have a look at the logic of the calls. There is certainly room for optimisation. Common mistakes include:</p>
-<ul>
-<li>Calling a function too many times, where the result could be cached and reused</li>
-<li>Deeply nested loops</li>
-<li>Iterating too many times when you could stop the iteration prematurely</li>
-</ul>
-<p>You also need to profile the memory used and track potential leak or heavy garbage collections.</p>
-<p>By operating at the code logic level, you can improve the speed of your application. The fixes applied here are not directly related to the JavaScript language, but rather to the logic of your code.</p>
-<p>You found and fixed these bottlenecks and now your application is running faster and smoother. You are now done, no need to read further.</p>
-<h2><a name="about-javascript-optimisation" class="anchor" href="#about-javascript-optimisation"><span class="header-link"></span></a>About JavaScript optimisation</h2>
-<p>You are still reading? I assume you are working on a signal processing tool, a game or a fundamental piece of software that must run fast.</p>
-<p>Before looking into the optimisation of JavaScript, I must clarify a couple of things.</p>
-<p>Keep in mind that JavaScript VMs are very good at running your code at a fast speed.</p>
-<p>Trust the VM.</p>
-<p>The second thing is using an alternate JavaScript syntax in your code is likely to never have any significant impact on speed. This belief dates back from the time browsers didn&#39;t have a JIT. Back then, using different syntaxes could make a difference. These kind of statements flourished over the web:</p>
-<ul>
-<li><code>if</code> are faster than <code>switch</code>.</li>
-<li>bitwise operations are faster than mathematical operators.</li>
-<li>join array to do strings concatenation</li>
-</ul>
-<p>Optimising JavaScript is not about the syntax. You can&#39;t base an optimisation strategy on syntax rewriting only. You&#39;ll end up wasting your time and get a little to no results. I&#39;m not even mentioning the impact on readability and maintainability of your code.</p>
-<p>Also, VM are constantly evolving. What perform best today might not tomorrow. VM implementors take code from the real world to see what developers do and what patterns to optimise. Using weird syntax is likely to never be optimised. Just write your code in a way that makes sense and that should be enough.</p>
-<h2><a name="finally-youre-ready-to-optimise-javascript" class="anchor" href="#finally-youre-ready-to-optimise-javascript"><span class="header-link"></span></a>Finally, you&#39;re ready to optimise JavaScript</h2>
-<p>After reading and understanding the statements above, you are now ready to improve your code using advanced optimisations. These crazy techniques include:</p>
-<ul>
-<li>Enforcing type stability</li>
-<li>Tracking deoptimisations</li>
-<li>Use web workers to do parrallel processing</li>
-</ul>
-<p>In the 2nd part of <a href="http://www.youtube.com/watch?v=65-RbBwZQdU">this talk</a>, Vyacheslav shows a tool to inspect the code generated by V8. It&#39;s complex to dive into the VM internals, but that&#39;s the only way to gain some performance points.</p>
-<p>To track deoptimisations, using Chrome or V8, you can pass some flags like <code>--trace_deopt</code> (trace deoptimization). You&#39;ll get a more or less descriptive message about why V8 is not able to optimise your code. Fix it if possible.</p>
-<p>There are no such tools for Firefox (since <a href="https://addons.mozilla.org/ja/firefox/addon/jit-inspector/">JIT inspector</a> is not working) or IE. So I have to recommend Chrome to optimise JavaScript this way. However, try as much as possible not to be too specific so that your code run fast, or at least not slower, on other browsers too.</p>
-<p>Optimisation is a complex topic, but there are techniques we can apply to make your code run fast. I&#39;d like to elaborate on each step described in this process in the form of blog posts. But for now, just take the time to locate the cause of slowness and don&#39;t incriminate JavaScript right away, the culprit can be hiding elsewhere!</p>
-</div><div class="comments"><a href="/posts/dont-optimise-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
+</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
   var $navBar = document.querySelector('nav');
   
   // If touchscreen listen for touch, if not listen for click.
