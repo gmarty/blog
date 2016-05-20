@@ -1,21 +1,4 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
-
-// Learn about privacy and Google Analytics in this post:
-// http://gu.illau.me/posts/privacy-and-google-analytics/
-if (navigator.doNotTrack !== '1') {
-  (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-  ga('create', 'UA-207391-17', {
-    'storage': 'none',
-    'clientId': localStorage.getItem('gaClientId'),
-    'siteSpeedSampleRate': 100
-  });
-  ga(function(tracker) {
-    localStorage.setItem('gaClientId', tracker.get('clientId'));
-  });
-  ga('set', 'anonymizeIp', true);
-  ga('set', 'forceSSL', true);
-  ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 12 &#183; 16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span class="post-date">2013/12/16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
 <blockquote>
 <p><strong>tl;dr</strong> in case of slow web app:</p>
 <ul>
@@ -75,7 +58,7 @@ if (navigator.doNotTrack !== '1') {
 <p>To track deoptimisations, using Chrome or V8, you can pass some flags like <code>--trace_deopt</code> (trace deoptimization). You&#39;ll get a more or less descriptive message about why V8 is not able to optimise your code. Fix it if possible.</p>
 <p>There are no such tools for Firefox (since <a href="https://addons.mozilla.org/ja/firefox/addon/jit-inspector/">JIT inspector</a> is not working) or IE. So I have to recommend Chrome to optimise JavaScript this way. However, try as much as possible not to be too specific so that your code run fast, or at least not slower, on other browsers too.</p>
 <p>Optimisation is a complex topic, but there are techniques we can apply to make your code run fast. I&#39;d like to elaborate on each step described in this process in the form of blog posts. But for now, just take the time to locate the cause of slowness and don&#39;t incriminate JavaScript right away, the culprit can be hiding elsewhere!</p>
-</div><div class="comments"><a href="/posts/dont-optimise-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
+</div><div class="comments"><a href="/posts/dont-optimise-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span class="post-date">2013/11/25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
 <h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
 <p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
 <p>On Windows:</p>
@@ -120,7 +103,7 @@ if (navigator.doNotTrack !== '1') {
 <li>whether you know the file location or not</li>
 </ul>
 <p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
-</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span style="bottom:30px" class="post-date">2013 &#183; 11 &#183; 12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
+</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span class="post-date">2013/11/12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
 <ul>
 <li>Simple</li>
 <li>Hosted for free</li>
@@ -156,37 +139,4 @@ if (navigator.doNotTrack !== '1') {
 <li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
 </ol>
 <p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
-</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
-  var $navBar = document.querySelector('nav');
-  
-  // If touchscreen listen for touch, if not listen for click.
-  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-  
-  // Toggle the nav menu list when the user clicks the nav menu button.
-  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-    $navBar.classList.toggle('nav-show');
-  }, false);
-  
-  document.querySelector('.content').addEventListener(hitEvent, function(event) {
-    if ($navBar.classList.contains('nav-show')) {
-      $navBar.classList.remove('nav-show');
-    }
-  }, false);
-});
-
-// For each post, add the estimated reading time.
-var headersElt = document.querySelectorAll('div.post-head');
-var postCounter = 0;
-Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
-  var postEltClone = postElt.cloneNode(true);
-  var codeEltList = postEltClone.getElementsByTagName('code');
-  for (var i = codeEltList.length - 1; i >= 0; i--) {
-    var codeElt = codeEltList[i];
-    codeElt.parentNode.removeChild(codeElt);
-  }
-  var text = postEltClone.textContent;
-  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
-  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
-    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
-  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
-});</script></body></html>
+</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div></body></html>

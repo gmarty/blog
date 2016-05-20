@@ -1,21 +1,4 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Follow-up on navigator.languages</title><meta name="description" content="navigator.languages started to get implemented in browsers."><base href="http://gu.illau.me/posts/follow-up-on-navigator-languages/" target="_top"><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
-
-// Learn about privacy and Google Analytics in this post:
-// http://gu.illau.me/posts/privacy-and-google-analytics/
-if (navigator.doNotTrack !== '1') {
-  (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-  ga('create', 'UA-207391-17', {
-    'storage': 'none',
-    'clientId': localStorage.getItem('gaClientId'),
-    'siteSpeedSampleRate': 100
-  });
-  ga(function(tracker) {
-    localStorage.setItem('gaClientId', tracker.get('clientId'));
-  });
-  ga('set', 'anonymizeIp', true);
-  ga('set', 'forceSSL', true);
-  ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 9 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>Follow-up on navigator.languages</title><meta name="description" content="navigator.languages started to get implemented in browsers."><base href="http://gu.illau.me/posts/follow-up-on-navigator-languages/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span class="post-date">2014/09/09</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
 <h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
 <p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
 <p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>
@@ -72,37 +55,4 @@ var disqus_shortname = 'gmarty';
     var dsq = document.createElement('script'); dsq.async = true;
     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();</script></div><script>window.addEventListener('load', function() {
-  var $navBar = document.querySelector('nav');
-  
-  // If touchscreen listen for touch, if not listen for click.
-  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-  
-  // Toggle the nav menu list when the user clicks the nav menu button.
-  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-    $navBar.classList.toggle('nav-show');
-  }, false);
-  
-  document.querySelector('.content').addEventListener(hitEvent, function(event) {
-    if ($navBar.classList.contains('nav-show')) {
-      $navBar.classList.remove('nav-show');
-    }
-  }, false);
-});
-
-// For each post, add the estimated reading time.
-var headersElt = document.querySelectorAll('div.post-head');
-var postCounter = 0;
-Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
-  var postEltClone = postElt.cloneNode(true);
-  var codeEltList = postEltClone.getElementsByTagName('code');
-  for (var i = codeEltList.length - 1; i >= 0; i--) {
-    var codeElt = codeEltList[i];
-    codeElt.parentNode.removeChild(codeElt);
-  }
-  var text = postEltClone.textContent;
-  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
-  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
-    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
-  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
-});</script></body></html>
+})();</script></div></body></html>

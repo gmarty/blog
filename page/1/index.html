@@ -1,21 +1,4 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
-
-// Learn about privacy and Google Analytics in this post:
-// http://gu.illau.me/posts/privacy-and-google-analytics/
-if (navigator.doNotTrack !== '1') {
-  (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-  ga('create', 'UA-207391-17', {
-    'storage': 'none',
-    'clientId': localStorage.getItem('gaClientId'),
-    'siteSpeedSampleRate': 100
-  });
-  ga(function(tracker) {
-    localStorage.setItem('gaClientId', tracker.get('clientId'));
-  });
-  ga('set', 'anonymizeIp', true);
-  ga('set', 'forceSSL', true);
-  ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-physical-web/"><h1 class="post-title">The Physical Web</h1></a><span style="bottom:30px" class="post-date">2015 &#183; 3 &#183; 11</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>&quot;Walk up and use anything&quot; is the promise of the <a href="http://google.github.io/physical-web/">Physical Web</a>.
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-physical-web/"><h1 class="post-title">The Physical Web</h1></a><span class="post-date">2015/03/11</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>&quot;Walk up and use anything&quot; is the promise of the <a href="http://google.github.io/physical-web/">Physical Web</a>.
 It is an open source project started by Google that allows you to access to online resource via physical objects.</p>
 <h2><a name="the-concept" class="anchor" href="#the-concept"><span class="header-link"></span></a>The concept</h2>
 <p>The physical web is based on hardware beacons that broadcast data using Bluetooth Low Energy (BLE) without the need to pair the device. In this case, the data is an URL. For now, it requires you to install an app on your mobile device. This app will scan in the background the surroundings for beacons and will inform you whenever you come across one. You&#39;ll then be presented with a list of URL, one per beacon. If the project is successful, this feature may be built-in your mobile OS in the future, thus removing the need for an external app.</p>
@@ -34,7 +17,7 @@ Anyway, the web being what you make of it, I still think the physical web is an 
 <h2><a name="next-step" class="anchor" href="#next-step"><span class="header-link"></span></a>Next step</h2>
 <p>I&#39;ve started building an app to implement the <a href="https://github.com/gmarty/fxos-physical-web">Physical Web on Firefox OS</a>. It will allow you to read and act as a physical web beacons. At the moment BLE is not implemented on B2G, but it&#39;s coming to v3, later this year. So in the meantime, I&#39;m relaying on mDNS.</p>
 <p>I&#39;ve set up one of the physical web beacons to advertise the URL of this blog. I&#39;m carrying this beacon with me most of the time. So if you come across it in the streets of London, you&#39;ll know I&#39;m not far away!</p>
-</div><div class="comments"><a href="/posts/the-physical-web/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/privacy-and-google-analytics/"><h1 class="post-title">Privacy and Google Analytics</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 12 &#183; 8</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="the-problem" class="anchor" href="#the-problem"><span class="header-link"></span></a>The problem</h2>
+</div><div class="comments"><a href="/posts/the-physical-web/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/privacy-and-google-analytics/"><h1 class="post-title">Privacy and Google Analytics</h1></a><span class="post-date">2014/12/08</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="the-problem" class="anchor" href="#the-problem"><span class="header-link"></span></a>The problem</h2>
 <p>After reading a post comparing analytics solutions, I realised most people ignore that Google Analytics can be fine tuned to comply with stricter privacy policies. In this post, I&#39;ll share the solutions I implemented to keep using Google Analytics without compromising my visitors (a.k.a. yourself) privacy.</p>
 <p>Please note that the code only relates to the latest <code>analytics.js</code> API. Look for support pages for older versions of Google Analytics.</p>
 <h2><a name="the-solutions" class="anchor" href="#the-solutions"><span class="header-link"></span></a>The solutions</h2>
@@ -93,7 +76,7 @@ More info about the <a href="https://developers.google.com/analytics/devguides/c
 So after all, your trust level may be different and you can decide whether to apply the solutions mentioned above or turn to other analytics services, like <a href="http://piwik.org/">Piwik</a>.</p>
 <p>Also, I would have loved to see Google making some of these options easier. For example, support of DNT could have been made an option in the account settings. Also, we can&#39;t create a custom IP masking function to push anonymisation even further.</p>
 <p>Google Analytics offer some very basic privacy aware options, but they should offer more!</p>
-</div><div class="comments"><a href="/posts/privacy-and-google-analytics/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/experimenting-with-serverless-apps/"><h1 class="post-title">Experimenting with serverless apps</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
+</div><div class="comments"><a href="/posts/privacy-and-google-analytics/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/experimenting-with-serverless-apps/"><h1 class="post-title">Experimenting with serverless apps</h1></a><span class="post-date">2014/10/09</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Servers are inherent to the web. The recent <a href="https://unhosted.org/">unhosted</a> movement tends to reduce their importance to give the power back to the client applications.</p>
 <p>But is a completely serverless web really achievable?</p>
 <p>Let&#39;s stay very basic for now and let&#39;s not consider issues like security or version update.</p>
 <p>(Note: the content of this post was inspired and developed during an <a href="http://lanyrd.com/2014/decentralizejs/">event</a> and a <a href="http://www.meetup.com/ORG-London/events/202557812/">hack day</a> I attended recently.)</p>
@@ -177,37 +160,4 @@ Though it is currently implemented in Firefox OS and Android, this needs to be t
 I understand this falls in a particular edge case, but if data URI apps were supported like URL based apps, things would be easier.</p>
 <p>Now I&#39;d love to see a discussion happening around what does the web need to achieve this. Are they any specifications currently being standardised that would go in this direction?</p>
 <p>Let&#39;s move things forward and get a truly serverless web!</p>
-</div><div class="comments"><a href="/posts/experimenting-with-serverless-apps/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
-  var $navBar = document.querySelector('nav');
-  
-  // If touchscreen listen for touch, if not listen for click.
-  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-  
-  // Toggle the nav menu list when the user clicks the nav menu button.
-  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-    $navBar.classList.toggle('nav-show');
-  }, false);
-  
-  document.querySelector('.content').addEventListener(hitEvent, function(event) {
-    if ($navBar.classList.contains('nav-show')) {
-      $navBar.classList.remove('nav-show');
-    }
-  }, false);
-});
-
-// For each post, add the estimated reading time.
-var headersElt = document.querySelectorAll('div.post-head');
-var postCounter = 0;
-Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
-  var postEltClone = postElt.cloneNode(true);
-  var codeEltList = postEltClone.getElementsByTagName('code');
-  for (var i = codeEltList.length - 1; i >= 0; i--) {
-    var codeElt = codeEltList[i];
-    codeElt.parentNode.removeChild(codeElt);
-  }
-  var text = postEltClone.textContent;
-  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
-  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
-    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
-  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
-});</script></body></html>
+</div><div class="comments"><a href="/posts/experimenting-with-serverless-apps/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/" class="newer">Newer &#8594;</a><a href="/page/2/" class="older">&#8592; Older</a></div></div></body></html>

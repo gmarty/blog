@@ -1,8 +1,12 @@
 {
   "name": "Just a blog by G.C. Marty",
   "short_name": "G.C. Marty blog",
+  "lang": "en-GB",
   "start_url": "http://gu.illau.me/",
-  "scope": "/",
+  "scope": "/",,
+  "display": "browser",
+  "theme_color": "#ff8c00",
+  "background_color": "#fff",
   "icons": [
     {
       "src": "/img/icons/16.png",
@@ -54,6 +58,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ],
-  "display": "browser"
+  ]
 }

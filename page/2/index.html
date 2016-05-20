@@ -1,21 +1,4 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><link href="/css/main.css" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#F08C00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"><script>'use strict';
-
-// Learn about privacy and Google Analytics in this post:
-// http://gu.illau.me/posts/privacy-and-google-analytics/
-if (navigator.doNotTrack !== '1') {
-  (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-  ga('create', 'UA-207391-17', {
-    'storage': 'none',
-    'clientId': localStorage.getItem('gaClientId'),
-    'siteSpeedSampleRate': 100
-  });
-  ga(function(tracker) {
-    localStorage.setItem('gaClientId', tracker.get('clientId'));
-  });
-  ga('set', 'anonymizeIp', true);
-  ga('set', 'forceSSL', true);
-  ga('send', 'pageview');
-}</script></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 10 &#183; 2</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>Just a blog by G.C. Marty</title><meta name="description" content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="Just a blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">Just a blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/archives.html">archives</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span class="post-date">2014/10/02</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
 <p>The only workaround on desktop is to deactivate HTML5 Audio (and enable Flash!) in <code>Settings</code> &gt; <code>Lab</code>:</p>
 <p><img src="https://lh5.googleusercontent.com/xzXQE966E7owgcLWgOzu2HI_9FfS0Q5neQZXaUkuVJcB=s0" alt="How to deactivate HTML5 audio in Google Play Music Settings" title="Deactivate HTML5 playback in Google Play Music."></p>
 <p>The reasons why HTML5 playback doesn&#39;t work is probably because of browser sniffing. A couple of bugs are opened (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=911837">Google Play Music HTML5 Audio Feature broken</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902531">Google Play Music not working on Firefox for Android/Firefox OS</a>), but no clear solution was provided thus far.</p>
@@ -43,7 +26,7 @@ if (navigator.doNotTrack !== '1') {
 </ul>
 <p>It&#39;s completely disconnected to the Google Music account, so whenever I upload new CDs, I have to download and copy them to the SD card. But to be honest I don&#39;t really mind and it works for me: I get the album covers and it works offline!</p>
 <p><img src="https://lh4.googleusercontent.com/-NuJrYDM4xSc/VBAjCsT5qvI/AAAAAAAAWxw/j357dFhtYt4/s0/Firefox-OS-play-app.png" alt="Firefox OS Play app showing albums imported from Google Music" title="Firefox OS Play app"></p>
-</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 9 &#183; 9</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
+</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span class="post-date">2014/09/09</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
 <h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
 <p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
 <p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>
@@ -76,7 +59,7 @@ if (navigator.doNotTrack !== '1') {
 <h2><a name="setting-the-language-independently-to-the-os" class="anchor" href="#setting-the-language-independently-to-the-os"><span class="header-link"></span></a>Setting the language independently to the OS</h2>
 <p>As a side note on this topic, on most mobile OSes (and some others like MacOS), the language of the browser is tied to that of the OS. Since last year, it&#39;s now possible to change the language of Firefox for Android independently (and without restarting the browser!).
 Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-in-firefox-for-android/">this blog post</a> for more details.</p>
-</div><div class="comments"><a href="/posts/follow-up-on-navigator-languages/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/software-gamepad/"><h1 class="post-title">Software gamepad</h1></a><span style="bottom:30px" class="post-date">2014 &#183; 8 &#183; 10</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently resumed my work on <a href="https://github.com/gmarty/jsSMS">jsSMS a JavaScript recompiler for Sega Master System and Game Gear</a>. Among the new features, I wanted to improve the software gamepad for touch screens.</p>
+</div><div class="comments"><a href="/posts/follow-up-on-navigator-languages/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/software-gamepad/"><h1 class="post-title">Software gamepad</h1></a><span class="post-date">2014/08/10</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently resumed my work on <a href="https://github.com/gmarty/jsSMS">jsSMS a JavaScript recompiler for Sega Master System and Game Gear</a>. Among the new features, I wanted to improve the software gamepad for touch screens.</p>
 <h3><a name="naive-implementation" class="anchor" href="#naive-implementation"><span class="header-link"></span></a>Naive implementation</h3>
 <p>When I started adding the software gamepad, I did something quick and dirty. I didn&#39;t really have time to waste developing a nice looking controller in canvas (though that would have been easier). So I just threw some <code>&lt;div&gt;</code> tags, styled them and attached a couple of event listeners.</p>
 <p>To have a gamepad compatible with touch screens, I naturally listened to touch event on each key (up, down, left, right, fire1, fire2 and start).  <code>touchstart</code> and <code>touchmove</code> communicate the active key to the emulator and <code>touchend</code> release it.</p>
@@ -119,37 +102,4 @@ Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-
 <p>The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.</p>
 <p>I don&#39;t think you could do simpler and according to my coworker, the brilliant <a href="https://twitter.com/cwiiis">Chris Lord</a>, if your DOM tree is simple you shouldn&#39;t get any performance penalty from using <code>document.elementFromPoint</code>.</p>
 <p>Happy gaming!</p>
-</div><div class="comments"><a href="/posts/software-gamepad/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a><a href="/page/3/" class="older">&#8592; Older</a></div></div><script>window.addEventListener('load', function() {
-  var $navBar = document.querySelector('nav');
-  
-  // If touchscreen listen for touch, if not listen for click.
-  var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-  
-  // Toggle the nav menu list when the user clicks the nav menu button.
-  document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-    $navBar.classList.toggle('nav-show');
-  }, false);
-  
-  document.querySelector('.content').addEventListener(hitEvent, function(event) {
-    if ($navBar.classList.contains('nav-show')) {
-      $navBar.classList.remove('nav-show');
-    }
-  }, false);
-});
-
-// For each post, add the estimated reading time.
-var headersElt = document.querySelectorAll('div.post-head');
-var postCounter = 0;
-Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
-  var postEltClone = postElt.cloneNode(true);
-  var codeEltList = postEltClone.getElementsByTagName('code');
-  for (var i = codeEltList.length - 1; i >= 0; i--) {
-    var codeElt = codeEltList[i];
-    codeElt.parentNode.removeChild(codeElt);
-  }
-  var text = postEltClone.textContent;
-  var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
-  var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
-    (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
-  headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
-});</script></body></html>
+</div><div class="comments"><a href="/posts/software-gamepad/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/1/" class="newer">Newer &#8594;</a><a href="/page/3/" class="older">&#8592; Older</a></div></div></body></html>
