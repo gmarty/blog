@@ -3,7 +3,7 @@ mixin postHead(post)
   .post-head.group
     a(href="#{data.baseUrl}#{post.url}")
       h1.post-title= post.title
-    span.post-date(style="bottom:30px")!= [post.date.getUTCFullYear(), post.date.getUTCMonth() + 1, post.date.getUTCDate()].join(' &#183; ')
+    span.post-date!= [post.date.getUTCFullYear(), ('0' + (post.date.getUTCMonth() + 1)).substr(-2), ('0' + post.date.getUTCDate()).substr(-2)].join('/')
     span.post-reading-time
 
 mixin post(post)
@@ -14,41 +14,24 @@ doctype 5
 html(lang="en-GB")
   head
     meta(charset="utf-8")
-    link(href="#{data.baseUrl}css/main.css", rel="stylesheet")
     meta(name="viewport", content="width=device-width,initial-scale=1")
-    meta(name="theme-color", content="#F08C00")
+    meta(name="theme-color", content="#ff8c00")
     block head
       title="Just a blog by G.C. Marty"
       meta(name="description", content="Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!")
       base(href="http://gu.illau.me#{data.baseUrl}", target="_top")
+    link(href="#{data.baseUrl}css/main.css", rel="stylesheet")
+    script(src="/js/analytics.js", defer, async)
+    script(src="/js/ui.js", defer, async)
     link(href="/manifest.webmanifest", rel="manifest")
     link(href="http://feeds.feedburner.com/just-a-blog", rel="alternate", type="application/rss+xml", title="Just a blog by G.C. Marty")
     link(href="#{data.baseUrl}favicon.ico", rel="shortcut icon", type="image/x-icon")
-    script.
-      'use strict';
-
-      // Learn about privacy and Google Analytics in this post:
-      // http://gu.illau.me/posts/privacy-and-google-analytics/
-      if (navigator.doNotTrack !== '1') {
-        (function(G,o,O,g,l){G.GoogleAnalyticsObject=O;G[O]||(G[O]=function(){(G[O].q=G[O].q||[]).push(arguments)});G[O].l=Date.now();g=o.createElement('script'),l=o.scripts[0];g.src='//www.google-analytics.com/analytics.js';l.parentNode.insertBefore(g,l)}(this,document,'ga'));
-        ga('create', 'UA-207391-17', {
-          'storage': 'none',
-          'clientId': localStorage.getItem('gaClientId'),
-          'siteSpeedSampleRate': 100
-        });
-        ga(function(tracker) {
-          localStorage.setItem('gaClientId', tracker.get('clientId'));
-        });
-        ga('set', 'anonymizeIp', true);
-        ga('set', 'forceSSL', true);
-        ga('send', 'pageview');
-      }
   body
     nav
       h1.name
         a(href="#{data.baseUrl}") Just a blog
           small  by G.C. Marty
-      .menu.icon-menu
+      .menu.icon-menu(style="display:none")
       ul.nav-links
         li.text-link
           a(href="#{data.baseUrl}about.html") about
@@ -63,38 +46,3 @@ html(lang="en-GB")
         a.icon-twitter(href="https://twitter.com/g_marty")
     .content
       block content
-    script.
-      window.addEventListener('load', function() {
-        var $navBar = document.querySelector('nav');
-
-        // If touchscreen listen for touch, if not listen for click.
-        var hitEvent = 'ontouchstart' in document.documentElement ? 'touchstart' : 'click';
-
-        // Toggle the nav menu list when the user clicks the nav menu button.
-        document.querySelector('.menu').addEventListener(hitEvent, function(event) {
-          $navBar.classList.toggle('nav-show');
-        }, false);
-
-        document.querySelector('.content').addEventListener(hitEvent, function(event) {
-          if ($navBar.classList.contains('nav-show')) {
-            $navBar.classList.remove('nav-show');
-          }
-        }, false);
-      });
-
-      // For each post, add the estimated reading time.
-      var headersElt = document.querySelectorAll('div.post-head');
-      var postCounter = 0;
-      Array.prototype.forEach.call(document.querySelectorAll('div.post-body'), function(postElt) {
-        var postEltClone = postElt.cloneNode(true);
-        var codeEltList = postEltClone.getElementsByTagName('code');
-        for (var i = codeEltList.length - 1; i >= 0; i--) {
-          var codeElt = codeEltList[i];
-          codeElt.parentNode.removeChild(codeElt);
-        }
-        var text = postEltClone.textContent;
-        var readingTime = Math.ceil((text.match(/\S+/g)).length / 200);
-        var textNode = '<img src="/img/clock.svg" width="15" height="15" alt="Estimated reading time" title="Estimated reading time"/>' +
-          (readingTime == 1 ? '1 minute' : readingTime + ' minutes');
-        headersElt[postCounter++].querySelector('span.post-reading-time').innerHTML = textNode;
-      });
