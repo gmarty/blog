@@ -4,7 +4,9 @@
   description: "An overview of voice and intelligence in JavaScript"
 }
 
-In the last couple of days, I explored the voice in the browser. Here's my findings (**tldr:** it works but sucks).
+> **tl;dr:** You can build a voice assistant in JavaScript with existing open source libraries but the result sucks.
+
+In the last couple of days, I explored the voice in the browser. Here are my findings.
 
 ## What's available
 Most of the voice related libraries in  JavaScript that I found are simple wrappers around the [Web Speech API](https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html). Under the hood browsers use external services so I ruled out these libraries immediately as I wanted something that works offline.
@@ -123,7 +125,7 @@ The passive voice does not seem to be supported in requests.
 Finally, what is output by speak.js is pretty terrifying. Whatever the voice you choose, they all sound robotic. They have a cool retro feeling if that's what you're after (and you can argue that it works better for something related to astronomy and space), but they're far from the quality of commercial products.
 
 ## Going further
-This experimentations were limited in time so I didn't want to spend too much on it, but if I had had a real project to build, I'd had seriously looked at:
+This experimentation was limited in time so I didn't want to spend too much on it, but if I had had a real project to build, I'd had seriously looked at:
 
 * Finding better language packages for pocketsphinx.js.
 * Building better grammar files for pocketsphinx.js.
