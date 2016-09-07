@@ -6,7 +6,7 @@
 
 I've noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.
 
-> **tl;dr** in case of slow web app:
+> **tl;dr:** In case of slow web app:
 >
 > * Don't immediately jump into JavaScript optimisation; instead investigate network, DOM, rendering... and fix accordingly
 > * Profile your application and optimise the code logic

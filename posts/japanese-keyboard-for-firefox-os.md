@@ -4,7 +4,7 @@
   description: "There is not yet any good solution to input Japanese on Firefox OS"
 }
 
-> **tldr:** You can't efficiently type in Japanese on a Firefox OS device, unless you buy a fx0 device or you build Gaia yourself and are very patient!
+> **tl;dr:** You can't efficiently type in Japanese on a Firefox OS device, unless you buy a fx0 device or you build Gaia yourself and are very patient!
 
 Firefox OS is targeting a global audience. You can set your interface in 90 different languages and there are over 70 language specific keyboards!
 But developing a keyboard is more challenging for some languages than others and Japanese is one of them.
