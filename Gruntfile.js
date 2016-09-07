@@ -5,8 +5,8 @@ module.exports = function(grunt) {
       options: {
         rss: {
           author: 'G.C. Marty',
-          title: 'Just a blog by G.C. Marty',
-          description: 'Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!',
+          title: 'A blog by G.C. Marty',
+          description: 'A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!',
           url: 'http://gu.illau.me',
           numPosts: 20
         }
