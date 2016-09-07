@@ -1,9 +1,8 @@
 {
-  "name": "Just a blog by G.C. Marty",
+  "name": "A blog by G.C. Marty",
   "short_name": "G.C. Marty blog",
   "lang": "en-GB",
-  "start_url": "http://gu.illau.me/",
-  "scope": "/",
+  "start_url": "/",
   "display": "browser",
   "theme_color": "#ff8c00",
   "background_color": "#fff",

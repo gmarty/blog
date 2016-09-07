@@ -1,10 +1,10 @@
 {
   "version": "0.0.2",
-  "name": "Just a blog by G.C. Marty",
+  "name": "A blog by G.C. Marty",
   "default_locale": "en-GB",
   "short_name": "G.C. Marty blog",
   "launch_path": "/",
-  "description": "Just a blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!",
+  "description": "A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!",
   "icons": {
     "16": "/img/icons/16.png",
     "32": "/img/icons/32.png",
