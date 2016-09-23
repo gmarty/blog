@@ -1,4 +1,72 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><!--meta(http-equiv="Content-Security-Policy", content="default-src 'self' ; style-src 'self' 'unsafe-inline' ; object-src 'none' ; img-src 'self' ; referrer no-referrer ;")--><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">A blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span class="post-date">2013/12/16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><!--meta(http-equiv="Content-Security-Policy", content="default-src 'self' ; style-src 'self' 'unsafe-inline' ; object-src 'none' ; img-src 'self' ; referrer no-referrer ;")--><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">A blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-problem-of-user-language-lists-in-javascript/"><h1 class="post-title">The problem of user language lists in JavaScript</h1></a><span class="post-date">2014/01/28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><a href="http://gu.illau.me/posts/follow-up-on-navigator-languages/">Edit: I wrote a followup post to this one at [Follow-up on navigator.languages</a>]</p>
+<p><a href="https://twitter.com/g_marty/status/412527722410553344">I&#39;ve always wondered</a> why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.</p>
+<p>On the other hand, JavaScript can only get the first language using:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span><span class="p">);</span> <span class="c1">// &#39;en&#39;, &#39;fr&#39;, &#39;de&#39; or whatever</span>
+</pre></div>
+</code></pre>
+<h2><a name="browsers-inconsistencies" class="anchor" href="#browsers-inconsistencies"><span class="header-link"></span></a>Browsers inconsistencies</h2>
+<p>Getting the language of the browser is part of the <a href="http://www.w3.org/TR/html5/webappapis.html#language-preferences">HTML5 specifications</a>, but implementations vary widely.</p>
+<h3><a name="internet-explorer" class="anchor" href="#internet-explorer"><span class="header-link"></span></a>Internet Explorer</h3>
+<p>Let&#39;s start with IE that has (surprisingly) the most complete set of (non standard) features about the environment language. <code>navigator.userLanguage</code> gets the first language set by the user (can be changed in Internet Options &gt; General &gt; Languages ; see <a href="http://msdn.microsoft.com/en-us/library/ie/ms534713%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
+<p><code>navigator.browserLanguage</code> returns the language of the UI of the browser. You can&#39;t change this value, it is decided by the version of the executable you installed (This property and all its subtleties are described in <a href="http://msdn.microsoft.com/en-us/library/ie/ms533542%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>).</p>
+<p>Finally, <code>navigator.systemLanguage</code> will give you the locale used by the OS (See <a href="http://msdn.microsoft.com/en-us/library/ie/ms534653%28v=vs.85%29.aspx">Internet Explorer Dev Center</a>.</p>
+<h3><a name="firefox-safari" class="anchor" href="#firefox-safari"><span class="header-link"></span></a>Firefox &amp; Safari</h3>
+<p><code>navigator.language</code> returns the first language in the list of languages.</p>
+<p>In Firefox, you can define it in Options &gt; Content &gt; Languages.</p>
+<p>Safari uses the language set at the system level (See <code>navigator.systemLanguage</code> of IE above). You cannot just override it in Safari.</p>
+<p>Some details are available on the <a href="https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage.language">navigator.language page on MDN</a>.</p>
+<h3><a name="chrome" class="anchor" href="#chrome"><span class="header-link"></span></a>Chrome</h3>
+<p>Invariantly returns the language of the UI through <code>navigator.language</code> without a <a href="https://code.google.com/p/chromium/issues/detail?id=1862">possibility to change it</a>. The value is similar to <code>navigator.browserLanguage</code> of IE.</p>
+<p>Chrome extensions can retrieve the full list of languages as set by the user thanks to <code>chrome.i18n.getAcceptLanguages()</code> (Not sure why this API is async):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">chrome</span><span class="p">.</span><span class="nx">i18n</span><span class="p">.</span><span class="nx">getAcceptLanguages</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">requestedLocales</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// &#39;requestedLocales&#39; is an array of strings.</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="whats-wrong-with-the-current-approach" class="anchor" href="#whats-wrong-with-the-current-approach"><span class="header-link"></span></a>What&#39;s wrong with the current approach?</h2>
+<p>Well, apart from the semantic inconsistencies, knowing only the main language is a serious limitation. Let&#39;s illustrate this with my personal experience. My browsers have the following configuration:</p>
+<ol>
+<li>Japanese</li>
+<li>English (GB)</li>
+<li>English</li>
+<li>English (US)</li>
+<li>French</li>
+<li>Spanish</li>
+<li>Korean</li>
+<li>German</li>
+</ol>
+<p>(Yeah, I want to train my Japanese, so I listed it first!)</p>
+<p>A website available in several languages will show the interface in Japanese and English if not available.</p>
+<p>But a local app will only get the first language, Japanese. So if this language is not available, the UI will be shown in a totally random language that I may not understand.</p>
+<p>Also, if the app knows the full list, it could use it to detect visitors speaking rare languages and ask them to collaborate on translation.</p>
+<h2><a name="how-to-fix-it" class="anchor" href="#how-to-fix-it"><span class="header-link"></span></a>How to fix it?</h2>
+<p>First of all, an easy cross browser way to get the preferred language is to do:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/** @const */</span> <span class="nx">DEFAULT_VALUE</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span><span class="p">;</span>
+<span class="cm">/** @const */</span> <span class="nx">PREFERRED_LANGUAGE</span> <span class="o">=</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">language</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">userLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">browserLanguage</span> <span class="o">||</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">systemLanguage</span> <span class="o">||</span> <span class="nx">DEFAULT_VALUE</span><span class="p">;</span>
+</pre></div>
+</code></pre>
+<p>That&#39;s fine as long as your app supports this language.</p>
+<p>If not, you could always ping a server, get the <code>accept-language</code> HTTP header, send the response back to JavaScript and parse it. That means that you need a scriptable server, so you cannot do it for, offline apps or for apps hosted on a static web server like Github Pages.
+Oh and Mac have only one language configured at a time: you will never get more than 1 element in the list of this header on Safari.</p>
+<h2><a name="what-to-do-next" class="anchor" href="#what-to-do-next"><span class="header-link"></span></a>What to do next?</h2>
+<p>The good news is things are being worked on.</p>
+<p>First, there is <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23517">this bug</a> on the WHATWG bug tracker to discuss this feature, with all <a href="https://github.com/marcoscaceres/Locale-Preferences-API/blob/master/proposal.md">the details here</a>. Firefox is already <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=889335">thinking of implementing it</a>.</p>
+<p>To put it in a nutshell, the current consensus is to have a new JavaScript property called <code>navigator.languages</code> that returns an array of language codes sorted by preference order:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">navigator</span><span class="p">.</span><span class="nx">languages</span><span class="p">);</span>
+<span class="c1">// The configuration above would give something like:</span>
+<span class="c1">// [&#39;ja&#39;, &#39;en-GB&#39;, &#39;en&#39;, &#39;en-US&#39;, &#39;fr&#39;, &#39;es&#39;, &#39;ko&#39;, &#39;de&#39;];</span>
+</pre></div>
+</code></pre>
+<p>Also, firing an event when language changes is also being discussed. Firefox OS allows this on certified apps with a proprietary API:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">navigator</span><span class="p">.</span><span class="nx">mozSettings</span><span class="p">.</span><span class="nx">addObserver</span><span class="p">(</span><span class="s1">&#39;language.current&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;New language&#39;</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">settingValue</span><span class="p">);</span> <span class="c1">// Default value is &#39;en-US&#39;.</span>
+<span class="p">});</span>
+</pre></div>
+</code></pre>
+<h2><a name="to-conclude" class="anchor" href="#to-conclude"><span class="header-link"></span></a>To conclude</h2>
+<p>Making the full list of languages configured in a browser available to JavaScript can&#39;t be done front-end at all and partially using back-end. But this information is stored in the OS/browser itself. Am I the only one to think something is wrong here?</p>
+<p>This topic is hard and has been around for a while, so some of the resources I consulted might be outdated. Use the comments below if you spotted any error.</p>
+</div><div class="comments"><a href="/posts/the-problem-of-user-language-lists-in-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/dont-optimise-javascript/"><h1 class="post-title">Don't optimise JavaScript</h1></a><span class="post-date">2013/12/16</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I&#39;ve noticed lately a lot of confusion regarding performance of web applications. This post tries to clarify a few points while delivering a method for optimising your code.</p>
 <blockquote>
 <p><strong>tl;dr:</strong> In case of slow web app:</p>
 <ul>
@@ -103,40 +171,4 @@
 <li>whether you know the file location or not</li>
 </ul>
 <p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
-</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span class="post-date">2013/11/12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
-<ul>
-<li>Simple</li>
-<li>Hosted for free</li>
-<li>Editable from anywhere</li>
-<li>and of course based on open source tools</li>
-</ul>
-<h2><a name="finding-tools-and-solutions" class="anchor" href="#finding-tools-and-solutions"><span class="header-link"></span></a>Finding tools and solutions</h2>
-<p>I&#39;m a lazy person and I find it very difficult to do things routinely. So, if I start a blog, I must make sure that nothing gets in my way. The writing/publishing process must be as easy as possible. It took me a while to love the simplicity of Markdown. But ever since I started working heavily with Github, I fell in love with its syntax. Markdown powers the simplicity I needed.</p>
-<p>I admire the logic behind the static websites generators. They move the complexity of blogs from the server to your computer. The resulting blogs are incredible fast. We can then use Github as a web hosting platform for free! I choose <a href="http://www.cabinjs.com/">Cabin</a> because it is simple and I wanted to experiment with Jade templates.</p>
-<p>The mobile aspect was important to me. I wanted to start or edit posts directly from my mobile, wherever I am, whenever I have time. Also I always use several browsers on different computers all the time, sometime on a bad connexion, if any at all. That&#39;s why I needed something distributed and not dependent on network status. A few months ago I came upon <a href="https://stackedit.io/">StackEdit</a> and was struck by its simplicity, beauty and powerfulness. It works on the browser, offline by default, can synchronise to many services (including Dropbox and Google Drive). The interface is split vertically with the original Markdown view on the left hand side next to the resulting formatted post, a UI pattern used by the <a href="https://ghost.org/">blogging platform Ghost</a> that received a lot of attention lately.</p>
-<h2><a name="putting-it-all-together" class="anchor" href="#putting-it-all-together"><span class="header-link"></span></a>Putting it all together</h2>
-<p>A typical blog post starts like this. I launch a browser on the device available (laptop, mobile...), start StackEdit and open a new document. I&#39;ve modified the default document to start with the metadata used by Cabin (Think of it as YAML front matter used by Jekyll, but in JSON):</p>
-<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
-  <span class="err">title:</span> <span class="nt">&quot;Title&quot;</span><span class="p">,</span>
-  <span class="err">date:</span> <span class="nt">&quot;2013-11-01&quot;</span><span class="p">,</span>
-  <span class="err">description:</span> <span class="nt">&quot;Description&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>I edit these metadata, start writing my draft and save it to Google Drive. I guess I could publish it directly to the Github repo as a draft (prefixed by <code>_</code>), but I prefer to keep my drafts private until they are ready for publication. Then I can synchronise and edit the posts from whatever device is available.</p>
-<p>When the post is ready, I publish it to <a href="https://github.com/gmarty/blog">my blog repo</a> on Github, in the <code>posts</code> folder. The tricky part now is that I need to launch the terminal, navigate to the blog folder on my computer and type:</p>
-<pre><code class="lang-bash"><div class="highlight"><pre>git pull <span class="o">&amp;&amp;</span> grunt deploy
-</pre></div>
-</code></pre>
-<p>The Grunt task <code>deploy</code> of Cabin is responsible for generating a static version and push it to the <code>gh-pages</code> branch of the repo.</p>
-<p>That&#39;s it.</p>
-<h2><a name="wrapping-up" class="anchor" href="#wrapping-up"><span class="header-link"></span></a>Wrapping up</h2>
-<p>This blog is powered by:</p>
-<ol>
-<li><a href="https://stackedit.io/">Stackedit</a></li>
-<li><a href="http://www.cabinjs.com/">Cabin</a></li>
-<li><a href="https://github.com/gmarty/blog">Github</a></li>
-<li><a href="https://www.google.co.uk/search?q=You&#39;re+not+looking+at+the+right+place">Love</a></li>
-</ol>
-<p>I really wish I were able to optimise the pull/deploy step and call it from any device, but I can&#39;t really think of any free and easy alternative. Do you have any ideas? Use the comments box below and make my life easier :-)</p>
-</div><div class="comments"><a href="/posts/the-ideal-blogging-workflow/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div></body></html>
+</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/3/" class="newer">Newer &#8594;</a><a href="/page/5/" class="older">&#8592; Older</a></div></div></body></html>
