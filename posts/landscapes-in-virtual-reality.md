@@ -29,14 +29,14 @@ If you draw a horizontal line right in the middle of the image, this is going to
 You can play with it. Make it slightly higher and the user will feel that they're trapped in the group (or maybe surrounded by mountains), making the final result a bit suffocating.
 If you lower the horizon line, the user will think they're flying.
 
-![The horizon line in VR](http://gu.illau.me/img/landscapes-in-virtual-reality/posts/horizon-line.jpg)
+![The horizon line in VR](http://gu.illau.me/img/posts/landscapes-in-virtual-reality/horizon-line.jpg)
 
 ## 4 sides
 
 Your field of view fits in roughly 1/4 of the image width. If you draw a single element larger than 1/4 of the width, it will force the user to look left and right to see it entirely, without being able to see it completely at once.
 Be creative with it. Big elements like monuments or mountains should be larger than 1/4 of the width. Smaller elements like vehicles or trees should be much smaller.
 
-![The 4 sides of the user](http://gu.illau.me/img/landscapes-in-virtual-reality/posts/4-sides.jpg)
+![The 4 sides of the user](http://gu.illau.me/img/posts/landscapes-in-virtual-reality/4-sides.jpg)
 
 ## Sphere in the sky
 As explained above, the equirectangular projection will merge the top of the image to a single point. If you want to draw a circular object right above the user, draw a stripe going from the top of the image on a small fraction of the height. This will render as a perfect circle if the line is parallel to the top of the image.
