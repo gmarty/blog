@@ -1,4 +1,49 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">A blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span class="post-date">2013/11/12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">A blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/firefox-os-the-device-storage-api/"><h1 class="post-title">Firefox OS: the Device Storage API</h1></a><span class="post-date">2013/11/25</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Working with the <a href="https://developer.mozilla.org/en/docs/WebAPI/Device_Storage">Device Storage API</a> of Firefox OS can be a bit complicated if you don&#39;t have a real device at hand. But if you use Firefox OS Simulator, the following advices can help you.</p>
+<h2><a name="sd-card" class="anchor" href="#sd-card"><span class="header-link"></span></a>SD Card</h2>
+<p>The SD Card location used by Firefox OS Simulator is mapped to a physical folder on your computer.</p>
+<p>On Windows:</p>
+<blockquote>
+<p>C:\Users\<i>USERNAME</i>\AppData\Roaming\Mozilla\Firefox\Profiles\<i>PROFILEKEY</i>\extensions\r2d2b2g@mozilla.org\profile\fake-sdcard</p>
+</blockquote>
+<p>On Ubuntu:</p>
+<blockquote>
+<p>/home/<i>USERNAME</i>/.mozilla/firefox/<i>PROFILEKEY</i>/extensions/r2d2b2g@mozilla.org/profile/fake-sdcard</p>
+</blockquote>
+<p>On Mac:</p>
+<blockquote>
+<p>Let me know via a comment below where is this folder on Mac.</p>
+</blockquote>
+<p>Of course, <i>USERNAME</i> and <i>PROFILEKEY</i> are specific to your configuration, so make sure to look into the right folder.</p>
+<p>Place files in this folder and you’ll be able to access them from the Simulator using a privileged app.</p>
+<p>If this folder doesn&#39;t exist, I believe it&#39;s safe to create it yourself first.</p>
+<h2><a name="the-file-objects" class="anchor" href="#the-file-objects"><span class="header-link"></span></a>The File objects</h2>
+<p>When you call <code>get</code> or <code>enumerate</code> on <code>navigator.getDeviceStorage(&#39;sdcard&#39;)</code> you get File objects.</p>
+<p>For reference, these objects look like this (slightly different than the <a href="https://developer.mozilla.org/en-US/docs/Web/API/File">File API page on MDN</a>):</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">{</span>
+  <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;file.txt&#39;</span><span class="p">,</span>
+  <span class="nx">size</span><span class="o">:</span> <span class="mi">32768</span><span class="p">,</span> <span class="c1">// In bytes</span>
+  <span class="nx">type</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span> <span class="c1">// MIME type</span>
+  <span class="nx">lastModifiedDate</span><span class="o">:</span> <span class="s1">&#39;Fri Nov 22 2013 12:00:00 GMT+0000 (GMT Standard Time)&#39;</span><span class="p">,</span> <span class="c1">// Date object,</span>
+  <span class="nx">mozFullPath</span><span class="o">:</span> <span class="s1">&#39;path/to/the/file&#39;</span> <span class="c1">// Relative to the SD Card folder</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>They also have 2 methods: <code>slice()</code> and <code>mozSlice()</code>.</p>
+<p>Then if you want to have access to the content of these files in JavaScript, you can just pass them to the FileReader API:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileReader</span><span class="p">();</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// e.target.result is the content of the file.</span>
+<span class="p">};</span>
+<span class="nx">reader</span><span class="p">.</span><span class="nx">readAsText</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span> <span class="c1">// Or whatever method suits you best.</span>
+</pre></div>
+</code></pre>
+<p>I found this API complex to work with. There are different way to access files depending on:</p>
+<ul>
+<li>what you do with (read only or write)</li>
+<li>whether you know the file location or not</li>
+</ul>
+<p>I hope to write a more complete post or tutorial on the Device Storage API in the future, as accessing files is a common use case for web apps in Firefox OS.</p>
+</div><div class="comments"><a href="/posts/firefox-os-the-device-storage-api/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/the-ideal-blogging-workflow/"><h1 class="post-title">The ideal blogging workflow</h1></a><span class="post-date">2013/11/12</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Before even starting this blog, I took some time to think about what would be my ideal workflow for publishing new posts. I decided it should be:</p>
 <ul>
 <li>Simple</li>
 <li>Hosted for free</li>
@@ -153,74 +198,4 @@
 <li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
 <li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
 </ul>
-</div><div class="comments"><a href="/posts/polyfilling-generators/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/generating-generator-functions/"><h1 class="post-title">Generating generator functions</h1></a><span class="post-date">2013/11/01</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
-<h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
-<p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
-<p>The obvious way to achieve this is to use <code>eval()</code>:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;function dynamicFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>However, as you may have heard:</p>
-<blockquote>
-<p>eval is evil</p>
-</blockquote>
-<p>The reason is because it gives JavaScript VM a hard time optimising the generated function and can lead to security concerns.</p>
-<p>A better approach is to use the <code>Function</code> constructor:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>Just pass the body of the function as a string. You can also pass arguments before the code body:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;arg1&#39;</span><span class="p">,</span> <span class="s1">&#39;arg2&#39;</span><span class="p">,</span> <span class="s1">&#39;/* Do crazy stuff with arg1 and arg2. */&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<h2><a name="caveat-1-the-scope" class="anchor" href="#caveat-1-the-scope"><span class="header-link"></span></a>Caveat 1: the scope</h2>
-<p>That said, you need to keep in mind that using <code>Function</code> always create functions in the global scope. You can&#39;t refer to variables used in the local lexical scope they were created. The following code will not work as expected:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;console.log(SCOPED_VAR)&#39;</span><span class="p">);</span>
-  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// ReferenceError: SCOPED_VAR is not defined</span>
-<span class="p">})();</span>
-</pre></div>
-</code></pre>
-<p>So if you really need to expose <code>SCOPED_VAR</code> to <code>dynamicFn()</code>, the solution might be to wrap it inside another function created with the <code>Function</code> constructor and execute the latter immediately:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;SCOPED_VAR&#39;</span><span class="p">,</span> <span class="s1">&#39;return function() {console.log(SCOPED_VAR)}&#39;</span><span class="p">)(</span><span class="nx">SCOPED_VAR</span><span class="p">);</span>
-  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// &quot;local&quot;</span>
-<span class="p">})();</span>
-</pre></div>
-</code></pre>
-<p>But, any updates to <code>SCOPED_VAR</code> in the outter scope won&#39;t reflect inside <code>dynamicFn()</code>. The value of <code>SCOPED_VAR</code> in the scope of <code>dynamicFn()</code> is bound forever to the one it had at creation.</p>
-<p>This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with <code>eval</code>.</p>
-<p><strong>Edit:</strong> You can take advantage of this scoping behaviour to reference the global scope regardless of the environment you&#39;re running in and whatever your local scope is. Just use the code below and you&#39;ll be certain that <code>this</code> will always reference the global scope:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">global</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return this&#39;</span><span class="p">)();</span>
-</pre></div>
-</code></pre>
-<h2><a name="caveat-2-named-functions" class="anchor" href="#caveat-2-named-functions"><span class="header-link"></span></a>Caveat 2: named functions</h2>
-<p>Another issue with <code>new Function</code> is that it generates only anonymous functions:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;&quot; (empty string)</span>
-</pre></div>
-</code></pre>
-<p>Named functions are required for debugging in order to get meaningful stack traces.</p>
-<p>A workaround is to use the solution presented above:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function dynFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">)();</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;dynFn&quot;</span>
-</pre></div>
-</code></pre>
-<p>This is how <a href="https://github.com/mbebenita/shumway/blob/master/src/avm2/runtime.js#L1384">Shumway generates dynamic named functions</a> and that causes <a href="https://github.com/mozilla/shumway/issues/287#issuecomment-17507860">no performance issue</a>.</p>
-<h2><a name="how-to-generate-generator-functions" class="anchor" href="#how-to-generate-generator-functions"><span class="header-link"></span></a>How to generate generator functions</h2>
-<p>Now, back to our main topic: generator functions.</p>
-<p><strong>Edit:</strong> In the future, we will have the <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorfunction"><code>GeneratorFunction</code> constructor</a> to create generator functions from a string, but this is not implemented anywhere AFAIK. So in the meantime...</p>
-<p>We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it&#39;s actually very easy:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function* () { yield 5 }&#39;</span><span class="p">)();</span>
-</pre></div>
-</code></pre>
-<p>Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.</p>
-<p>Now back to your code editor and have fun creating functions on the fly with JavaScript.</p>
-<p>This article is part of a series about ES6 generators, together with:</p>
-<ul>
-<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
-<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
-</ul>
-</div><div class="comments"><a href="/posts/generating-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/4/" class="newer">Newer &#8594;</a><a href="/page/6/" class="older">&#8592; Older</a></div></div></body></html>
+</div><div class="comments"><a href="/posts/polyfilling-generators/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/4/" class="newer">Newer &#8594;</a><a href="/page/6/" class="older">&#8592; Older</a></div></div></body></html>
