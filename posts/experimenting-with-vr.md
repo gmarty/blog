@@ -1,5 +1,5 @@
 {
-  title: "Title",
+  title: "Experimenting with VR",
   date: "2016-12-07",
   description: "Feedback on a series of experimentation about VR that I've done while on holiday."
 }
