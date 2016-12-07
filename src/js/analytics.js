@@ -7,12 +7,12 @@ if (navigator.doNotTrack !== '1') {
   ga('create', 'UA-207391-17', {
     'storage': 'none',
     'clientId': localStorage.getItem('gaClientId'),
-    'siteSpeedSampleRate': 100
+    'siteSpeedSampleRate': 100,
+    'forceSSL': true,
+    'anonymizeIp': true
   });
   ga(function(tracker) {
     localStorage.setItem('gaClientId', tracker.get('clientId'));
   });
-  ga('set', 'anonymizeIp', true);
-  ga('set', 'forceSSL', true);
   ga('send', 'pageview');
 }
