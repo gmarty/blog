@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[A blog by G.C. Marty]]></title><description><![CDATA[A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Fri, 14 Oct 2016 12:15:46 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Fri, 14 Oct 2016 12:15:46 GMT</pubDate><copyright><![CDATA[2016 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Mozilla IOT Meetup London October 2016]]></title><description><![CDATA[<p>On Wednesday 12, October (2 days ago) the first <a href="https://www.meetup.com/Mozilla-IOT/">Mozilla IOT London meetup</a> took place at the Mozilla Common Space near London Bridge.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[A blog by G.C. Marty]]></title><description><![CDATA[A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Wed, 07 Dec 2016 19:23:04 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Wed, 07 Dec 2016 19:23:04 GMT</pubDate><copyright><![CDATA[2016 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Experimenting with VR]]></title><description><![CDATA[<p>I just finished a short series of <a href="https://gmarty.github.io/VR-diary/">experimentations about virtual reality called VR Diary</a>. Here&#39;s a brief summary of why and how.</p>
+<h2><a name="vr-but-what-for" class="anchor" href="#vr-but-what-for"><span class="header-link"></span></a>VR, but what for?</h2>
+<p>Creating content for virtual reality is easy. <a href="https://aframe.io/">A-Frame</a> is probably the easiest way to get started. It&#39;s entirely free and open-source and only requires a basic of HTML programming. On other projects, I used <a href="https://developers.google.com/vr/unity/">Google VR SDK for Unity</a> and the graphic UI of Unity allows you to create content without even typing a single line of code.</p>
+<p>So now the real question is what are we going to use VR for? VR is just a medium and in itself has no value.</p>
+<p>This is what I explored in this project. VR is an immersive and engaging platform so I decided to use it to share personal experiences with the readers.</p>
+<p>It took a direction towards philosophical questioning and reality challenging that I hadn&#39;t expected. But overall it&#39;s been successful from a personal standpoint: the experiments are consistent (except maybe the first one) and I&#39;ve been able to go through the 6 days.</p>
+<h2><a name="working-as-a-hobby" class="anchor" href="#working-as-a-hobby"><span class="header-link"></span></a>Working as a hobby</h2>
+<p>An essential aspect to this experiment is being on holiday with a lot of free time. I dedicated about 2 or 3 hours a day actively working on the VR experiment and writing the post. The rest of the day was spent thinking passively about what to do next.</p>
+<p>This liberty was essential to generate new ideas to experiment. Creative people know you can&#39;t just sit at a desk and expect to get new ideas. That&#39;s when you go out for a walk, sit in the grass, spend some time in a zoo or a museum that you release the most of your creative potential.</p>
+<p>I thoroughly enjoy this lifestyle of working actively a few hours in the morning and passively for the rest of the day. Maybe that&#39;s how life should be: dedicating most of your time to creativity and self-expression and work only for how long is necessary. This is something I want to explore more in the future.</p>
+]]></description><link>http://gu.illau.me/posts/experimenting-with-vr/</link><guid isPermaLink="true">http://gu.illau.me/posts/experimenting-with-vr/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Wed, 07 Dec 2016 00:00:00 GMT</pubDate></item><item><title><![CDATA[Mozilla IOT Meetup London October 2016]]></title><description><![CDATA[<p>On Wednesday 12, October (2 days ago) the first <a href="https://www.meetup.com/Mozilla-IOT/">Mozilla IOT London meetup</a> took place at the Mozilla Common Space near London Bridge.</p>
 <h2><a name="a-bit-of-history" class="anchor" href="#a-bit-of-history"><span class="header-link"></span></a>A bit of history</h2>
 <p>The meetup was rebranded from the previous Firefox OS meetup group. A lot happened at Mozilla this year. The Firefox OS project was turned into a community project and the Connected Devices team was created.</p>
 <p>Now that things got more stable we decided it was a good time to resume a series of meetups.</p>
@@ -939,89 +949,4 @@ Oh and Mac have only one language configured at a time: you will never get more 
 <li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
 <li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
 </ul>
-]]></description><link>http://gu.illau.me/posts/generating-generator-functions/</link><guid isPermaLink="true">http://gu.illau.me/posts/generating-generator-functions/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Fri, 01 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Cross browser generator functions]]></title><description><![CDATA[<h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
-<p>This post will not discuss generators as there are valuable resources all over the web. Just remember that generators can be used to create a set of iterable items (possibly a virtual or infinite set like sequences in mathematics) or to do step by step execution of a program.</p>
-<h2><a name="the-current-state-of-generators-implementation" class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
-<p>Chrome implements the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators">latest ES6 draft</a>. So if you follow the spec, you should not have any troubles.</p>
-<p>For Firefox, things are a bit more complicated because from version 2 to 25, an old version of the generators is implemented. Version 26 has generators on par with Chrome, so this post will be outdated in a very near future, but in the meantime, I wanted a way to use generators so that they work on the current version of both browsers.</p>
-<h2><a name="what-firefox-needs" class="anchor" href="#what-firefox-needs"><span class="header-link"></span></a>What Firefox needs</h2>
-<p>To use the generators, Firefox requires to switch to JavaScript version 1.7 mode:</p>
-<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span><span class="cm">/* Code... */</span><span class="nt">&lt;/script&gt;</span>
-</pre></div>
-</code></pre>
-<p>Otherwise, the keyword <code>yield</code> is not recognized.
-Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator</code> as defined by the spec.</p>
-<p>Of course, Chrome doesn&#39;t recognise script tags formatted like this and doesn&#39;t execute their content.</p>
-<h2><a name="a-workaround" class="anchor" href="#a-workaround"><span class="header-link"></span></a>A workaround</h2>
-<p>The solution I came with is not very clean, but it seems to work.</p>
-<p>First, you need to develop your code using the latest draft, the one implemented in Chrome. Then wrap this code in a inactive tag. I used a custom <code>type</code> attribute to prevent its execution.</p>
-<p>Then, this code is appended to the DOM in a newly created <code>script</code> element. In Firefox, we set the correct <code>type</code> attribute and transform the <code>function*</code> notation:</p>
-<pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-<span class="nt">&lt;title&gt;</span>Cross-browser generator functions<span class="nt">&lt;/title&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;executeGeneratorCode(document.getElementById(&#39;js-code&#39;).text)&quot;</span><span class="nt">&gt;</span>
-<span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;js-code&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript-inert&quot;</span><span class="nt">&gt;</span>
-<span class="c1">// Your code using a generator goes here:</span>
-<span class="c1">// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators</span>
-<span class="kd">function</span><span class="o">*</span> <span class="nx">fibonacci</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">fn1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">fn2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">fn2</span><span class="p">;</span>
-    <span class="nx">fn2</span> <span class="o">=</span> <span class="nx">fn1</span><span class="p">;</span>
-    <span class="nx">fn1</span> <span class="o">=</span> <span class="nx">fn1</span> <span class="o">+</span> <span class="nx">current</span><span class="p">;</span>
-    <span class="k">yield</span> <span class="nx">current</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">var</span> <span class="nx">sequence</span> <span class="o">=</span> <span class="nx">fibonacci</span><span class="p">();</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 2</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 3</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 5</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 8</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 13</span>
-<span class="nt">&lt;/script&gt;</span>
-
-<span class="nt">&lt;script&gt;</span>
-<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// Default value.</span>
-<span class="kd">var</span> <span class="nx">currentScript</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">currentScript</span><span class="p">;</span>
-
-<span class="kd">function</span> <span class="nx">executeGeneratorCode</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">scriptElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">OLD_SYNTAX</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">code</span> <span class="o">=</span> <span class="nx">code</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\bfunction *\* +/g</span><span class="p">,</span> <span class="s1">&#39;function &#39;</span><span class="p">);</span>
-    <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/javascript;version=1.7&#39;</span><span class="p">);</span>
-  <span class="p">}</span>
-  <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">code</span><span class="p">;</span>
-  <span class="nx">currentScript</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">scriptElement</span><span class="p">,</span> <span class="nx">currentScript</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span>
-<span class="c1">// Here, we test the old syntax in Firefox only.</span>
-<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">try</span> <span class="p">{</span>
-    <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;(function() { yield 5; }())&#39;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}();</span>
-<span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-</code></pre>
-<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
-<p>This seems to work but I didn&#39;t do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the <code>function*</code> is not  the best way, but at this point, <a href="http://esprima.org/demo/parse.html?code=function*%20fibonacci%28%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20%281%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A">Esprima doesn&#39;t support ES6</a>, so there are no standalone parsers available.</p>
-<p>Hopefully this code will continue to work when Firefox supports the new syntax.</p>
-<p>I reckon this method is a bit complicated, so if you know better/cleaner way to achieve this, let me know via a comment!</p>
-<p>This article is part of a series about ES6 generators, together with:</p>
-<ul>
-<li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
-<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
-</ul>
-]]></description><link>http://gu.illau.me/posts/cross-browser-generator-functions/</link><guid isPermaLink="true">http://gu.illau.me/posts/cross-browser-generator-functions/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Mon, 28 Oct 2013 00:00:00 GMT</pubDate></item></channel></rss>
+]]></description><link>http://gu.illau.me/posts/generating-generator-functions/</link><guid isPermaLink="true">http://gu.illau.me/posts/generating-generator-functions/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Fri, 01 Nov 2013 00:00:00 GMT</pubDate></item></channel></rss>

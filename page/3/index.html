@@ -1,4 +1,32 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">A blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span class="post-date">2014/09/09</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><nav><h1 class="name"><a href="/">A blog<small> by G.C. Marty</small></a></h1><div style="display:none" class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://github.com/gmarty" class="icon-github"></a><a href="https://twitter.com/g_marty" class="icon-twitter"></a></div></nav><div class="content"><div class="post-head group"><a href="/posts/google-play-music-on-firefox-os/"><h1 class="post-title">Google Play Music on Firefox OS</h1></a><span class="post-date">2014/10/02</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>Unfortunately, HTML5 playback of Google Play Music doesn&#39;t work in Firefox desktop, let alone Firefox OS.</p>
+<p>The only workaround on desktop is to deactivate HTML5 Audio (and enable Flash!) in <code>Settings</code> &gt; <code>Lab</code>:</p>
+<p><img src="https://lh5.googleusercontent.com/xzXQE966E7owgcLWgOzu2HI_9FfS0Q5neQZXaUkuVJcB=s0" alt="How to deactivate HTML5 audio in Google Play Music Settings" title="Deactivate HTML5 playback in Google Play Music."></p>
+<p>The reasons why HTML5 playback doesn&#39;t work is probably because of browser sniffing. A couple of bugs are opened (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=911837">Google Play Music HTML5 Audio Feature broken</a> and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902531">Google Play Music not working on Firefox for Android/Firefox OS</a>), but no clear solution was provided thus far.</p>
+<p>I&#39;m using Google Play Music to play my CD collection that I&#39;ve encoded over the last few years and I want listen to it on Firefox OS.</p>
+<h2><a name="javascript-api-nay" class="anchor" href="#javascript-api-nay"><span class="header-link"></span></a>JavaScript API? Nay</h2>
+<p>There are no official APIs, but some unofficial ones are available. The risk of relying your product on unofficial API is that it can stop working because of a redesign or a protocol change of the original service. Before consider this as an option make sure to check how is the maintainer committed to the API maintenance!</p>
+<p>I&#39;m not enquiring further in this direction because a server is usually required. I want something that works offline.</p>
+<h2><a name="offline-mode-yay" class="anchor" href="#offline-mode-yay"><span class="header-link"></span></a>Offline mode? Yay</h2>
+<p>So, here&#39;s how I use Google Music on my Firefox OS devices:</p>
+<ul>
+<li>Install the official client on my desktop</li>
+<li>Download all of my library (warning: may take time and bandwidth)</li>
+<li>Copy to a memory card.</li>
+</ul>
+<p>I get:</p>
+<ul>
+<li>My albums</li>
+<li>The songs metadata</li>
+<li>The art cover (I <em>really</em> like that)</li>
+</ul>
+<p>I don&#39;t get:</p>
+<ul>
+<li>Uploaded content since last library download</li>
+<li>My playlists</li>
+</ul>
+<p>It&#39;s completely disconnected to the Google Music account, so whenever I upload new CDs, I have to download and copy them to the SD card. But to be honest I don&#39;t really mind and it works for me: I get the album covers and it works offline!</p>
+<p><img src="https://lh4.googleusercontent.com/-NuJrYDM4xSc/VBAjCsT5qvI/AAAAAAAAWxw/j357dFhtYt4/s0/Firefox-OS-play-app.png" alt="Firefox OS Play app showing albums imported from Google Music" title="Firefox OS Play app"></p>
+</div><div class="comments"><a href="/posts/google-play-music-on-firefox-os/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/follow-up-on-navigator-languages/"><h1 class="post-title">Follow-up on navigator.languages</h1></a><span class="post-date">2014/09/09</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p><code>navigator.languages</code> recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!</p>
 <h2><a name="getting-all-the-user-languages" class="anchor" href="#getting-all-the-user-languages"><span class="header-link"></span></a>Getting all the user languages</h2>
 <p>As explained in an <a href="http://gu.illau.me/posts/the-problem-of-user-language-lists-in-javascript/">earlier post</a>, <code>navigator.languages</code> gives us the complete list of languages as set by the user in her browser.</p>
 <p><code>navigator.languages</code> is an array of language codes sorted by priority (the lower the index, the higher the priority).</p>
@@ -74,64 +102,4 @@ Why is it important? See <a href="http://160.twinql.com/new-locale-related-work-
 <p>The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.</p>
 <p>I don&#39;t think you could do simpler and according to my coworker, the brilliant <a href="https://twitter.com/cwiiis">Chris Lord</a>, if your DOM tree is simple you shouldn&#39;t get any performance penalty from using <code>document.elementFromPoint</code>.</p>
 <p>Happy gaming!</p>
-</div><div class="comments"><a href="/posts/software-gamepad/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/building-a-syntactic-translation-engine/"><h1 class="post-title">Building a syntactic translation engine</h1></a><span class="post-date">2014/04/21</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently blogged about how <a href="http://gu.illau.me/posts/how-i-built-a-translation-engine-in-a-weekend/">I prototyped a very simplistic translation engine</a>. Here&#39;s a follow up to describe the logic involved.</p>
-<h2><a name="disclaimer" class="anchor" href="#disclaimer"><span class="header-link"></span></a>Disclaimer</h2>
-<p>I wish I had a serious background in NLP and machine translation, but I don&#39;t and the logic described here is solely based on my scarce knowledge in this field and my experience as a foreign language speaker.</p>
-<h2><a name="definition" class="anchor" href="#definition"><span class="header-link"></span></a>Definition</h2>
-<p>I&#39;m not sure if the word syntactic machine translation does really exist, but I found it describes what I mean very well. So let&#39;s start off by giving my personal definition of syntactic MT.</p>
-<p>Unlike advanced techniques, the syntactic MT engine only takes the syntax of the languages into account. It doesn&#39;t try to understand the meaning of the phrases to translate. This is major limitation as it can&#39;t understand idiomatic expressions, such as proverbs...</p>
-<p>Also a single word with different meanings will be translated the same way regardless of the context in the sentence to translate.</p>
-<p>This is to be remembered when assessing the accuracy of the translated phrases.</p>
-<p>However, the advantage of this method lays in the fact that it is very easy to develop, doesn&#39;t require a deep understanding of MT and can be hacked in a weekend!</p>
-<h2><a name="how-does-it-work" class="anchor" href="#how-does-it-work"><span class="header-link"></span></a>How does it work?</h2>
-<p>I&#39;ll now describe the mechanism I implemented to hack a quick and dirty syntactic MT engine for English and Japanese.</p>
-<p>This idea of syntactic MT is that elements in translated pairs bear the same class of Part of Speech (POS ; i.e. noun, verb, adverb...) in both languages, for example, an adjective remains an adjective in the resulting translation. A certain grammatical pattern will be the same in each pairs of the corpus and the resulting translation.</p>
-<h3><a name="spring-cleaning" class="anchor" href="#spring-cleaning"><span class="header-link"></span></a>Spring cleaning</h3>
-<p>First of all, I cleaned up the corpus a bit, applying the following steps:</p>
-<ul>
-<li>Removing incomplete sentences</li>
-<li>Unify punctuations (specially adding an optional question mark at the end of questions in Japanese)</li>
-<li>Normalising the Japanese to use half-width alphanumeric characters and full-width katakana and punctuation signs</li>
-</ul>
-<p>I then normalise both languages to keep semantic equivalents while reducing inflected forms (e.g. <code>can&#39;t</code> -&gt; <code>cannot</code> ; <code>します</code> -&gt; <code>する</code> ; See <code>/utils/ja-normalizer.js</code> and <code>/utils/en-normalizer.js</code>). Doing so reduced noise and helped a lot on quality as the corpus is quite small.</p>
-<h3><a name="tag-the-corpus" class="anchor" href="#tag-the-corpus"><span class="header-link"></span></a>Tag the corpus</h3>
-<p>Then, the next thing to do is to tag the POS of all the pairs in the corpus.</p>
-<p>The English sentences are tagged using <a href="https://github.com/fortnightlabs/pos-js">pos-js</a> written in JavaScript (an in-browser and Node.JS versions both exist).</p>
-<p>The Japanese is tagged using <a href="http://en.wikipedia.org/wiki/ChaSen">ChaSen</a>. ChaSen is a famous command line utility, but this is a serious limitation here. To make it work, the sentence to translate must be tagged too (more on this later). I wanted the app to work offline and use frontend code only, but the lack of a JavaScript implementation of a Japanese POS tagger forced me to reject Japanese to English translation. Only English to Japanese is supported.</p>
-<p>The first problem arising here is the difference between the POS items in English and Japanese. Chasen is very comprehensive, so I had to simplify and match its POS items to the ones returned by pos-js (see <code>/utils/chasen2jspos-map.json</code> and <code>/utils/jspos2simplified-map.json</code>).</p>
-<h3><a name="build-a-dictionary" class="anchor" href="#build-a-dictionary"><span class="header-link"></span></a>Build a dictionary</h3>
-<p>At this stage, I have 2 corpus tagged, I can easily align classes of POS in both languages to build a dictionary. Let&#39;s say a pair has only one adjective in English and in Japanese, we can conclude that this adjective in English is likely to be translated by this other adjective in Japanese. The first pass consists of extracting terms whose class of POS appear only once in each pair.</p>
-<p>For more ambiguous pairs containing more than one class of POS in both sentences, alignment is harder. The method I found makes use of the dictionary we are building.</p>
-<p>Let&#39;s say a phrase has 2 adjectives in both languages. If one of them and its translation are already in the dictionary, we can assume that the remaining adjective matches the other one in the destination sentence. This is the second pass. I repeat this step a couple of times until no new translations are found.</p>
-<p>This dictionary building method gives incredible results. Of course there is some noise, but for frequent words, the translations are very accurate. Here&#39;s an example for the word <code>already</code> and its frequency in Japanese translations:</p>
-<pre><code class="lang-json"><div class="highlight"><pre><span class="p">{</span>
-  <span class="nt">&quot;すでに&quot;</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
-  <span class="nt">&quot;既に&quot;</span><span class="p">:</span> <span class="mi">17</span><span class="p">,</span>
-  <span class="nt">&quot;もう&quot;</span><span class="p">:</span> <span class="mi">8</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>It indeed contains all the translation for <code>already</code> that I know!</p>
-<p>See <code>/build-dico.js</code> for the implementation.</p>
-<h3><a name="build-a-pos-converter" class="anchor" href="#build-a-pos-converter"><span class="header-link"></span></a>Build a POS converter</h3>
-<p>Now we&#39;re still using the POS tagged corpus to match patterns in both languages.</p>
-<p>For each phrase with a certain POS pattern (e.g. Noun Verb Noun), we look for the most common pattern in the translated phrases. The idea is to determine which is the most frequent translated POS pattern of a language given the POS pattern of the source phrase.</p>
-<p>At this stage I also generate what I called placeholders. They are generic sentences for this particular POS pattern where I replaced each word by the most common one (I know it&#39;s completely unscientific!). These are used as a base for translation. I just need to inject the right words (see below).</p>
-<p>See the code at <code>/build-pos-converter.js</code>.</p>
-<h3><a name="finally-translate" class="anchor" href="#finally-translate"><span class="header-link"></span></a>Finally, translate</h3>
-<p>With all these static assets generated (dictionary, POS pattern matcher, POS pattern placeholders), I can try to translate from one language to another.</p>
-<p>The user input in English is first normalised (see above), then POS tagged (Remember? That&#39;s why I can&#39;t use Japanese input on the browser as ChaSen is a command line tool). I then look for the most frequent POS pattern in Japanese.</p>
-<p>Once found, I take the Japanese placeholder sentence for this POS pattern and inject into it the translations from the original English input. For words that don&#39;t have translations, the word is just ignored and the one from the placeholder is preserved (thus creating very weird translations at time, but at least giving complete and correct sentences). Of course this could be improved using a more comprehensive dictionary, but I didn&#39;t try it.</p>
-<p>One of the problem not addressed by this script is the alignment of several identical classes of POS. In this case, I just assign them in order: the first adjective in English is matched to the first in Japanese, then the second... and so on. I know this is quite of an issue, but I just couldn&#39;t be bothered trying to fix it.</p>
-<p>The script is located in <code>/en2ja.js</code>.</p>
-<h2><a name="the-future" class="anchor" href="#the-future"><span class="header-link"></span></a>The future</h2>
-<p>There is a lot of room for improvement in many places:</p>
-<ul>
-<li>Using an unified POS tagger for English and Japanese, ideally written in JavaScript, for a better quality.</li>
-<li>Using an external dictionary to enhance translations.</li>
-<li>Use statistics to reject the less significant pairs in the dictionary and the POS converter.</li>
-<li>Use a stemmer to group several inflections of the same nouns, verbs or adjectives and get a more complete dictionary.</li>
-<li>Use a bigger corpus.</li>
-</ul>
-<p>But that&#39;s it for now, I may work on this later, but in the meantime, feel free to contribute!</p>
-</div><div class="comments"><a href="/posts/building-a-syntactic-translation-engine/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div></body></html>
+</div><div class="comments"><a href="/posts/software-gamepad/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/2/" class="newer">Newer &#8594;</a><a href="/page/4/" class="older">&#8592; Older</a></div></div></body></html>
