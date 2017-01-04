@@ -18,7 +18,7 @@ This was the first session so we're still learning and experimenting, but we're 
 
 Meetups are and should always be about meeting people so we want to emphasise the social aspect of it and making a place where ideas are shared and discussions happen naturally.
 
-![Francisco speaking about the creation of the Connected Devices team.](https://lh3.googleusercontent.com/W9UJGJhHX4Q0cYZuQDyOG9mqH_wv6Lg2ECQ7YAA4Fr3uT8i0-RbQQM5BqajjdgNBgR15rkp5PA=s0 "Francisco speaking about the creation of the Connected Devices team.")
+![Francisco speaking about the creation of the Connected Devices team.](http://gu.illau.me/img/posts/mozilla-iot-meetup-london-october-2016/francisco-on-mozilla-connected-devices.jpg "Francisco speaking about the creation of the Connected Devices team.")
 
 For this first session, we had a nice lineup of speakers:
 
@@ -33,6 +33,6 @@ In addition to the amazing speakers above I wanted to thank [Mandy](https://twit
 
 We're super happy to receive feedback from the participants. If you happen to be in London during one our of next sessions, make sure you're attending and let us know what would you like this meetup to be?
 
-![The talented Becky Jones delivering an inspiring talk.](https://lh3.googleusercontent.com/9vXy1MLAEBcRJnortaE8zYhqaa7YX2St_2lZpu5EDwkAwlWesO1ZQBteWv_o6C-5QQukhKUwiA=s0 "The talented Becky Jones delivering an inspiring talk.")
+![The talented Becky Jones delivering an inspiring talk.](http://gu.illau.me/img/posts/mozilla-iot-meetup-london-october-2016/becky-jones-inspiring-talk.jpg "The talented Becky Jones delivering an inspiring talk.")
 
 See you soon!
