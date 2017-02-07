@@ -110,14 +110,19 @@ nav {
   line-height: 2em;
 
   a {
-    margin: 0 10px;
+    margin: 0 8px;
 
     // This is used to prevent the edges of the icon character from being cut off
     padding: 2px;
 
-    &:hover {
-      text-decoration: none;
-      color: $baseTextColor;
+    img {
+      height: 1.8em;
+      width: 28px;
+      transition: 150ms;
+    }
+
+    &:hover img {
+      transform: scale(1.61803);
     }
   }
 
