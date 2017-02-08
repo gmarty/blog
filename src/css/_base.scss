@@ -17,11 +17,11 @@ $lightTextColor: $grey;
 
 @mixin breakpoint($point) {
   @if $point == big-phone {
-    @media (max-width: 1250px) {
+    @media (max-width: 992px) {
       @content;
     }
   } @else if $point == small-phone {
-    @media (max-width: 630px) {
+    @media (max-width: 576px) {
       @content;
     }
   }
@@ -32,16 +32,24 @@ $lightTextColor: $grey;
   @include clearfix;
 }
 
-body {
+html, body {
+  height: 100%;
+  padding: 0;
   margin: 0;
+}
+
+body {
   color: $baseTextColor;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-family: $headerFont;
   font-size: 17px;
+  display: flex;
+  flex-direction: row;
 
   @include breakpoint(big-phone) {
     font-size: 16px;
+    flex-direction: column;
   }
 
   @include breakpoint(small-phone) {
@@ -50,10 +58,9 @@ body {
 }
 
 .content {
+  flex-grow: 1;
   position: relative;
-  margin: 0 auto;
-  max-width: 680px;
-  width: 55%;
+  z-index: 50;
 
   a {
     color: $baseTextColor;
@@ -65,12 +72,29 @@ body {
   }
 
   @include breakpoint(big-phone) {
-    margin: 75px auto 25px;
-    width: 86%;
+    width: 100vw;
+  }
+}
+
+.inner-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+
+.scroller {
+  max-width: 680px;
+  margin: 0 auto;
+
+  @include breakpoint(big-phone) {
+    margin: 0 2.7em;
   }
 
   @include breakpoint(small-phone) {
-    margin: 65px auto 15px;
+    margin: 0 2.5em;
   }
 }
 

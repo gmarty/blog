@@ -14,7 +14,7 @@ doctype 5
 html(lang="en-GB")
   head
     meta(charset="utf-8")
-    meta(http-equiv="Content-Security-Policy", content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;")
+    meta(http-equiv="Content-Security-Policy", content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me http://fonts.gstatic.com https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;")
     meta(name="viewport", content="width=device-width,initial-scale=1")
     meta(name="theme-color", content="#ff8c00")
     block head
@@ -32,7 +32,7 @@ html(lang="en-GB")
       h1.name
         a(href="#{data.baseUrl}") A blog
           small  by G.C. Marty
-      .menu.icon-menu(style="display:none")
+      .menu.icon-menu
       ul.nav-links
         li.text-link
           a(href="#{data.baseUrl}about.html") about
@@ -50,4 +50,6 @@ html(lang="en-GB")
         a(href="https://uk.linkedin.com/in/gmarty/en")
           img(src="/img/linkedin.svg")
     .content
-      block content
+      .inner-content
+        .scroller
+          block content

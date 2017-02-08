@@ -1,9 +1,9 @@
 nav {
-  position: fixed;
   z-index: 100;
+  width: 280px;
   height: 100%;
-  top: 0;
   background: $mainTheme;
+  overflow: hidden;
 
   a {
     color: white;
@@ -15,19 +15,13 @@ nav {
   }
 
   @include breakpoint(big-phone) {
-    overflow: hidden;
     width: 100%;
     height: auto;
     @include clearfix;
   }
 }
 
-.nav-show {
-  overflow: visible;
-}
-
 .name {
-  z-index: 100;
   font-weight: normal;
   font-size: 2em;
   margin: 30px 0;
@@ -76,6 +70,14 @@ nav {
   background: $mainTheme;
   padding: 0 50px;
   font-size: 1.4em;
+  opacity: 1;
+  transition: 150ms;
+  flex-grow: 0;
+  z-index: 200;
+
+  // Circumvent a Safari bug.
+  -webkit-transform: translate3d(0, 0, 1px);
+  transform: translate3d(0, 0, 1px);
 
   a {
     display: block;
@@ -97,15 +99,21 @@ nav {
     margin: 0;
     position: absolute;
     right: 0;
-    top: 2.3em;
+    top: 2.5em;
+    opacity: 0;
   }
+}
+
+.nav-show {
+  opacity: 1;
 }
 
 .social-media {
   text-align: center;
   position: absolute;
+  left: 0;
   bottom: 0;
-  width: 100%;
+  width: 280px;
   font-size: 1.8em;
   line-height: 2em;
 
