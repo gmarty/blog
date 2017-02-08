@@ -8,8 +8,8 @@ if (['interactive', 'complete', 'loaded'].indexOf(document.readyState) > -1) {
 
 function init() {
   // Activate the hamburger menu.
-  var $navBar = document.querySelector('nav');
-  var $menu = $navBar.querySelector('.menu');
+  var $navBar = document.querySelector('.nav-links');
+  var $menu = document.querySelector('.menu');
 
   $menu.addEventListener('click', function() {
     $navBar.classList.toggle('nav-show');
@@ -18,8 +18,6 @@ function init() {
   document.querySelector('.content').addEventListener('click', function() {
     $navBar.classList.remove('nav-show');
   });
-
-  $menu.removeAttribute('style');
 
   // For each post, add the estimated reading time.
   var headersElt = document.querySelectorAll('.post-head');
