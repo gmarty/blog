@@ -28,10 +28,14 @@ html(lang="en-GB")
     link(href="http://feeds.feedburner.com/just-a-blog", rel="alternate", type="application/rss+xml", title="A blog by G.C. Marty")
     link(href="#{data.baseUrl}favicon.ico", rel="shortcut icon", type="image/x-icon")
   body
+    .content
+      .inner-content
+        .scroller
+          block content
     nav
       h1.name
         a(href="#{data.baseUrl}") A blog
-          small  by G.C. Marty
+          small by Guillaume C. Marty
       .menu.icon-menu
       ul.nav-links
         li.text-link
@@ -49,7 +53,3 @@ html(lang="en-GB")
           img(src="/img/github.svg")
         a(href="https://uk.linkedin.com/in/gmarty/en")
           img(src="/img/linkedin.svg")
-    .content
-      .inner-content
-        .scroller
-          block content
