@@ -1,5 +1,5 @@
 {
-  title: "Augmented reality based on computer vision",
+  title: "Augmented reality & computer vision",
   date: "2017-02-15",
   description: "I prototyped a simple augmented reality experiment using computer vision in JavaScript."
 }
