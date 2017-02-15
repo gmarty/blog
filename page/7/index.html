@@ -1,4 +1,89 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me http://fonts.gstatic.com https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><div class="content"><div class="inner-content"><div class="scroller"><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span class="post-date">2013/10/26</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="achievement-unlocked" class="anchor" href="#achievement-unlocked"><span class="header-link"></span></a>Achievement unlocked!</h2>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me http://fonts.gstatic.com https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><div class="content"><div class="inner-content"><div class="scroller"><div class="post-head group"><a href="/posts/cross-browser-generator-functions/"><h1 class="post-title">Cross browser generator functions</h1></a><span class="post-date">2013/10/28</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="a-quick-word-on-generators" class="anchor" href="#a-quick-word-on-generators"><span class="header-link"></span></a>A quick word on generators</h2>
+<p>This post will not discuss generators as there are valuable resources all over the web. Just remember that generators can be used to create a set of iterable items (possibly a virtual or infinite set like sequences in mathematics) or to do step by step execution of a program.</p>
+<h2><a name="the-current-state-of-generators-implementation" class="anchor" href="#the-current-state-of-generators-implementation"><span class="header-link"></span></a>The current state of generators implementation</h2>
+<p>Chrome implements the <a href="http://wiki.ecmascript.org/doku.php?id=harmony:generators">latest ES6 draft</a>. So if you follow the spec, you should not have any troubles.</p>
+<p>For Firefox, things are a bit more complicated because from version 2 to 25, an old version of the generators is implemented. Version 26 has generators on par with Chrome, so this post will be outdated in a very near future, but in the meantime, I wanted a way to use generators so that they work on the current version of both browsers.</p>
+<h2><a name="what-firefox-needs" class="anchor" href="#what-firefox-needs"><span class="header-link"></span></a>What Firefox needs</h2>
+<p>To use the generators, Firefox requires to switch to JavaScript version 1.7 mode:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span><span class="cm">/* Code... */</span><span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</code></pre>
+<p>Otherwise, the keyword <code>yield</code> is not recognized.
+Also, the syntax implemented doesn&#39;t accept the <code>function* myGenerator</code> as defined by the spec.</p>
+<p>Of course, Chrome doesn&#39;t recognise script tags formatted like this and doesn&#39;t execute their content.</p>
+<h2><a name="a-workaround" class="anchor" href="#a-workaround"><span class="header-link"></span></a>A workaround</h2>
+<p>The solution I came with is not very clean, but it seems to work.</p>
+<p>First, you need to develop your code using the latest draft, the one implemented in Chrome. Then wrap this code in a inactive tag. I used a custom <code>type</code> attribute to prevent its execution.</p>
+<p>Then, this code is appended to the DOM in a newly created <code>script</code> element. In Firefox, we set the correct <code>type</code> attribute and transform the <code>function*</code> notation:</p>
+<pre><code class="lang-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>Cross-browser generator functions<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">onload=</span><span class="s">&quot;executeGeneratorCode(document.getElementById(&#39;js-code&#39;).text)&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">id=</span><span class="s">&quot;js-code&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript-inert&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// Your code using a generator goes here:</span>
+<span class="c1">// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">fibonacci</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fn1</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">fn2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">fn2</span><span class="p">;</span>
+    <span class="nx">fn2</span> <span class="o">=</span> <span class="nx">fn1</span><span class="p">;</span>
+    <span class="nx">fn1</span> <span class="o">=</span> <span class="nx">fn1</span> <span class="o">+</span> <span class="nx">current</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="nx">current</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">sequence</span> <span class="o">=</span> <span class="nx">fibonacci</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 1</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 2</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 3</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 5</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 8</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sequence</span><span class="p">.</span><span class="nx">next</span><span class="p">());</span> <span class="c1">// 13</span>
+<span class="nt">&lt;/script&gt;</span>
+
+<span class="nt">&lt;script&gt;</span>
+<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// Default value.</span>
+<span class="kd">var</span> <span class="nx">currentScript</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">currentScript</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">executeGeneratorCode</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">scriptElement</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">OLD_SYNTAX</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">code</span> <span class="o">=</span> <span class="nx">code</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\bfunction *\* +/g</span><span class="p">,</span> <span class="s1">&#39;function &#39;</span><span class="p">);</span>
+    <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;application/javascript;version=1.7&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="nx">scriptElement</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">code</span><span class="p">;</span>
+  <span class="nx">currentScript</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">scriptElement</span><span class="p">,</span> <span class="nx">currentScript</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;application/javascript;version=1.7&quot;</span><span class="nt">&gt;</span>
+<span class="c1">// Here, we test the old syntax in Firefox only.</span>
+<span class="kd">var</span> <span class="nx">OLD_SYNTAX</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;(function() { yield 5; }())&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}();</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>This seems to work but I didn&#39;t do extensive testing and there might be other differences between both implementations. Also, using a regexp to remove the <code>function*</code> is not  the best way, but at this point, <a href="http://esprima.org/demo/parse.html?code=function*%20fibonacci%28%29%20%7B%0D%0A%20%20var%20fn1%20%3D%201%3B%0D%0A%20%20var%20fn2%20%3D%201%3B%0D%0A%20%20while%20%281%29%20%7B%0D%0A%20%20%20%20var%20current%20%3D%20fn2%3B%0D%0A%20%20%20%20fn2%20%3D%20fn1%3B%0D%0A%20%20%20%20fn1%20%3D%20fn1%20%2B%20current%3B%0D%0A%20%20%20%20yield%20current%3B%0D%0A%20%20%7D%0D%0A%7D%0D%0A">Esprima doesn&#39;t support ES6</a>, so there are no standalone parsers available.</p>
+<p>Hopefully this code will continue to work when Firefox supports the new syntax.</p>
+<p>I reckon this method is a bit complicated, so if you know better/cleaner way to achieve this, let me know via a comment!</p>
+<p>This article is part of a series about ES6 generators, together with:</p>
+<ul>
+<li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
+<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
+</ul>
+</div><div class="comments"><a href="/posts/cross-browser-generator-functions/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/i-wrote-for-mozilla-hacks/"><h1 class="post-title">I wrote for Mozilla Hacks!</h1></a><span class="post-date">2013/10/26</span><span class="post-reading-time"></span></div><div class="post-body markdown"><h2><a name="achievement-unlocked" class="anchor" href="#achievement-unlocked"><span class="header-link"></span></a>Achievement unlocked!</h2>
 <p>I&#39;m excited to announce that I&#39;ve written an article about <a href="https://hacks.mozilla.org/2013/10/fast-retro-gaming-on-mobile/">video game emulation</a> for Mozilla Hacks. While that doesn&#39;t sound like a big deal, it actually means a lot to me.</p>
 <p>I remember the first day this blog was launched. Since then it has always been a pleasure to read new publications. I think I must have read every single article so far. I love it when a new article is posted because it means an aspect of the web platform will be explained in details.</p>
 <p><a href="https://hacks.mozilla.org/">Mozilla Hacks</a> and <a href="http://www.html5rocks.com/en/">HTML5 Rocks</a> are my favourite resources online, both technical and inspirational. Whenever I&#39;m notified of a new post on these, that usually means stop what I&#39;m doing and read it right away!</p>
@@ -26,118 +111,4 @@
 <p>This implementation is correct: visually we have a numeric keyboard and we maintain the semantic aspect.</p>
 <p>What if in the future phone numbers are replaced by ID? Or if they must be picked up from the contact book? The interface would change and the original snippet in this example wouldn&#39;t work anymore.</p>
 <p>A rule of thumb is you always win by betting on semantic. Semantic informs the browser about your intention. Browsers change but intentions remain.</p>
-</div><div class="comments"><a href="/posts/always-bet-on-semantic/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span class="post-date">2012/09/18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
-Basically I had to implement a drawing feature using a graphic lib.</p>
-<p>I found a few resources really useful, specially in JavaScript.
-But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
-<p>I thought the following snippets would be useful.</p>
-<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
-<p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
-<span class="cm"> * Named after ES6 Math.hypot(), with only 2 arguments.</span>
-<span class="cm"> * @param {number} segment1 The length of the 1st side.</span>
-<span class="cm"> * @param {number} segment2 The length of the 2nd side.</span>
-<span class="cm"> * @return {number} The size of the 3rd side.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">segment1</span> <span class="o">*</span> <span class="nx">segment1</span> <span class="o">+</span> <span class="nx">segment2</span> <span class="o">*</span> <span class="nx">segment2</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="c1">// Alternatively, this function is polyfilled as follow and is said to be faster albeit less precise:</span>
-<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">segment1</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment1</span><span class="p">);</span>
-  <span class="nx">segment2</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment2</span><span class="p">);</span>
-
-  <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
-
-  <span class="k">if</span> <span class="p">(</span><span class="nx">min</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nx">max</span><span class="p">;</span>
-  <span class="k">else</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">min</span> <span class="o">/</span> <span class="nx">max</span><span class="p">;</span>
-    <span class="k">return</span> <span class="nx">max</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">u</span> <span class="o">*</span> <span class="nx">u</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
-<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
-<p>Using the <code>hypot()</code> function defined above:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the distance between 2 points.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {number} The distance between (x1, y1) and (x2, y2).</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the angle of a triangle given its sides length.</span>
-<span class="cm"> * @param {number} side1 The length of the 1st side.</span>
-<span class="cm"> * @param {number} side2 The length of the 2nd side.</span>
-<span class="cm"> * @param {number} side3 The length of the 3nd side.</span>
-<span class="cm"> * @return {number} The angle opposed to 3rd side.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">segmentsAngle</span><span class="p">(</span><span class="nx">side1</span><span class="p">,</span> <span class="nx">side2</span><span class="p">,</span> <span class="nx">side3</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">acos</span><span class="p">((</span><span class="nx">side1</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">+</span> <span class="nx">side2</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">)</span> <span class="o">-</span> <span class="nx">side3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">))</span><span class="o">:</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the distance of a point to a line.</span>
-<span class="cm"> * @param {number} xP The x coordinate of the point.</span>
-<span class="cm"> * @param {number} yP The y coordinate of the point.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {number} The distance of point (xP, yP) to the line (x1, y1)-(x2, y2).</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">pointToLine</span><span class="p">(</span><span class="nx">xP</span><span class="p">,</span> <span class="nx">yP</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">normalLength</span> <span class="o">=</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">((</span><span class="nx">xP</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">yP</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">))</span> <span class="o">/</span> <span class="nx">normalLength</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-</code></pre>
-<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
-<p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
-<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
-<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
-<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
-<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
-<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with a and b properties.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">lineEquation</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">y2</span><span class="p">};</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
-<span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
-<span class="cm"> * @param {number} b1 The b of line 1 equation.</span>
-<span class="cm"> * @param {number} a2 The a of line 2 equation.</span>
-<span class="cm"> * @param {number} b2 The b of line 2 equation.</span>
-<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with x and y properties.</span>
-<span class="cm"> */</span>
-<span class="kd">function</span> <span class="nx">linesIntersectionPoint</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">b1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="nx">b2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">b2</span> <span class="o">-</span> <span class="nx">b1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">-</span> <span class="nx">a2</span><span class="p">);</span>
-  <span class="k">return</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b1</span><span class="p">};</span>
-<span class="p">};</span>
-</pre></div>
-</code></pre>
-<p>These functions are pretty basic but are a solid ground base for more complex computations.
-Also I will probably add more snippets here as time/need permits.</p>
-</div><div class="comments"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/6/" class="newer">Newer &#8594;</a><a href="/page/8/" class="older">&#8592; Older</a></div></div></div></div><nav><h1 class="name"><a href="/">A blog<small>by Guillaume C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://twitter.com/g_marty"><img src="/img/twitter.svg"></a><a href="https://github.com/gmarty"><img src="/img/github.svg"></a><a href="https://uk.linkedin.com/in/gmarty/en"><img src="/img/linkedin.svg"></a></div></nav></body></html>
+</div><div class="comments"><a href="/posts/always-bet-on-semantic/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="pagination group"><a href="/page/6/" class="newer">Newer &#8594;</a><a href="/page/8/" class="older">&#8592; Older</a></div></div></div></div><nav><h1 class="name"><a href="/">A blog<small>by Guillaume C. Marty</small></a></h1><div class="menu icon-menu"></div><ul class="nav-links"><li class="text-link"><a href="/about.html">about</a></li><li class="text-link"><a href="/apps.html">apps</a></li><li class="text-link"><a href="/talks.html">talks</a></li><li class="text-link"><a href="/posts.html">posts</a></li></ul><div class="social-media"><a href="https://twitter.com/g_marty"><img src="/img/twitter.svg"></a><a href="https://github.com/gmarty"><img src="/img/github.svg"></a><a href="https://uk.linkedin.com/in/gmarty/en"><img src="/img/linkedin.svg"></a></div></nav></body></html>

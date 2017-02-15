@@ -1,4 +1,118 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me http://fonts.gstatic.com https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><div class="content"><div class="inner-content"><div class="scroller"><div class="post-head group"><a href="/posts/tokenization-is-the-mother-of-nlp/"><h1 class="post-title">Tokenization is the mother of NLP</h1></a><span class="post-date">2012/09/17</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently started contributing to <a href="https://github.com/NaturalNode/natural">natural, a set of <strong>natural language processing</strong> tools (NLP) in JavaScript for node.js</a>. Here&#39;s what I learned from this.</p>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me http://fonts.gstatic.com https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ff8c00"><title>A blog by G.C. Marty</title><meta name="description" content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!"><base href="http://gu.illau.me/" target="_top"><link href="/css/main.css" rel="stylesheet"><script src="/js/analytics.js" defer async></script><script src="/js/ui.js" defer async></script><link href="/manifest.webmanifest" rel="manifest"><link href="http://feeds.feedburner.com/just-a-blog" rel="alternate" type="application/rss+xml" title="A blog by G.C. Marty"><link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"></head><body><div class="content"><div class="inner-content"><div class="scroller"><div class="post-head group"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/"><h1 class="post-title">Helpful trigonometric and geometric snippets for JavaScript</h1></a><span class="post-date">2012/09/18</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently worked on a project with a heavy need of trigonometric functions.
+Basically I had to implement a drawing feature using a graphic lib.</p>
+<p>I found a few resources really useful, specially in JavaScript.
+But first of all, you should read this <a href="http://coding.smashingmagazine.com/2011/10/04/quick-look-math-animations-javascript/">post by Chris Heilmann</a>, a crash course in JavaScript trigonometry.</p>
+<p>I thought the following snippets would be useful.</p>
+<h2><a name="the-length-of-a-segment" class="anchor" href="#the-length-of-a-segment"><span class="header-link"></span></a>The length of a segment</h2>
+<p>Using Pythagoras&#39; theorem, computing the hypotenuse given the 2 other sides is as easy as doing this:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Compute the size of the 3rd side of a triangle opposed to a right angle.</span>
+<span class="cm"> * Named after ES6 Math.hypot(), with only 2 arguments.</span>
+<span class="cm"> * @param {number} segment1 The length of the 1st side.</span>
+<span class="cm"> * @param {number} segment2 The length of the 2nd side.</span>
+<span class="cm"> * @return {number} The size of the 3rd side.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">segment1</span> <span class="o">*</span> <span class="nx">segment1</span> <span class="o">+</span> <span class="nx">segment2</span> <span class="o">*</span> <span class="nx">segment2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Alternatively, this function is polyfilled as follow and is said to be faster albeit less precise:</span>
+<span class="kd">function</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">segment1</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment1</span><span class="p">);</span>
+  <span class="nx">segment2</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">segment2</span><span class="p">);</span>
+
+  <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">segment1</span><span class="p">,</span> <span class="nx">segment2</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">min</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">max</span><span class="p">;</span>
+  <span class="k">else</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">u</span> <span class="o">=</span> <span class="nx">min</span> <span class="o">/</span> <span class="nx">max</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">max</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">u</span> <span class="o">*</span> <span class="nx">u</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<p>This function is a polyfill for the upcoming Math.hypot() function of ES6. You don&#39;t need to bother passing positive values only. It works with negative lengths also (the power of 2 always return a positive number).</p>
+<h2><a name="the-distance-between-2-points" class="anchor" href="#the-distance-between-2-points"><span class="header-link"></span></a>The distance between 2 points</h2>
+<p>Using the <code>hypot()</code> function defined above:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the distance between 2 points.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {number} The distance between (x1, y1) and (x2, y2).</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">hypot</span><span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-angle-of-a-triangle-given-3-sides-length" class="anchor" href="#the-angle-of-a-triangle-given-3-sides-length"><span class="header-link"></span></a>The angle of a triangle given 3 sides length</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the angle of a triangle given its sides length.</span>
+<span class="cm"> * @param {number} side1 The length of the 1st side.</span>
+<span class="cm"> * @param {number} side2 The length of the 2nd side.</span>
+<span class="cm"> * @param {number} side3 The length of the 3nd side.</span>
+<span class="cm"> * @return {number} The angle opposed to 3rd side.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">segmentsAngle</span><span class="p">(</span><span class="nx">side1</span><span class="p">,</span> <span class="nx">side2</span><span class="p">,</span> <span class="nx">side3</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">acos</span><span class="p">((</span><span class="nx">side1</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">+</span> <span class="nx">side2</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">)</span> <span class="o">-</span> <span class="nx">side3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nx">side1</span> <span class="o">*</span> <span class="nx">side2</span><span class="p">))</span><span class="o">:</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-distance-of-a-point-to-a-line" class="anchor" href="#the-distance-of-a-point-to-a-line"><span class="header-link"></span></a>The distance of a point to a line</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the distance of a point to a line.</span>
+<span class="cm"> * @param {number} xP The x coordinate of the point.</span>
+<span class="cm"> * @param {number} yP The y coordinate of the point.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {number} The distance of point (xP, yP) to the line (x1, y1)-(x2, y2).</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">pointToLine</span><span class="p">(</span><span class="nx">xP</span><span class="p">,</span> <span class="nx">yP</span><span class="p">,</span> <span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">normalLength</span> <span class="o">=</span> <span class="nx">pointsDistance</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">((</span><span class="nx">xP</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nx">yP</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">))</span> <span class="o">/</span> <span class="nx">normalLength</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</code></pre>
+<h2><a name="get-a-line-equation-given-coordinates" class="anchor" href="#get-a-line-equation-given-coordinates"><span class="header-link"></span></a>Get a line equation given coordinates</h2>
+<p>For the sake of simplicity on the next snippets, we ignore the case where computation would lead to a division by 0. But make sure you properly check on your scripts.</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return a and b of a line equation of the form y = ax + b, given segment coordinates.</span>
+<span class="cm"> * @param {number} x1 The x coordinate of line 1.</span>
+<span class="cm"> * @param {number} y1 The y coordinate of line 1.</span>
+<span class="cm"> * @param {number} x2 The x coordinate of line 2.</span>
+<span class="cm"> * @param {number} y2 The y coordinate of line 2.</span>
+<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with a and b properties.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">lineEquation</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">(</span><span class="nx">y1</span> <span class="o">-</span> <span class="nx">y2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">x1</span> <span class="o">-</span> <span class="nx">x2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">{</span><span class="nx">a</span><span class="o">:</span> <span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="o">:</span> <span class="nx">y1</span> <span class="o">-</span> <span class="nx">a</span> <span class="o">*</span> <span class="nx">y2</span><span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<h2><a name="the-intersection-point-of-2-lines" class="anchor" href="#the-intersection-point-of-2-lines"><span class="header-link"></span></a>The intersection point of 2 lines</h2>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="cm">/**</span>
+<span class="cm"> * Return the (x, y) coordinates of the intersection point of 2 lines.</span>
+<span class="cm"> * @param {number} a1 The a of line 1 equation.</span>
+<span class="cm"> * @param {number} b1 The b of line 1 equation.</span>
+<span class="cm"> * @param {number} a2 The a of line 2 equation.</span>
+<span class="cm"> * @param {number} b2 The b of line 2 equation.</span>
+<span class="cm"> * @return {Object.&lt;string, number&gt;} An object with x and y properties.</span>
+<span class="cm"> */</span>
+<span class="kd">function</span> <span class="nx">linesIntersectionPoint</span><span class="p">(</span><span class="nx">a1</span><span class="p">,</span> <span class="nx">b1</span><span class="p">,</span> <span class="nx">a2</span><span class="p">,</span> <span class="nx">b2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">b2</span> <span class="o">-</span> <span class="nx">b1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">-</span> <span class="nx">a2</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="p">(</span><span class="nx">a1</span> <span class="o">*</span> <span class="nx">x</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b1</span><span class="p">};</span>
+<span class="p">};</span>
+</pre></div>
+</code></pre>
+<p>These functions are pretty basic but are a solid ground base for more complex computations.
+Also I will probably add more snippets here as time/need permits.</p>
+</div><div class="comments"><a href="/posts/helpful-trigonometric-and-geometric-snippets-for-javascript/#comments"><span class="icon-bubbles"></span>Comments</a></div><div class="post-head group"><a href="/posts/tokenization-is-the-mother-of-nlp/"><h1 class="post-title">Tokenization is the mother of NLP</h1></a><span class="post-date">2012/09/17</span><span class="post-reading-time"></span></div><div class="post-body markdown"><p>I recently started contributing to <a href="https://github.com/NaturalNode/natural">natural, a set of <strong>natural language processing</strong> tools (NLP) in JavaScript for node.js</a>. Here&#39;s what I learned from this.</p>
 <p><a href="http://en.wikipedia.org/wiki/Tokenization">Words tokenization</a> is a critical part of natural language processing. This is often neglected because it sounds so easy. You just need to split a string on spaces.
 And that is enough... for most of the languages. However some languages don&#39;t actually use space to separate words, like Japanese or Chinese.
 I was lucky enough to find out that there is <a href="http://chasen.org/~taku/software/TinySegmenter/">a tokenizer in JavaScript for Japanese by Kudo Taku</a>. The license allowed me to use it on natural. I&#39;m fully satisfied: no dictionary to maintain and no heavy tools to develop! It is using a statistical model to determine where to cut tokens. And it turned out to be quite efficient given its light weight.</p>

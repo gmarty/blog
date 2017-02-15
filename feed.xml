@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[A blog by G.C. Marty]]></title><description><![CDATA[A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Thu, 09 Feb 2017 13:55:36 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Thu, 09 Feb 2017 13:55:36 GMT</pubDate><copyright><![CDATA[2017 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Experimenting with VR]]></title><description><![CDATA[<p>I just finished a short series of <a href="https://gmarty.github.io/VR-diary/">experimentations about virtual reality called VR Diary</a>. Here&#39;s a brief summary of why and how.</p>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[A blog by G.C. Marty]]></title><description><![CDATA[A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!]]></description><link>http://gu.illau.me</link><generator>RSS for Node</generator><lastBuildDate>Wed, 15 Feb 2017 16:34:32 GMT</lastBuildDate><atom:link href="http://gu.illau.me/feed.xml" rel="self" type="application/rss+xml"/><author><![CDATA[G.C. Marty]]></author><pubDate>Wed, 15 Feb 2017 16:34:32 GMT</pubDate><copyright><![CDATA[2017 G.C. Marty]]></copyright><language><![CDATA[en]]></language><managingEditor><![CDATA[G.C. Marty]]></managingEditor><webMaster><![CDATA[G.C. Marty]]></webMaster><ttl>60</ttl><item><title><![CDATA[Augmented reality & computer vision]]></title><description><![CDATA[<blockquote>
+<p><strong>tl;dr:</strong> Media capture, object detection and WebGL can be combined to hack a simple augmented reality experience. See my demo called <a href="https://gmarty.github.io/all-saints-ar/">we are all Saints</a>.</p>
+</blockquote>
+<p>To simplify things, augmented reality is based mainly on 2 technologies:</p>
+<ul>
+<li>Sensors to track the position and orientation of the user field of view (FOV)</li>
+<li>Computer vision to detect objects in the user FOV</li>
+</ul>
+<p>Of course modern AR headsets like Hololens combine both to create the best experience possible. I explored using common devices with web technologies to create a simple AR experience. I decided to go for computer vision applied to media capture.</p>
+<p><img src="https://github.com/gmarty/all-saints-ar/blob/gh-pages/demo.jpg?raw=true" alt="Screenshot of the demo"></p>
+<h2><a name="object-detection" class="anchor" href="#object-detection"><span class="header-link"></span></a>Object detection</h2>
+<p>There are few different libraries to detect objects in an image. Most of them seem to be based on <a href="https://en.wikipedia.org/wiki/OpenCV">OpenCV</a>, ported to JavaScript via emscripten.
+I didn&#39;t spend too much time looking for a library and quickly settled for <a href="https://github.com/mtschirs/js-objectdetect">js-objectdetect</a>. It&#39;s hand-written (as opposed to converted via emscripten) so it makes easy to read, understand and debug if needed. It can detect different types of objects but I used human faces here.</p>
+<p>Once set up properly, <code>js-objectdetect</code> accepts a video element as an input, so I just pass to it the one that displays the camera feed I got from <code>getUserMedia</code>.</p>
+<p>It return the coordinates in pixel of the faces detected (left, top, width and height).</p>
+<h2><a name="recreating-a-virtual-3d-space" class="anchor" href="#recreating-a-virtual-3d-space"><span class="header-link"></span></a>Recreating a virtual 3D space</h2>
+<p>Next step is to place the faces detected in the image in a virtual 3D space by estimating their respective positions. I used A-Frame to create the 3D world because this framework is easy to use.</p>
+<p>Positioning an element on the <code>x</code> and <code>y</code> axes is really easy. We need to convert the position in the (-1, 1) range, more about that later. For example a point centred in the image will have both its <code>x</code> and <code>y</code> values set to <code>0</code>. Knowing the position in pixels and the size of the video the values are easy to get (Also the <code>y</code> axis direction is reverse in the web and WebGL). For the <code>x</code> axis, half the width needs to be added so that the element is horizontally centred on the face.</p>
+<p>The <code>z</code> axis is a bit trickier. It needs to get estimated and calibrated. I used the height value. I noticed that once detected my face takes at most 80% of the image height when I stand at about 50cm from the camera. The further I step back, say about 2m, the smaller my face gets, to take about 30% of the screen height.</p>
+<p>I used these distances as the values for the camera frustum near and far clipping planes (<code>near</code> and <code>far</code> attributes on the <code>&lt;a-camera&gt;</code> element).</p>
+<p>Then I only need to convert and clamp the height of the face detected between the % values of image height that I determined above. Once converted to the (-1, 1) range, they&#39;ll vary proportionally between 50cm and 2m. That gives me a good enough approximation of where my face is located in respect to the camera.</p>
+<p>I also used the detected height to position the virtual element a few apparent centimetres on top the faces.</p>
+<h2><a name="overlaying" class="anchor" href="#overlaying"><span class="header-link"></span></a>Overlaying</h2>
+<p> A-Frame uses Three.js under the hood. That&#39;s what I&#39;m using to perform computations.</p>
+<p>Now that I&#39;ve got the x, y and z position in the (-1, 1) range I need to unproject this vector along the active camera. That is not as complicated as it sounds:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kr">const</span> <span class="nx">pos</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">THREE</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">z</span><span class="p">).</span><span class="nx">unproject</span><span class="p">(</span><span class="nx">camera</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<p>This returns a vector corresponding to the position in space of the object given the current FOV (i.e. camera).</p>
+<p>Finally I can set the position of the A-Frame element in the virtual space that I want to super impose over faces:</p>
+<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nx">element</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="nx">pos</span><span class="p">);</span>
+</pre></div>
+</code></pre>
+<h2><a name="conclusion" class="anchor" href="#conclusion"><span class="header-link"></span></a>Conclusion</h2>
+<p>This experiment wasn&#39;t as hard as it sounded at first and the result is quite convincing. I learnt a lot about projection and unprojection in the process. As usual the code is on GitHub as <a href="https://github.com/gmarty/all-saints-ar">all-saints-ar</a> because we are all saints!</p>
+]]></description><link>http://gu.illau.me/posts/augmented-reality-computer-vision/</link><guid isPermaLink="true">http://gu.illau.me/posts/augmented-reality-computer-vision/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Wed, 15 Feb 2017 00:00:00 GMT</pubDate></item><item><title><![CDATA[Experimenting with VR]]></title><description><![CDATA[<p>I just finished a short series of <a href="https://gmarty.github.io/VR-diary/">experimentations about virtual reality called VR Diary</a>. Here&#39;s a brief summary of why and how.</p>
 <h2><a name="vr-but-what-for" class="anchor" href="#vr-but-what-for"><span class="header-link"></span></a>VR, but what for?</h2>
 <p>Creating content for virtual reality is easy. <a href="https://aframe.io/">A-Frame</a> is probably the easiest way to get started. It&#39;s entirely free and open-source and only requires a basic of HTML programming. On other projects, I used <a href="https://developers.google.com/vr/unity/">Google VR SDK for Unity</a> and the graphic UI of Unity allows you to create content without even typing a single line of code.</p>
 <p>So now the real question is what are we going to use VR for? VR is just a medium and in itself has no value.</p>
@@ -879,74 +914,4 @@ Oh and Mac have only one language configured at a time: you will never get more 
 <li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
 <li><a href="http://gu.illau.me/posts/generating-generator-functions/">Generating generator functions</a></li>
 </ul>
-]]></description><link>http://gu.illau.me/posts/polyfilling-generators/</link><guid isPermaLink="true">http://gu.illau.me/posts/polyfilling-generators/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 05 Nov 2013 00:00:00 GMT</pubDate></item><item><title><![CDATA[Generating generator functions]]></title><description><![CDATA[<p>Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.</p>
-<h2><a name="a-note-on-generating-functions-in-javascript" class="anchor" href="#a-note-on-generating-functions-in-javascript"><span class="header-link"></span></a>A note on generating functions in JavaScript</h2>
-<p>Before diving into the subject, let&#39;s have a quick look at how to generate functions on-the-fly in JavaScript.</p>
-<p>The obvious way to achieve this is to use <code>eval()</code>:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;function dynamicFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>However, as you may have heard:</p>
-<blockquote>
-<p>eval is evil</p>
-</blockquote>
-<p>The reason is because it gives JavaScript VM a hard time optimising the generated function and can lead to security concerns.</p>
-<p>A better approach is to use the <code>Function</code> constructor:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<p>Just pass the body of the function as a string. You can also pass arguments before the code body:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;arg1&#39;</span><span class="p">,</span> <span class="s1">&#39;arg2&#39;</span><span class="p">,</span> <span class="s1">&#39;/* Do crazy stuff with arg1 and arg2. */&#39;</span><span class="p">);</span>
-</pre></div>
-</code></pre>
-<h2><a name="caveat-1-the-scope" class="anchor" href="#caveat-1-the-scope"><span class="header-link"></span></a>Caveat 1: the scope</h2>
-<p>That said, you need to keep in mind that using <code>Function</code> always create functions in the global scope. You can&#39;t refer to variables used in the local lexical scope they were created. The following code will not work as expected:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;console.log(SCOPED_VAR)&#39;</span><span class="p">);</span>
-  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// ReferenceError: SCOPED_VAR is not defined</span>
-<span class="p">})();</span>
-</pre></div>
-</code></pre>
-<p>So if you really need to expose <code>SCOPED_VAR</code> to <code>dynamicFn()</code>, the solution might be to wrap it inside another function created with the <code>Function</code> constructor and execute the latter immediately:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">SCOPED_VAR</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;SCOPED_VAR&#39;</span><span class="p">,</span> <span class="s1">&#39;return function() {console.log(SCOPED_VAR)}&#39;</span><span class="p">)(</span><span class="nx">SCOPED_VAR</span><span class="p">);</span>
-  <span class="nx">dynamicFn</span><span class="p">();</span> <span class="c1">// &quot;local&quot;</span>
-<span class="p">})();</span>
-</pre></div>
-</code></pre>
-<p>But, any updates to <code>SCOPED_VAR</code> in the outter scope won&#39;t reflect inside <code>dynamicFn()</code>. The value of <code>SCOPED_VAR</code> in the scope of <code>dynamicFn()</code> is bound forever to the one it had at creation.</p>
-<p>This scoping behaviour can be confusing, but it is done by design. This is the reason why the functions generated this way are faster than with <code>eval</code>.</p>
-<p><strong>Edit:</strong> You can take advantage of this scoping behaviour to reference the global scope regardless of the environment you&#39;re running in and whatever your local scope is. Just use the code below and you&#39;ll be certain that <code>this</code> will always reference the global scope:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">global</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return this&#39;</span><span class="p">)();</span>
-</pre></div>
-</code></pre>
-<h2><a name="caveat-2-named-functions" class="anchor" href="#caveat-2-named-functions"><span class="header-link"></span></a>Caveat 2: named functions</h2>
-<p>Another issue with <code>new Function</code> is that it generates only anonymous functions:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;/* Do crazy stuff here. */&#39;</span><span class="p">);</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;&quot; (empty string)</span>
-</pre></div>
-</code></pre>
-<p>Named functions are required for debugging in order to get meaningful stack traces.</p>
-<p>A workaround is to use the solution presented above:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">dynamicFn</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function dynFn() {/* Do crazy stuff here. */}&#39;</span><span class="p">)();</span>
-<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">dynamicFn</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span> <span class="c1">// &quot;dynFn&quot;</span>
-</pre></div>
-</code></pre>
-<p>This is how <a href="https://github.com/mbebenita/shumway/blob/master/src/avm2/runtime.js#L1384">Shumway generates dynamic named functions</a> and that causes <a href="https://github.com/mozilla/shumway/issues/287#issuecomment-17507860">no performance issue</a>.</p>
-<h2><a name="how-to-generate-generator-functions" class="anchor" href="#how-to-generate-generator-functions"><span class="header-link"></span></a>How to generate generator functions</h2>
-<p>Now, back to our main topic: generator functions.</p>
-<p><strong>Edit:</strong> In the future, we will have the <a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorfunction"><code>GeneratorFunction</code> constructor</a> to create generator functions from a string, but this is not implemented anywhere AFAIK. So in the meantime...</p>
-<p>We can simply use this technique again and execute immediately a function that returns a generator function. Sounds complicated but it&#39;s actually very easy:</p>
-<pre><code class="lang-javascript"><div class="highlight"><pre><span class="kd">var</span> <span class="nx">generator</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">&#39;return function* () { yield 5 }&#39;</span><span class="p">)();</span>
-</pre></div>
-</code></pre>
-<p>Of course, the scope issue remains but you can optionally get a named function generator for debugging purposes.</p>
-<p>Now back to your code editor and have fun creating functions on the fly with JavaScript.</p>
-<p>This article is part of a series about ES6 generators, together with:</p>
-<ul>
-<li><a href="http://gu.illau.me/posts/cross-browser-generator-functions/">Cross browser generator functions</a></li>
-<li><a href="http://gu.illau.me/posts/polyfilling-generators/">Polyfilling generators</a></li>
-</ul>
-]]></description><link>http://gu.illau.me/posts/generating-generator-functions/</link><guid isPermaLink="true">http://gu.illau.me/posts/generating-generator-functions/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Fri, 01 Nov 2013 00:00:00 GMT</pubDate></item></channel></rss>
+]]></description><link>http://gu.illau.me/posts/polyfilling-generators/</link><guid isPermaLink="true">http://gu.illau.me/posts/polyfilling-generators/</guid><dc:creator><![CDATA[G.C. Marty]]></dc:creator><pubDate>Tue, 05 Nov 2013 00:00:00 GMT</pubDate></item></channel></rss>
