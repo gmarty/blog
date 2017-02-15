@@ -13,7 +13,7 @@ To simplify things, augmented reality is based mainly on 2 technologies:
 
 Of course modern AR headsets like Hololens combine both to create the best experience possible. I explored using common devices with web technologies to create a simple AR experience. I decided to go for computer vision applied to media capture.
 
-![Screenshot of the demo](https://github.com/gmarty/all-saints-ar/blob/gh-pages/demo.jpg?raw=true)
+![Screenshot of the demo](https://raw.githubusercontent.com/gmarty/all-saints-ar/gh-pages/demo.jpg)
 
 ## Object detection
 
