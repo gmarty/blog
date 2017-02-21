@@ -32,9 +32,13 @@ $lightTextColor: $grey;
   @include clearfix;
 }
 
-html, body {
-  height: 100%;
-  padding: 0;
+html {
+  background: white;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
   margin: 0;
 }
 
