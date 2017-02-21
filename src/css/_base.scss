@@ -33,7 +33,7 @@ $lightTextColor: $grey;
 }
 
 html {
-  background: white;
+  background: $mainTheme;
 }
 
 body {
@@ -62,6 +62,7 @@ body {
 }
 
 .content {
+  background: white;
   flex-grow: 1;
   position: relative;
   z-index: 50;
