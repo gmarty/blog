@@ -75,11 +75,22 @@ nav {
   a {
     display: block;
     padding: 0 0 .55em;
+    transition: transform 150ms;
+
+    &:hover {
+      text-decoration: none;
+      transform: translateX(1em);
+    }
 
     @include breakpoint(big-phone) {
       display: block;
       padding: 0;
       margin: .55em .9em;
+
+      &:hover {
+        text-decoration: underline;
+        transform: translateX(0);
+      }
     }
 
     @include breakpoint(small-phone) {
