@@ -8,17 +8,23 @@ Organising a meetup is a great way to connect with like-minded people and exchan
 
 ## Finding speakers
 Probably the most tricky part of organising meetups, specially when you get started.
+
 Make sure to leverage your network. Some of your friends, colleagues, Twitter followers may not have considered giving a talk before. Give them a chance!
+
 If you struggle to find speakers, you can be creative and maybe ask a remote speaker to speak through Skype or similar. There are also other things you can do like hands-on sessions, lightning talks or discussion panels.
+
 I also enjoyed giving under-represented people (students...) a platform to talk, to foster a culture of diversity. I even hard-coded this principle in the rule of conduct of the last meetup I organised.
 
 ## Getting a venue
 If you're in London and your meetup aligns somehow with [Mozilla mission](https://www.mozilla.org/en-GB/mission/) and [manifesto](https://www.mozilla.org/en-GB/about/manifesto/), why not hold it at Mozilla office? You'll need to have an employee to sponsor you and make the requests on your behalf.
+
 For other places or other topics I unfortunately don't have much experience, but you can try to contact the venues where you have attended meetups in the past. Here again, use your network!
 
 ## Drink and snack sponsoring
 it's nice if possible to offer snacks and drinks to provide the attendees with the best experience possible. 
+
 I don't have much experience in finding sponsor but you can try to contact hiring companies in industries closely related to your meetup. They'll be happy to sponsor your event in exchange of a way to get in touch with local talents and potential users.
+
 Another possibility depending on the number of attendees is to buy and bring snacks and drinks for yourself. Some big meetups don't offer such amenities so don't feel bad if you don't.
 
 ## AV
@@ -29,6 +35,7 @@ When everything is ready, it's good to prepare a detailed plan. That will help o
 
 ## Promotion
 To advertise your meetup is critical to its success. Make sure your communicate it on social media and ask, for example, your speakers to help with spreading the word.
+
 After your event it's also nice to engage with your participants and send a feedback form to help you make the next edition even better!
 
 ## Organisation
