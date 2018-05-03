@@ -14,13 +14,13 @@ doctype 5
 html(lang="en-GB")
   head
     meta(charset="utf-8")
-    meta(http-equiv="Content-Security-Policy", content="default-src 'self' http://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' http://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' http://gu.illau.me http://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' http://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://raw.githubusercontent.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' http://gu.illau.me http://fonts.gstatic.com https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;")
+    meta(http-equiv="Content-Security-Policy", content="default-src 'self' https://gu.illau.me; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://gu.illau.me http://www.google-analytics.com http://hnbutton.appspot.com https://platform.twitter.com https://apis.google.com http://gmarty.disqus.com; style-src 'self' 'unsafe-inline' https://gu.illau.me https://fonts.googleapis.com http://a.disquscdn.com; img-src 'self' https://gu.illau.me https://*.googleusercontent.com http://www.google-analytics.com https://raw.githubusercontent.com https://syndication.twitter.com https://*.disqus.com https://*.disquscdn.com; font-src 'self' https://gu.illau.me http://fonts.gstatic.com https://fonts.gstatic.com; object-src 'none'; frame-src https://www.youtube-nocookie.com http://hnbutton.appspot.com http://disqus.com https://apis.google.com https://accounts.google.com https://plusone.google.com http://platform.twitter.com;")
     meta(name="viewport", content="width=device-width,initial-scale=1")
     meta(name="theme-color", content="#ff8c00")
     block head
       title="A blog by Guillaume C. Marty"
       meta(name="description", content="A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!")
-      base(href="http://gu.illau.me#{data.baseUrl}", target="_top")
+      base(href="https://gu.illau.me#{data.baseUrl}", target="_top")
     link(href="#{data.baseUrl}css/main.css", rel="stylesheet")
     script(src="/js/analytics.js", defer, async)
     script(src="/js/ui.js", defer, async)

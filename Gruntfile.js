@@ -7,7 +7,7 @@ module.exports = function(grunt) {
           author: 'G.C. Marty',
           title: 'A blog by G.C. Marty',
           description: 'A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!',
-          url: 'http://gu.illau.me',
+          url: 'https://gu.illau.me',
           numPosts: 20
         }
       },

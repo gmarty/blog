@@ -4,7 +4,7 @@
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-compass": "^0.6.0",
+    "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-connect": "^0.5.0",
     "grunt-contrib-copy": "^0.4.1",
     "grunt-contrib-livereload": "^0.1.2",
@@ -20,7 +20,7 @@
   "scripts": {
     "generate-icons": "inkscape -e src/img/icons/16.png -w 16 src/img/icon.svg;inkscape -e src/img/icons/32.png -w 32 src/img/icon.svg;inkscape -e src/img/icons/48.png -w 48 src/img/icon.svg;inkscape -e src/img/icons/60.png -w 60 src/img/icon.svg;inkscape -e src/img/icons/64.png -w 64 src/img/icon.svg;inkscape -e src/img/icons/90.png -w 90 src/img/icon.svg;inkscape -e src/img/icons/128.png -w 128 src/img/icon.svg;inkscape -e src/img/icons/144.png -w 144 src/img/icon.svg;inkscape -e src/img/icons/256.png -w 256 src/img/icon.svg;inkscape -e src/img/icons/512.png -w 512 src/img/icon.svg"
   },
-  "description": "The source of my blog located at http://gu.illau.me.",
+  "description": "The source of my blog located at https://gu.illau.me.",
   "dependencies": {},
   "repository": {
     "type": "git",
@@ -36,5 +36,5 @@
   "bugs": {
     "url": "https://github.com/gmarty/blog/issues"
   },
-  "homepage": "http://gu.illau.me"
+  "homepage": "https://gu.illau.me"
 }
