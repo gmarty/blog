@@ -1,0 +1,15 @@
+---
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations()
+
+interface Props {
+  date: Date
+}
+
+const { date } = Astro.props
+---
+
+<time datetime={date.toISOString().substring(0, 10)}>
+  {date.toLocaleDateString(t('siteMetadata.language'), { dateStyle: 'long' })}
+</time>

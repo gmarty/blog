@@ -1,0 +1,36 @@
+{
+  "lang": "en-GB",
+  "name": "A blog by Guillaume C. Marty",
+  "short_name": "GMarty",
+  "description": "A blog about JavaScript, HTML, the web platform, NLP and to how optimise them all!",
+  "categories": [
+    "education",
+    "reference"
+  ],
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "id": "/?source=pwa",
+  "scope": "/",
+  "display": "minimal-ui",
+  "theme_color": "#ea580c",
+  "background_color": "#fff",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import SectionContainer from '../components/SectionContainer.astro'
+
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations()
+
+type Props = {
+  title: string
+  description: string
+  titleTemplate?: string
+  robots?: string
+  article?: {
+    publishedTime: Date
+    modifiedTime?: Date
+    authors: string[]
+    tags: string[]
+    cover: CollectionEntry<'blog'>['data']['cover']
+  }
+}
+---
+
+<html lang={t('siteMetadata.language')} transition:animate="none">
+  <BaseHead {...Astro.props} />
+  <body
+    class="bg-primary-50 dark:bg-gray-950 text-gray-800 dark:text-primary-200 antialiased"
+  >
+    <script is:inline>
+      const setColorScheme = ({ documentElement }) => {
+        if (
+          localStorage.theme === 'dark' ||
+          (!('theme' in localStorage) &&
+            window.matchMedia('(prefers-color-scheme:dark)').matches)
+        ) {
+          documentElement.classList.add('dark')
+        } else {
+          documentElement.classList.remove('dark')
+        }
+      }
+
+      // Avoid flash during view transitions.
+      document.addEventListener('astro:before-swap', ({ newDocument }) => {
+        setColorScheme(newDocument)
+      })
+
+      setColorScheme(document)
+    </script>
+    <SectionContainer>
+      <div class="flex h-screen flex-col justify-between font-sans">
+        <Header />
+        <main transition:animate="slide">
+          <slot />
+        </main>
+        <Footer />
+      </div>
+    </SectionContainer>
+  </body>
+</html>

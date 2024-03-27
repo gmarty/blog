@@ -1,0 +1,29 @@
+---
+import { getEntry } from 'astro:content'
+import SocialIcon from '@/components/social-icons/index.astro'
+import Link from './Link.astro'
+
+const author = await getEntry('authors', 'default')
+const {
+  name,
+  // email,
+  mastodon,
+  linkedin,
+  gitlab,
+  github,
+} = author.data
+---
+
+<footer class="py-16 flex flex-col items-center gap-4">
+  <div class="flex gap-4">
+    <!-- {email && <SocialIcon kind="mail" href={`mailto:${email}`} size={6} />} -->
+    {mastodon && <SocialIcon kind="mastodon" href={mastodon} size={6} />}
+    {linkedin && <SocialIcon kind="linkedin" href={linkedin} size={6} />}
+    {gitlab && <SocialIcon kind="gitlab" href={gitlab} size={6} />}
+    {github && <SocialIcon kind="github" href={github} size={6} />}
+  </div>
+  <div class="text-sm text-gray-500 dark:text-gray-400">
+    {`©`}
+    <Link href="/">{name}</Link>
+  </div>
+</footer>

@@ -1,0 +1,121 @@
+/* Link everywhere (but in prose). */
+.themed-link {
+  /* Inlining to avoid mistakes. */
+  @apply text-primary-600;
+  @apply dark:text-primary-500;
+  @apply hover:text-primary-800;
+  @apply dark:hover:text-primary-300;
+}
+/* Header nav links. */
+.themed-ui-link {
+  @apply themed-link;
+  /* @apply text-gray-900;
+  @apply dark:text-primary-100;
+  @apply hover:text-gray-500;
+  @apply dark:hover:text-primary-400; */
+}
+
+.task-list-item::before {
+  @apply hidden;
+}
+
+.task-list-item {
+  @apply list-none;
+}
+
+.footnotes {
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+}
+
+.data-footnote-backref {
+  @apply no-underline;
+}
+
+.csl-entry {
+  @apply my-5;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h5 {
+  @apply text-gray-900;
+  @apply dark:text-primary-100;
+}
+.prose a {
+  @apply no-underline;
+}
+.prose blockquote p:first-of-type {
+  @apply before:content-[''];
+}
+.prose blockquote p:last-of-type {
+  @apply after:content-[''];
+}
+.prose code {
+  @apply before:content-[''];
+  @apply after:content-[''];
+}
+.prose img {
+  @apply rounded-lg;
+  @apply mx-auto;
+}
+.prose kbd {
+  @apply bg-gray-200/50;
+  @apply dark:bg-gray-700/50;
+}
+
+/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+lite-youtube {
+  @apply rounded-lg;
+}
+/* See https://github.com/justinribeiro/lite-youtube?tab=readme-ov-file#basic-usage-with-fallback-link */
+.lite-youtube-fallback {
+  aspect-ratio: 16 / 9; /* matches YouTube player */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+  /* background-color: #000; */
+  @apply bg-primary-100;
+  /* color: #fff; */
+  @apply text-primary-600;
+  text-decoration: none;
+
+  @apply rounded-lg;
+  @apply text-center;
+  @apply hover:bg-primary-200;
+  @apply hover:text-primary-800;
+  @apply transition;
+}
+/* right-facing triangle "Play" icon */
+.lite-youtube-fallback::before {
+  display: block;
+  content: '';
+  border: solid transparent;
+  border-width: 2em 0 2em 3em;
+  /* border-left-color: red; */
+  @apply border-l-primary-600;
+}
+.lite-youtube-fallback:hover::before {
+  /* border-left-color: #fff; */
+  @apply border-l-primary-800;
+}
+.lite-youtube-fallback:focus {
+  /* outline: 2px solid red; */
+  @apply outline-2;
+  @apply outline;
+  @apply outline-primary-600;
+}
+
+img.pixelated {
+  image-rendering: pixelated;
+}

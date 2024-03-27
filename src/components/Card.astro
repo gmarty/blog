@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets'
+import FormattedYear from './FormattedYear.astro'
+import Link from './Link.astro'
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations()
+
+interface Props {
+  index?: number // The index of the card in the list.
+  title: string
+  year?: number
+  description: string
+  imgSrc?: ImageMetadata | string // @todo Fix the error message.
+  imgType?: string
+  href?: string
+}
+
+const { index, title, year, description, imgSrc, imgType, href } = Astro.props
+---
+
+<div
+  class:list={`${imgSrc ? 'h-full ' : ''} group relative overflow-hidden rounded-lg transition bg-primary-100 dark:bg-gray-900 hover:bg-primary-200 hover:dark:bg-gray-800`}
+>
+  {
+    imgSrc && (
+      <div class="relative">
+        <!-- @ts-ignore -->
+        <Image
+          alt={title}
+          src={imgSrc}
+          class:list={[
+            'object-cover object-center aspect-[21/9] w-full transition group-hover:scale-105',
+            { pixelated: imgType === 'pixelated' },
+          ]}
+          width={720}
+          height={405}
+          format={imgType === 'pixelated' ? 'png' : 'webp'}
+          loading={index !== undefined && index <= 1 ? 'eager' : 'lazy'}
+        />
+        {year && (
+          <dl>
+            <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
+            <dd class="text-xs py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
+              <FormattedYear {year} />
+            </dd>
+          </dl>
+        )}
+      </div>
+    )
+  }
+  <div class="p-6">
+    <h3
+      class="mb-3 text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-primary-100"
+    >
+      {
+        href ? (
+          <Link
+            href={href}
+            aria-label={t('components.card.linkToPost', { title })}
+          >
+            {title}
+          </Link>
+        ) : (
+          title
+        )
+      }
+    </h3>
+    <p class="prose max-w-none text-gray-900 dark:text-gray-100 pb-6">
+      {description}
+    </p>
+    {
+      href && (
+        <Link
+          href={href}
+          class="transition text-base font-medium leading-6 themed-link group-hover:text-primary-800 dark:group-hover:text-primary-300 after:absolute after:inset-0 pointer-events-auto"
+          aria-label={t('components.card.linkToPost', { title })}
+        >
+          <span class="absolute bottom-4 left-6 z-10">Learn more &rarr;</span>
+        </Link>
+      )
+    }
+    {!imgSrc &&year && (
+      <dl>
+        <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
+        <dd class="text-xs py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
+          <FormattedYear {year} />
+        </dd>
+      </dl>
+    )}
+  </div>
+</div>

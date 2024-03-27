@@ -1,0 +1,138 @@
+---
+import { getCollection } from 'astro:content'
+import { type CollectionEntry } from 'astro:content'
+
+import Link from '../components/Link.astro'
+import Pagination from '../components/Pagination.astro'
+import RootLayout from './RootLayout.astro'
+import Tag from '../components/Tag.astro'
+import FormattedDate from '../components/FormattedDate.astro'
+import type { Page } from 'astro'
+import { excludeDrafts, sortBlogPosts } from '@/functions'
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations()
+
+interface Props {
+  title: string
+  description: string
+  titleTemplate?: string
+  page: Page<CollectionEntry<'blog'>>
+  robots?: string
+}
+
+const tags = await getCollection('tags')
+const posts = await getCollection('blog', excludeDrafts).then(sortBlogPosts)
+
+const tagCount = (slug: CollectionEntry<'tags'>['slug']) => {
+  if (!posts) return 0
+  return posts.filter((post) => post.data.tags.some((tag) => tag.slug === slug))
+    .length
+}
+
+const isCurrentPath = (path: string) => Astro.url.pathname.startsWith(path)
+
+const { title, description, robots, page, titleTemplate } = Astro.props
+const hasDefaultSlot = Astro.slots.has('default')
+const isBlogPage = Astro.url.pathname.startsWith('/posts')
+---
+
+<RootLayout {title} {description} {robots} {titleTemplate}>
+  <div>
+    {
+      hasDefaultSlot && (
+        <div class="pb-6 pt-6">
+          <div class="prose dark:prose-invert py-4">
+            <slot />
+          </div>
+        </div>
+      )
+    }
+    <div class="flex sm:space-x-24">
+      <div
+        class="hidden max-h-screen h-full sm:flex flex-wrap bg-primary-100 dark:bg-gray-900 pt-5 rounded-lg min-w-[280px] max-w-[280px] overflow-auto"
+      >
+        <div class="py-4 px-6">
+          {
+            isBlogPage ? (
+              <div class="font-bold text-gray-500 dark:text-gray-300">
+                {t('layouts.listWithTagsLayout.allPosts')}
+              </div>
+            ) : (
+              <Link href="/posts" class="font-bold themed-link">
+                {t('layouts.listWithTagsLayout.allPosts')}
+              </Link>
+            )
+          }
+          <ul>
+            {
+              tags.map(({ slug, data }) => (
+                <li class="my-3">
+                  {isCurrentPath(`/tag/${slug}`) ? (
+                    <h3 class="inline py-2 px-3 text-sm font-bold text-gray-500 dark:text-gray-300">
+                      {`${data.name} (${tagCount(slug)})`}
+                    </h3>
+                  ) : (
+                    <>
+                      <Link
+                        href={`/tags/${slug}`}
+                        class="py-2 pl-3 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
+                        aria-label={`View posts tagged ${data.name}`}
+                      >
+                        {`${data.name}`}
+                      </Link>
+                      <span class="text-gray-900 dark:text-gray-100">{`(${tagCount(slug)})`}</span>
+                    </>
+                  )}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <div>
+        <ul>
+          {
+            page.data.map(
+              ({ slug, data: { date, title, description, tags } }) => (
+                <li class="py-5">
+                  <article class="space-y-2 flex flex-col xl:space-y-0">
+                    <dl>
+                      <dt class="sr-only">
+                        {t('layouts.listWithTagsLayout.publishedOn')}
+                      </dt>
+                      <dd class="text-base font-medium leading-6 text-gray-500 dark:text-gray-300">
+                        <FormattedDate date={date} />
+                      </dd>
+                    </dl>
+                    <div class="space-y-3">
+                      <div>
+                        <h2 class="text-2xl font-bold leading-8 tracking-tight">
+                          <Link
+                            href={`/posts/${slug}`}
+                            class="text-gray-900 dark:text-primary-100"
+                          >
+                            {title}
+                          </Link>
+                        </h2>
+                        <div class="flex flex-wrap">
+                          {tags.map(({ slug }) => (
+                            <Tag slug={slug} />
+                          ))}
+                        </div>
+                      </div>
+                      <div class="prose max-w-none text-gray-500 dark:text-gray-300">
+                        {description}
+                      </div>
+                    </div>
+                  </article>
+                </li>
+              )
+            )
+          }
+        </ul>
+        {(page.url.next || page.url.prev) && <Pagination page={page} />}
+      </div>
+    </div>
+  </div>
+</RootLayout>

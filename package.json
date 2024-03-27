@@ -1,40 +1,65 @@
 {
   "name": "blog",
-  "version": "1.0.0",
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.5.0",
-    "grunt-contrib-compass": "^1.1.1",
-    "grunt-contrib-connect": "^0.5.0",
-    "grunt-contrib-copy": "^0.4.1",
-    "grunt-contrib-livereload": "^0.1.2",
-    "grunt-contrib-watch": "^0.5.3",
-    "grunt-gh-pages": "^0.8.1",
-    "grunt-open": "^0.2.3",
-    "grunt-pages": "^0.10.1",
-    "matchdep": "^0.3.0"
-  },
-  "engines": {
-    "node": ">=0.10.0"
-  },
-  "scripts": {
-    "generate-icons": "inkscape -e src/img/icons/16.png -w 16 src/img/icon.svg;inkscape -e src/img/icons/32.png -w 32 src/img/icon.svg;inkscape -e src/img/icons/48.png -w 48 src/img/icon.svg;inkscape -e src/img/icons/60.png -w 60 src/img/icon.svg;inkscape -e src/img/icons/64.png -w 64 src/img/icon.svg;inkscape -e src/img/icons/90.png -w 90 src/img/icon.svg;inkscape -e src/img/icons/128.png -w 128 src/img/icon.svg;inkscape -e src/img/icons/144.png -w 144 src/img/icon.svg;inkscape -e src/img/icons/256.png -w 256 src/img/icon.svg;inkscape -e src/img/icons/512.png -w 512 src/img/icon.svg"
-  },
+  "author": "Guillaume C. Marty",
   "description": "The source of my blog located at https://gu.illau.me.",
-  "dependencies": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gmarty/blog.git"
-  },
+  "homepage": "https://gu.illau.me",
   "keywords": [
     "Blog",
     "JavaScript",
     "HTML"
   ],
-  "author": "G.C. Marty",
-  "license": "ISC",
+  "license": "BlueOak-1.0.0",
+  "version": "2.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gmarty/blog.git"
+  },
   "bugs": {
     "url": "https://github.com/gmarty/blog/issues"
   },
-  "homepage": "https://gu.illau.me"
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro build && astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.5.10",
+    "@astrojs/mdx": "^2.2.1",
+    "@astrojs/rss": "^4.0.5",
+    "@astrojs/sitemap": "^3.1.1",
+    "@astrojs/solid-js": "^4.0.1",
+    "@astrojs/tailwind": "^5.1.0",
+    "@fontsource/onest": "^5.0.3",
+    "@justinribeiro/lite-youtube": "^1.5.0",
+    "astro": "^4.5.9",
+    "astro-compress": "^2.2.17",
+    "astro-meta-tags": "^0.2.2",
+    "astro-robots-txt": "^1.0.0",
+    "astro-seo": "^0.8.3",
+    "solid-js": "^1.8.16",
+    "typescript": "^5.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.11",
+    "tailwindcss": "^3.4.1"
+  },
+  "overrides": {
+    "astro-compress": {
+      "sharp": "0.33.3"
+    },
+    "astro": {
+      "sharp": "0.33.3"
+    }
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "astroAllowShorthand": true,
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  }
 }

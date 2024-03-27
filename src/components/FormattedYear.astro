@@ -1,0 +1,9 @@
+---
+interface Props {
+  year: number
+}
+
+const { year } = Astro.props
+---
+
+<time datetime={String(year)}> {year} </time>

@@ -1,0 +1,83 @@
+---
+import Card from '@/components/Card.astro'
+import { useTranslations } from '@/i18n'
+import RootLayout from '@/layouts/RootLayout.astro'
+
+const t = useTranslations()
+
+const data = [
+  {
+    title: 'RxJS in TweetDeck (JS Roundabout #7)',
+    year: 2018,
+    description: `What are observable in JavaScript and how we use them at TweetDeck? This talk was co-presented with my teammate Amy Simmons.`,
+    imgSrc: undefined,
+    imgType: undefined,
+    href: 'https://www.youtube.com/watch?v=vKrVjJKm4MI',
+  },
+  {
+    title: 'Crash course in compile-to-the-web (MLOC.js)',
+    year: 2015,
+    description: `It's 2015. The web is omnipresent and omnipotent, and yet some vendors continue to ship proprietary formats and software. But vendor lock-in doesn't have to be a fatality. Many techniques are available to run almost anything on our beloved browser.`,
+    // imgSrc: null,
+    href: 'https://gmarty.github.io/2015-06-MLOC.js/',
+  },
+  {
+    title:
+      'Je viens du futur et voici comment on code en JavaScript (JavaScript Open Day)',
+    year: 2015,
+    description: `This talk walks through using modern JavaScript syntax in the Firefox OS codebase. Since the code is written to be ran in a specific environment, there is no need to support other browsers. You'll see sample of how you will write modern syntax JavaScript in the future. This talk was delivered in French.`,
+    // imgSrc: null,
+    href: 'https://gmarty.github.io/2015-03-JavaScript-Open-Day-1/',
+  },
+  {
+    title:
+      'Playing DVD in JavaScript for the sake of interoperability (JSConf US)',
+    year: 2014,
+    description: `We have everything we need to read DVD-video discs in a browser, so why don't we start? For that purpose, I ported libdvdread and libdvdnav libraries to JavaScript so that we can parse the DVD-video info files and emulate a virtual machine. The resulting project is a mix of websockets, video elements, media source extensions and a lot of open source love.`,
+    // imgSrc: null,
+    href: 'https://www.youtube.com/watch?v=lb-8euLqfRg',
+  },
+  {
+    title: '60 FPS Retro Gaming on Mobile (Reject.JS)',
+    year: 2013,
+    description: `Born as an interpreter, jsSMS is now a hybrid emulator for Sega Master System and Game Gear. It makes use of static and dynamic recompilation, and falls back to a classical interpreter if required. From parsing to JavaScript generation using an optimised AST, I present the different steps that makes an emulator fast. The ultimate goal is to provide full speed for retro gaming on mobile browser and web app!`,
+    // imgSrc: null,
+    href: 'https://www.youtube.com/watch?v=Ey2TGjLTYuw',
+  },
+]
+---
+
+<RootLayout
+  title={t('pages.talks.title')}
+  description={t('pages.talks.description')}
+>
+  <div>
+    <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
+      <h2
+        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+      >
+        {t('pages.talks.allApps')}
+      </h2>
+      <p class="text-lg leading-7 text-gray-500 dark:text-gray-300">
+        {t('pages.talks.showcase')}
+      </p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      {
+        data.map(
+          ({ title, year, description, imgSrc, imgType, href }, index) => (
+            <Card
+              {index}
+              {title}
+              {year}
+              {description}
+              {imgSrc}
+              {imgType}
+              {href}
+            />
+          )
+        )
+      }
+    </div>
+  </div>
+</RootLayout>

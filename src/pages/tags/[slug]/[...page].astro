@@ -1,0 +1,54 @@
+---
+import type { Page, GetStaticPaths } from 'astro'
+
+import { getCollection, type CollectionEntry } from 'astro:content'
+// import ListLayout from "@/layouts/ListLayout.astro";
+import { ITEMS_PER_PAGE } from '@/consts'
+import { excludeDrafts, sortBlogPosts } from '@/functions'
+import ListWithTagsLayout from '@/layouts/ListWithTagsLayout.astro'
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations()
+
+interface Props {
+  page: Page<CollectionEntry<'blog'>>
+  entry: CollectionEntry<'tags'>
+}
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const tags = await getCollection('tags')
+  const posts = await getCollection('blog', excludeDrafts).then(sortBlogPosts)
+
+  return tags.flatMap((entry) => {
+    const tagPosts = posts.filter((post) =>
+      post.data.tags.some(({ slug }) => slug === entry.slug)
+    )
+    return paginate(tagPosts, {
+      pageSize: ITEMS_PER_PAGE,
+      params: { slug: entry.slug },
+      props: { entry },
+    })
+  })
+}) satisfies GetStaticPaths
+
+const { page, entry } = Astro.props
+const { Content } = await entry.render()
+
+let robots
+let titleTemplate = ''
+if (page.currentPage > 1) {
+  // Ask search engines to not index paginated pages
+  robots = 'noindex,follow'
+  titleTemplate = t('seo.pagination.page', { page: `${page.currentPage}` }) // `%s - Page ${page.currentPage}`;
+}
+---
+
+<ListWithTagsLayout
+  title={entry.data.name}
+  description={entry.data.description}
+  {page}
+  {robots}
+  {titleTemplate}
+>
+  <Content />
+</ListWithTagsLayout>

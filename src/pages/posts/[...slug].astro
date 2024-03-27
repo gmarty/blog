@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content'
+import { excludeDrafts, sortBlogPosts } from '@/functions'
+import PostLayout from '@/layouts/PostLayout.astro'
+import SimpleLayout from '@/layouts/SimplePostLayout.astro'
+
+export const getStaticPaths = async () => {
+  const posts = await getCollection('blog', excludeDrafts).then(sortBlogPosts)
+  if (!posts) return []
+  return posts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: { post, next: posts[index + 1], prev: posts[index - 1] },
+  }))
+}
+
+const postLayout = Astro.props.post.data.postLayout
+---
+
+{
+  postLayout === 'simple' ? (
+    <SimpleLayout {...Astro.props} />
+  ) : (
+    <PostLayout {...Astro.props} />
+  )
+}

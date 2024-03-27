@@ -1,0 +1,62 @@
+---
+import { NAVIGATION } from '@/consts'
+import HeaderLink from './HeaderLink.astro'
+import Logo from './Logo.astro'
+import MobileNav from '@/solid/MobileNav.tsx'
+import ThemeSwitcher from '@/solid/ThemeSwitcher.tsx'
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations()
+
+const isCurrentPath = (path: string) => {
+  let { pathname } = Astro.url
+  // Remove the last `/` if not the root path.
+  if (pathname.length > 1 && pathname.slice(-1) === '/') {
+    pathname = pathname.slice(0, -1)
+  }
+  return pathname === path
+}
+const navigationLinks = NAVIGATION
+---
+
+<header class="flex items-start justify-between py-4 sm:py-10 gap-3">
+  <a
+    href="/"
+    aria-label={t('siteMetadata.headerTitle')}
+    class="flex flex-row items-center gap-3 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 themed-ui-link"
+  >
+    <Logo />
+    <h1
+      class="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-extrabold"
+    >
+      {t('pages.home.latestPosts')}
+    </h1>
+  </a>
+  <div class="flex items-center leading-5 space-x-0 sm:space-x-6">
+    {
+      navigationLinks
+        .filter(({ href }) => href !== '/')
+        .map((link) =>
+          isCurrentPath(link.href) ? (
+            <span class="hidden sm:block font-medium text-gray-900 dark:text-gray-100">
+              {t(link.title)}
+            </span>
+          ) : (
+            <HeaderLink
+              href={link.href}
+              class="hidden sm:block font-medium themed-ui-link"
+            >
+              {t(link.title)}
+            </HeaderLink>
+          )
+        )
+    }
+    <div class="flex justify-center items-center gap-4">
+      <!--<SearchButton />-->
+      <div class="size-6"><ThemeSwitcher client:only="solid-js" /></div>
+      <div class="size-8 sm:size-0 sm:hidden">
+        <MobileNav {navigationLinks} client:only="solid-js" />
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,37 @@
+---
+import Mail from './icons/Mail.astro'
+import Mastodon from './icons/Mastodon.astro'
+import Linkedin from './icons/Linkedin.astro'
+import Gitlab from './icons/Gitlab.astro'
+import Github from './icons/Github.astro'
+import Facebook from './icons/Facebook.astro'
+import Youtube from './icons/Youtube.astro'
+import Twitter from './icons/Twitter.astro'
+
+const components = {
+  mail: Mail,
+  mastodon: Mastodon,
+  linkedin: Linkedin,
+  gitlab: Gitlab,
+  github: Github,
+  facebook: Facebook,
+  youtube: Youtube,
+  twitter: Twitter,
+}
+
+type Props = {
+  kind: keyof typeof components
+  href: string | undefined
+  size?: number
+}
+
+const { kind, href, size = 8 } = Astro.props
+const SocialSvg = components[kind]
+const sizeClass = size === 8 ? 'size-8' : 'size-6'
+---
+
+<a class="text-sm" target="_blank" rel="noopener noreferrer" {href}
+  ><span class="sr-only">{kind}</span><SocialSvg
+    class={`${sizeClass} fill-current transition themed-link hover:scale-110`}
+  /></a
+>

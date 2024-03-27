@@ -1,0 +1,73 @@
+---
+import Card from '@/components/Card.astro'
+import { useTranslations } from '@/i18n'
+import RootLayout from '@/layouts/RootLayout.astro'
+import AlecImg from '../assets/apps/alec-sega-emulator.png'
+
+const t = useTranslations()
+
+// For images needing a pixelated rendering, load them optimised from /public
+// and specify 'pixelated' as imgType.
+
+const data = [
+  {
+    title: 'Kim Magikal ⭐ at Saraland ⭐',
+    year: 2017,
+    description: `A cute retro platform game I made with Pico-8. You can play Kim Magikal ⭐ at Saraland ⭐ online for free.`,
+    imgSrc: '/img/apps/kim-magikal-at-saraland.png',
+    imgType: 'pixelated',
+    href: 'https://edo999.itch.io/kim-magikal',
+  },
+  {
+    title: 'Maniac Mansion Mobile',
+    year: 2015,
+    description: `The famous NES point'n click game optimised for touch screen. "Warning!! Trespassers will be horribly mutilated".`,
+    imgSrc: '/img/apps/maniac-mansion-mobile.png',
+    imgType: 'pixelated',
+    href: 'https://maniac-mansion-mobile.5apps.com/',
+  },
+  {
+    title: 'Alec',
+    year: 2013,
+    description: `Emulator for Sega Master System & Game Gear optimised for low-end mobile devices. It comes with some homebrew games builtin.`,
+    imgSrc: AlecImg,
+    // imgType: 'pixelated',
+    href: 'https://gmarty.github.io/jsSMS/alec/',
+  },
+]
+---
+
+<RootLayout
+  title={t('pages.apps.title')}
+  description={t('pages.apps.description')}
+>
+  <div>
+    <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
+      <h2
+        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+      >
+        {t('pages.apps.allApps')}
+      </h2>
+      <p class="text-lg leading-7 text-gray-500 dark:text-gray-300">
+        {t('pages.apps.showcase')}
+      </p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      {
+        data.map(
+          ({ title, year, description, imgSrc, imgType, href }, index) => (
+            <Card
+              {index}
+              {title}
+              {year}
+              {description}
+              {imgSrc}
+              {imgType}
+              {href}
+            />
+          )
+        )
+      }
+    </div>
+  </div>
+</RootLayout>

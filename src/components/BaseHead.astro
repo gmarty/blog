@@ -1,0 +1,81 @@
+---
+import { type CollectionEntry } from 'astro:content'
+import { SEO } from 'astro-seo'
+import Analytics from './Analytics.astro'
+import ViewTransitionsLogic from './ViewTransitionsLogic.astro'
+import { SITE_METADATA, ENABLE_VIEW_TRANSITIONS } from '@/consts'
+import { useTranslations } from '@/i18n'
+import '@/styles/global.css'
+import '@fontsource/onest'
+
+const t = useTranslations()
+
+interface Props {
+  title: string
+  description: string
+  ogImage?: string
+  robots?: string // default to SITE_METADATA.robots
+  titleTemplate?: string
+  article?: {
+    publishedTime: Date
+    modifiedTime?: Date
+    authors: string[]
+    tags: string[]
+    cover: CollectionEntry<'blog'>['data']['cover']
+  }
+}
+
+const {
+  title,
+  description,
+  robots = SITE_METADATA.robots,
+  // article,
+  titleTemplate,
+} = Astro.props
+
+// The default author is the site creator
+// const creator = await getEntry("authors", "default");
+
+const isProduction = import.meta.env.PROD
+---
+
+<head>
+  <SEO
+    {title}
+    {titleTemplate}
+    titleDefault={t('siteMetadata.title')}
+    {description}
+    nofollow={robots.includes('nofollow')}
+    noindex={robots.includes('noindex')}
+    charset="utf-8"
+    extend={{
+      meta: [
+        {
+          name: 'theme-color',
+          content: '#fff7ed', // bg-primary-50
+          media: '(prefers-color-scheme:light)',
+        },
+        {
+          name: 'theme-color',
+          content: '#020617', // bg-gray-950
+          media: '(prefers-color-scheme:dark)',
+        },
+        { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+      ],
+      link: [
+        // See https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
+        // <link rel="icon" href="/favicon.ico" sizes="32x32">
+        { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
+        // <link rel="icon" href="/icon.svg" type="image/svg+xml">
+        { rel: 'icon', href: '/icon.svg', type: `image/svg` },
+        // <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180×180 -->
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+        // <link rel="manifest" href="/m.webmanifest">
+        { rel: 'manifest', href: '/m.webmanifest' },
+        { rel: 'alternate', href: '/rss.xml', type: 'application/rss+xml' },
+      ],
+    }}
+  />
+  {isProduction && <Analytics />}
+  {ENABLE_VIEW_TRANSITIONS && <ViewTransitionsLogic />}
+</head>
