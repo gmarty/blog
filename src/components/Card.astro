@@ -20,7 +20,7 @@ const { index, title, year, description, imgSrc, imgType, href } = Astro.props
 ---
 
 <div
-  class:list={`${imgSrc ? 'h-full ' : ''} group relative overflow-hidden rounded-lg transition bg-primary-100 dark:bg-gray-900 hover:bg-primary-200 hover:dark:bg-gray-800`}
+  class:list={`${imgSrc ? 'h-full ' : ''} group relative overflow-hidden rounded-lg transition motion-reduce:transition-none bg-primary-100 dark:bg-gray-900 hover:bg-primary-200 hover:dark:bg-gray-800`}
 >
   {
     imgSrc && (
@@ -30,7 +30,7 @@ const { index, title, year, description, imgSrc, imgType, href } = Astro.props
           alt={title}
           src={imgSrc}
           class:list={[
-            'object-cover object-center aspect-[21/9] w-full transition group-hover:scale-105',
+            'object-cover object-center aspect-[21/9] w-full transition group-hover:scale-105 motion-reduce:group-hover:transform-none',
             { pixelated: imgType === 'pixelated' },
           ]}
           width={720}

@@ -17,6 +17,10 @@
 body {
   transition-duration: 150ms;
   transition-property: color, background-color;
+
+  @media screen and (prefers-reduced-motion: reduce), (update: slow) {
+    transition-duration: 0s;
+  }
 }
 
 /* Slightly dim the images to avoid heavy contrast. */

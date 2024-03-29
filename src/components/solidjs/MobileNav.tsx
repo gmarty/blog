@@ -43,7 +43,7 @@ export default function MobileNav(props: {
       </button>
       <div
         ref={menuRef}
-        class="translate-x-full fixed left-0 top-0 h-full w-full transform opacity-95 bg-white duration-300 ease-in-out dark:bg-gray-950 z-20"
+        class="translate-x-full fixed left-0 top-0 h-full w-full opacity-95 bg-primary-50 dark:bg-gray-950 transition motion-reduce:transition-none z-20"
       >
         <div class="flex justify-end">
           <button
