@@ -1,3 +1,29 @@
+/* With color-scheme the UA will style some elements appropriately. */
+:root {
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+.light {
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+}
+/* Transition color scheme change. */
+body {
+  transition-duration: 150ms;
+  transition-property: color, background-color;
+}
+
+/* Slightly dim the images to avoid heavy contrast. */
+.dark img {
+  filter: brightness(0.8) contrast(1.2);
+}
+
 /* Link everywhere (but in prose). */
 .themed-link {
   /* Inlining to avoid mistakes. */
@@ -118,4 +144,9 @@ lite-youtube {
 
 img.pixelated {
   image-rendering: pixelated;
+}
+
+/* Work around a possible bug in disqus. */
+#disqus_thread {
+  color-scheme: auto;
 }
