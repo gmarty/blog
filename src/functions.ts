@@ -26,4 +26,4 @@ export const sortBlogPosts = (
  * @returns True if the post is not a draft
  */
 export const excludeDrafts = ({ data }: CollectionEntry<'blog'>): boolean =>
-  import.meta.env.PROD ? true : !data.draft
+  import.meta.env.DEV ? true : !data.draft

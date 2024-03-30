@@ -15,7 +15,6 @@ Adapted from [tailwind-astro-starting-blog](https://github.com/wanoo21/tailwind-
 - For post titles, try to use the cover image as a dimmed background for the title.
 - Restore OG meta data.
 - Configure related posts.
-- Once live, check the comment system.
 - Restore the estimated reading time feature.
 - Implement a service worker strategy.
 - Use local avatar instead of gravatar.
