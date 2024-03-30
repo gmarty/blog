@@ -65,6 +65,16 @@ body {
   @apply my-5;
 }
 
+.prose > p:first-child::first-letter {
+  initial-letter: 2;
+}
+.prose > p:first-child {
+  @apply first-letter:float-left;
+  @apply first-letter:mr-2;
+  @apply first-letter:mt-2;
+  @apply first-letter:text-6xl;
+  @apply first-letter:font-bold;
+}
 .prose h1,
 .prose h2,
 .prose h3,

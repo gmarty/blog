@@ -4,7 +4,7 @@ date: '2014-01-28'
 description: 'The list of languages configured in the browser is never made available to JavaScript!'
 ---
 
-[Edit: I wrote a followup post to this one at [Follow-up on navigator.languages](/posts/follow-up-on-navigator-languages/)]
+<div>[Edit: I wrote a followup post to this one at [Follow-up on navigator.languages](/posts/follow-up-on-navigator-languages/)]</div>
 
 [I've always wondered](https://twitter.com/g_marty/status/412527722410553344) why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.
 
