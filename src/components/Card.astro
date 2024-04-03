@@ -10,13 +10,15 @@ interface Props {
   index?: number // The index of the card in the list.
   title: string
   date?: number | string
+  location?: string
   description: string
   imgSrc?: ImageMetadata | string // @todo Fix the error message.
   imgType?: string
   href?: string
 }
 
-const { index, title, date, description, imgSrc, imgType, href } = Astro.props
+const { index, title, date, location, description, imgSrc, imgType, href } =
+  Astro.props
 ---
 
 <div
@@ -49,9 +51,28 @@ const { index, title, date, description, imgSrc, imgType, href } = Astro.props
       </div>
     )
   }
-  <div class="p-6">
+  <div class="p-6 pt-3">
+    {
+      location && (
+        <p class="text-sm prose text-gray-500 dark:text-gray-500 flex items-center gap-x-1 pt-2 pb-0">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="size-4"
+          >
+            <path
+              fill-rule="evenodd"
+              d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span>{location}</span>
+        </p>
+      )
+    }
     <h3
-      class="mb-3 text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-primary-100"
+      class="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-primary-100 py-3"
     >
       {
         href ? (
@@ -66,7 +87,7 @@ const { index, title, date, description, imgSrc, imgType, href } = Astro.props
         )
       }
     </h3>
-    <p class="prose max-w-none text-gray-900 dark:text-gray-100 pb-6">
+    <p class="prose max-w-none text-gray-900 dark:text-gray-100">
       {description}
     </p>
     {
@@ -76,17 +97,18 @@ const { index, title, date, description, imgSrc, imgType, href } = Astro.props
           class="transition text-base font-medium leading-6 themed-link group-hover:text-primary-800 dark:group-hover:text-primary-300 after:absolute after:inset-0 pointer-events-auto"
           aria-label={t('components.card.linkToPost', { title })}
         >
-          <span class="absolute bottom-4 left-6 z-10">Learn more &rarr;</span>
         </Link>
       )
     }
-    {!imgSrc && date && (
-      <dl>
-        <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
-        <dd class="text-sm py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
-          <FormattedDate {date} />
-        </dd>
-      </dl>
-    )}
+    {
+      !imgSrc && date && (
+        <dl>
+          <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
+          <dd class="text-sm py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
+            <FormattedDate {date} />
+          </dd>
+        </dl>
+      )
+    }
   </div>
 </div>
