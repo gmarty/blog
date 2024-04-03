@@ -2,7 +2,11 @@
 import Card from '@/components/Card.astro'
 import { useTranslations } from '@/i18n'
 import RootLayout from '@/layouts/RootLayout.astro'
-
+import anEveningOfTinyTalksImg from '@/assets/meetups/an-evening-of-tiny-talks.jpg'
+import weekOfWellbeingImg from '@/assets/meetups/week-of-wellbeing.jpg'
+import mozillaIotMeetup from '@/assets/covers/mozilla-iot-meetup-london-october-2016.jpg'
+import firefoxOsWorkshopImg from '@/assets/meetups/firefox-os-workshop.jpg'
+import firefoxOsMeetupsImg from '@/assets/meetups/firefox-os-meetups.jpg'
 import organiseMeetupImg from '@/assets/covers/how-to-organise-a-meetup.jpg'
 
 const t = useTranslations()
@@ -12,31 +16,31 @@ const data = [
     title: 'An evening of Tiny Talks',
     date: '2019-11-19',
     description: `Meetup made of tiny talks related to web technologies, centred around underrepresented groups in the tech industry. Co-organised with Matt Barnett-Jones.`,
-    imgSrc: undefined,
+    imgSrc: anEveningOfTinyTalksImg,
   },
   {
     title: 'Week of wellbeing',
     date: '2018-06',
     description: `Internal Hackweek event held at Twitter to sponsor wellbeing with sessions from external speakers on sleep, nutrition, mental health, coaching and yoga. Co-organised with Chelsea Hipwood.`,
-    imgSrc: undefined,
+    imgSrc: weekOfWellbeingImg,
   },
   {
-    title: 'Mozilla IOT Meetup',
-    date: 2016,
-    description: `A series of meetups to explore the IOT space with an emphasis on inspiring and diverse speakers rather than technical presentations.`,
-    imgSrc: undefined,
+    title: 'Mozilla IOT meetups',
+    date: 2017,
+    description: `A series of meetups to explore the IOT space with an emphasis on inspiring and diverse speakers rather than technical presentations. Co-organised with Sarah Allen.`,
+    imgSrc: mozillaIotMeetup,
   },
   {
     title: 'Firefox OS workshop',
-    date: '2015-09',
+    date: '2015-09', // 2015-09-25
     description: `A workshop to introduce tech people to Firefox OS. Given at JS Conf EU.`,
-    imgSrc: undefined,
+    imgSrc: firefoxOsWorkshopImg,
   },
   {
-    title: 'Firefox OS meetup',
+    title: 'Firefox OS meetups',
     date: 2015,
     description: `Meetups to socialise and discover the web technologies through the lens of Firefox OS.`,
-    imgSrc: undefined,
+    imgSrc: firefoxOsMeetupsImg,
   },
   {
     title: 'Want to organise your own meetup?',

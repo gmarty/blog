@@ -32,7 +32,7 @@ export const ui = {
       "I am a publlic speaker at conferences, mostly technical ones. Here's a list of the most significant talks I gave.",
     'pages.meetups.title': 'Meetups',
     'pages.meetups.description': 'Meetups',
-    'pages.meetups.allApps': 'Meetups and social events',
+    'pages.meetups.allApps': 'Meetups and events',
     'pages.meetups.showcase':
       'Here is a list of some meetups and social events I organised.',
     'pages.blog.title': 'All blog posts',
