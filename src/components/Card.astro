@@ -9,7 +9,7 @@ const t = useTranslations()
 interface Props {
   index?: number // The index of the card in the list.
   title: string
-  year?: number
+  year?: number | string
   description: string
   imgSrc?: ImageMetadata | string // @todo Fix the error message.
   imgType?: string
@@ -41,7 +41,7 @@ const { index, title, year, description, imgSrc, imgType, href } = Astro.props
         {year && (
           <dl>
             <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
-            <dd class="text-xs py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
+            <dd class="text-sm py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
               <FormattedYear {year} />
             </dd>
           </dl>
@@ -83,7 +83,7 @@ const { index, title, year, description, imgSrc, imgType, href } = Astro.props
     {!imgSrc &&year && (
       <dl>
         <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
-        <dd class="text-xs py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
+        <dd class="text-sm py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
           <FormattedYear {year} />
         </dd>
       </dl>

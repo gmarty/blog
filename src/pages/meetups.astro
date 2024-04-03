@@ -1,0 +1,84 @@
+---
+import Card from '@/components/Card.astro'
+import { useTranslations } from '@/i18n'
+import RootLayout from '@/layouts/RootLayout.astro'
+
+import organiseMeetupImg from '@/assets/covers/how-to-organise-a-meetup.jpg'
+
+const t = useTranslations()
+
+const data = [
+  {
+    title: 'An evening of Tiny Talks',
+    year: 2019,
+    description: `Meetup made of tiny talks related to web technologies, centred around underrepresented groups in the tech industry. Co-organised with Matt Barnett-Jones.`,
+    imgSrc: undefined,
+  },
+  {
+    title: 'Week of wellbeing',
+    year: 'June 2018',
+    description: `Internal event held at Twitter during Hackweek to sponsor wellbeing with sessions on sleep, nutrition, mental health and yoga. Co-organised with Chelsea Hipwood.`,
+    imgSrc: undefined,
+  },
+  {
+    title: 'Mozilla IOT Meetup',
+    year: 2016,
+    description: `A series of meetups to explore the IOT space with an emphasis on inspiring and diverse speakers rather than technical presentations.`,
+    imgSrc: undefined,
+  },
+  {
+    title: 'Firefox OS workshop',
+    year: 2015, // September
+    description: `A workshop to introduce tech people to Firefox OS. Given at JS Conf EU.`,
+    imgSrc: undefined,
+  },
+  {
+    title: 'Firefox OS meetup',
+    year: 2015,
+    description: `Meetups to socialise and discover the web technologies through the lens of Firefox OS.`,
+    imgSrc: undefined,
+  },
+  {
+    title: 'Want to organise your own meetup?',
+    description: `I wrote about what you need to organise a meetup or social event.`,
+    imgSrc: organiseMeetupImg,
+    imgType: 'default',
+    href: '/posts/how-to-organise-a-meetup',
+  },
+]
+---
+
+<RootLayout
+  title={t('pages.meetups.title')}
+  description={t('pages.meetups.description')}
+>
+  <div>
+    <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
+      <h2
+        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+      >
+        {t('pages.meetups.allApps')}
+      </h2>
+      <p class="text-lg leading-7 text-gray-500 dark:text-gray-300">
+        {t('pages.meetups.showcase')}
+      </p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-8">
+      {
+        data.map(
+          ({ title, year, description, imgSrc, imgType, href }, index) => (
+            <Card
+              {index}
+              {title}
+              {year}
+              {description}
+              {imgSrc}
+              {imgType}
+              {href}
+            />
+          )
+        )
+      }
+    </div>
+  </div>
+</RootLayout>

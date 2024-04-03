@@ -30,6 +30,11 @@ export const ui = {
     'pages.talks.allApps': 'Public speaking',
     'pages.talks.showcase':
       "I am a publlic speaker at conferences, mostly technical ones. Here's a list of the most significant talks I gave.",
+    'pages.meetups.title': 'Meetups',
+    'pages.meetups.description': 'Meetups',
+    'pages.meetups.allApps': 'Meetups and social events',
+    'pages.meetups.showcase':
+      'Here is a list of some meetups and social events I organised.',
     'pages.blog.title': 'All blog posts',
     'pages.blog.description': 'All blog posts',
     'pages.404.title': '404 - Not Found',
@@ -54,6 +59,7 @@ export const ui = {
     'nav.blog': 'Blog',
     'nav.apps': 'Apps',
     'nav.talks': 'Talks',
+    'nav.meetups': 'Meetups',
     'nav.tags': 'Tags',
     'nav.about': 'About',
 

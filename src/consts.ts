@@ -108,6 +108,7 @@ export const NAVIGATION = [
   // { href: "/tags", title: "nav.tags" },
   { href: '/apps', title: 'nav.apps' },
   { href: '/talks', title: 'nav.talks' },
+  { href: '/meetups', title: 'nav.meetups' },
   { href: '/about', title: 'nav.about' },
 ] as const
 
