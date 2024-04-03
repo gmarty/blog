@@ -10,7 +10,6 @@ export const ui = {
     'siteMetadata.language': 'en-GB',
 
     // Pages
-    'pages.home.latestPosts': 'A blog by Guillaume C. Marty',
     'pages.home.viewAllPosts': 'View previous posts',
     'pages.home.noPosts': 'No posts found',
     'pages.home.readMoreAbout': 'Read more about {title}',
