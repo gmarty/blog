@@ -2,6 +2,11 @@
 import Card from '@/components/Card.astro'
 import { useTranslations } from '@/i18n'
 import RootLayout from '@/layouts/RootLayout.astro'
+import jsRoundaboutImg from '@/assets/talks/js-roundabout.jpg'
+import mlocJsImg from '@/assets/talks/mloc-js.png'
+import jsOpenDayImg from '@/assets/talks/js-open-day.png'
+import jsConfUsImg from '@/assets/talks/js-conf-us.jpg'
+import rejectJsImg from '@/assets/talks/reject-js.jpg'
 
 const t = useTranslations()
 
@@ -10,15 +15,15 @@ const data = [
     title: 'RxJS in TweetDeck (JS Roundabout #7)',
     date: '2018-11',
     description: `What are observable in JavaScript and how we use them at TweetDeck? This talk was co-presented with my teammate Amy Simmons.`,
-    imgSrc: undefined,
-    imgType: undefined,
+    imgSrc: jsRoundaboutImg,
+    imgType: 'default',
     href: 'https://www.youtube.com/watch?v=vKrVjJKm4MI',
   },
   {
     title: 'Crash course in compile-to-the-web (MLOC.js)',
     date: '2015-06',
     description: `It's 2015. The web is omnipresent and omnipotent, and yet some vendors continue to ship proprietary formats and software. But vendor lock-in doesn't have to be a fatality. Many techniques are available to run almost anything on our beloved browser.`,
-    // imgSrc: null,
+    imgSrc: mlocJsImg,
     href: 'https://gmarty.github.io/2015-06-MLOC.js/',
   },
   {
@@ -26,7 +31,7 @@ const data = [
       'Je viens du futur et voici comment on code en JavaScript (JavaScript Open Day)',
     date: '2015-03',
     description: `This talk walks through using modern JavaScript syntax in the Firefox OS codebase. Since the code is written to be ran in a specific environment, there is no need to support other browsers. You'll see sample of how you will write modern syntax JavaScript in the future. This talk was delivered in French.`,
-    // imgSrc: null,
+    imgSrc: jsOpenDayImg,
     href: 'https://gmarty.github.io/2015-03-JavaScript-Open-Day-1/',
   },
   {
@@ -34,14 +39,14 @@ const data = [
       'Playing DVD in JavaScript for the sake of interoperability (JSConf US)',
     date: '2014-05',
     description: `We have everything we need to read DVD-video discs in a browser, so why don't we start? For that purpose, I ported libdvdread and libdvdnav libraries to JavaScript so that we can parse the DVD-video info files and emulate a virtual machine. The resulting project is a mix of websockets, video elements, media source extensions and a lot of open source love.`,
-    // imgSrc: null,
+    imgSrc: jsConfUsImg,
     href: 'https://www.youtube.com/watch?v=lb-8euLqfRg',
   },
   {
     title: '60 FPS Retro Gaming on Mobile (Reject.JS)',
     date: '2013-09',
     description: `Born as an interpreter, jsSMS is now a hybrid emulator for Sega Master System and Game Gear. It makes use of static and dynamic recompilation, and falls back to a classical interpreter if required. From parsing to JavaScript generation using an optimised AST, I present the different steps that makes an emulator fast. The ultimate goal is to provide full speed for retro gaming on mobile browser and web app!`,
-    // imgSrc: null,
+    imgSrc: rejectJsImg,
     href: 'https://www.youtube.com/watch?v=Ey2TGjLTYuw',
   },
 ]
