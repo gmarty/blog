@@ -4,12 +4,52 @@ import { useTranslations } from '@/i18n'
 const t = useTranslations()
 
 interface Props {
-  date: Date
+  date: Date | number | string
 }
 
 const { date } = Astro.props
+
+const locale = t('siteMetadata.language')
+let numericDate = ''
+let localisedDate = ''
+
+if (date instanceof Date) {
+  numericDate = date.toISOString().substring(0, 10)
+  localisedDate = date.toLocaleDateString(locale, {
+    dateStyle: 'long',
+  })
+} else if (typeof date === 'number') {
+  numericDate = String(date)
+  localisedDate = new Date(date, 0, 1).toLocaleDateString(locale, {
+    year: 'numeric',
+  })
+} else if (typeof date === 'string') {
+  let [year, month, day] = date.split('-').map((s) => parseInt(s, 10))
+  if (typeof month === 'number') {
+    month--
+  }
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+  }
+  let substring = 4
+
+  if (typeof month === 'number') {
+    options['month'] = 'long'
+    substring = 7
+  }
+
+  if (typeof day === 'number') {
+    options['day'] = 'numeric'
+    substring = 10
+  }
+
+  const dateObj = new Date(year, month || 0, day || 1)
+  numericDate = dateObj.toISOString().substring(0, substring)
+  localisedDate = dateObj.toLocaleDateString(locale, options)
+}
 ---
 
-<time datetime={date.toISOString().substring(0, 10)}>
-  {date.toLocaleDateString(t('siteMetadata.language'), { dateStyle: 'long' })}
+<time datetime={numericDate}>
+  {localisedDate}
 </time>

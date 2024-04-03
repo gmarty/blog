@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import FormattedYear from './FormattedYear.astro'
+import FormattedDate from './FormattedDate.astro'
 import Link from './Link.astro'
 import { useTranslations } from '@/i18n'
 
@@ -9,14 +9,14 @@ const t = useTranslations()
 interface Props {
   index?: number // The index of the card in the list.
   title: string
-  year?: number | string
+  date?: number | string
   description: string
   imgSrc?: ImageMetadata | string // @todo Fix the error message.
   imgType?: string
   href?: string
 }
 
-const { index, title, year, description, imgSrc, imgType, href } = Astro.props
+const { index, title, date, description, imgSrc, imgType, href } = Astro.props
 ---
 
 <div
@@ -38,11 +38,11 @@ const { index, title, year, description, imgSrc, imgType, href } = Astro.props
           format={imgType === 'pixelated' ? 'png' : 'webp'}
           loading={index !== undefined && index <= 1 ? 'eager' : 'lazy'}
         />
-        {year && (
+        {date && (
           <dl>
             <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
             <dd class="text-sm py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
-              <FormattedYear {year} />
+              <FormattedDate {date} />
             </dd>
           </dl>
         )}
@@ -80,11 +80,11 @@ const { index, title, year, description, imgSrc, imgType, href } = Astro.props
         </Link>
       )
     }
-    {!imgSrc &&year && (
+    {!imgSrc && date && (
       <dl>
         <dt class="sr-only">{t('components.cards.publishedIn')}</dt>
         <dd class="text-sm py-0 px-2 font-medium leading-6 text-gray-50 bg-gray-950 rounded-md m-1 absolute bottom-1 right-1 z-10">
-          <FormattedYear {year} />
+          <FormattedDate {date} />
         </dd>
       </dl>
     )}

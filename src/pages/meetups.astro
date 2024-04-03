@@ -10,37 +10,37 @@ const t = useTranslations()
 const data = [
   {
     title: 'An evening of Tiny Talks',
-    year: 2019,
+    date: '2019-11-19',
     description: `Meetup made of tiny talks related to web technologies, centred around underrepresented groups in the tech industry. Co-organised with Matt Barnett-Jones.`,
     imgSrc: undefined,
   },
   {
     title: 'Week of wellbeing',
-    year: 'June 2018',
-    description: `Internal event held at Twitter during Hackweek to sponsor wellbeing with sessions on sleep, nutrition, mental health and yoga. Co-organised with Chelsea Hipwood.`,
+    date: '2018-06',
+    description: `Internal Hackweek event held at Twitter to sponsor wellbeing with sessions from external speakers on sleep, nutrition, mental health, coaching and yoga. Co-organised with Chelsea Hipwood.`,
     imgSrc: undefined,
   },
   {
     title: 'Mozilla IOT Meetup',
-    year: 2016,
+    date: 2016,
     description: `A series of meetups to explore the IOT space with an emphasis on inspiring and diverse speakers rather than technical presentations.`,
     imgSrc: undefined,
   },
   {
     title: 'Firefox OS workshop',
-    year: 2015, // September
+    date: '2015-09',
     description: `A workshop to introduce tech people to Firefox OS. Given at JS Conf EU.`,
     imgSrc: undefined,
   },
   {
     title: 'Firefox OS meetup',
-    year: 2015,
+    date: 2015,
     description: `Meetups to socialise and discover the web technologies through the lens of Firefox OS.`,
     imgSrc: undefined,
   },
   {
     title: 'Want to organise your own meetup?',
-    description: `I wrote about what you need to organise a meetup or social event.`,
+    description: `I wrote a guide about what you need to organise a meetup or social event.`,
     imgSrc: organiseMeetupImg,
     imgType: 'default',
     href: '/posts/how-to-organise-a-meetup',
@@ -66,11 +66,11 @@ const data = [
     <div class="grid md:grid-cols-2 gap-8">
       {
         data.map(
-          ({ title, year, description, imgSrc, imgType, href }, index) => (
+          ({ title, date, description, imgSrc, imgType, href }, index) => (
             <Card
               {index}
               {title}
-              {year}
+              {date}
               {description}
               {imgSrc}
               {imgType}
