@@ -3,6 +3,7 @@ title: 'Mozilla IOT Meetup London October 2016'
 date: '2016-10-14'
 description: 'A brief report on the first Mozilla IOT meetup in London.'
 cover: '@/assets/covers/mozilla-iot-meetup-london-october-2016.jpg'
+related: ['how-to-organise-a-meetup']
 ---
 
 On Wednesday 12, October (2 days ago) the first [Mozilla IOT London meetup](https://www.meetup.com/Mozilla-IOT/) took place at the Mozilla Common Space near London Bridge.

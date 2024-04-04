@@ -3,6 +3,7 @@ title: 'Augmented reality & computer vision'
 date: '2017-02-15'
 description: 'I prototyped a simple augmented reality experiment using computer vision in JavaScript.'
 cover: '@/assets/covers/augmented-reality-computer-vision.jpg'
+related: ['experimenting-with-vr', 'landscapes-in-virtual-reality']
 ---
 
 > **tl;dr:** Media capture, object detection and WebGL can be combined to hack a simple augmented reality experience. See my demo called [we are all Saints](https://gmarty.github.io/all-saints-ar/).

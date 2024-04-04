@@ -3,6 +3,7 @@ title: 'Japanese keyboard for Firefox OS'
 date: '2015-06-29'
 description: 'There is not yet any good solution to input Japanese on Firefox OS'
 cover: '@/assets/covers/japanese-keyboard-for-firefox-os.png'
+related: ['welsh-keyboard-for-firefox-os']
 ---
 
 > **tl;dr:** You can't efficiently type in Japanese on a Firefox OS device, unless you buy a fx0 device or you build Gaia yourself and are very patient!

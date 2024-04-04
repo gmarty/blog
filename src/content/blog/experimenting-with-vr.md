@@ -3,6 +3,7 @@ title: 'Experimenting with VR'
 date: '2016-12-07'
 description: "Feedback on a series of experimentation about VR that I've done while on holiday."
 cover: '@/assets/covers/experimenting-with-vr.jpg'
+related: ['augmented-reality-computer-vision', 'landscapes-in-virtual-reality']
 ---
 
 I just finished a short series of [experimentations about virtual reality called VR Diary](https://gmarty.github.io/VR-diary/). Here's a brief summary of why and how.

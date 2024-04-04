@@ -120,7 +120,7 @@ export const POST_METADATA = {
   showDate: true, // Show date in blog post, TODO: Add support for hiding date
   showSummary: false, // Show summary in blog post
   showAuthors: true, // Show authors in blog post, TODO: Add support for hiding authors
-  showRelatedPosts: false, // Show related posts in blog post
+  showRelatedPosts: true, // Show related posts in blog post
   showTableOfContents: false, // Show table of contents in blog post
   showShareButtons: 'none', // Show share buttons in blog post, options: top, bottom, both, none
   showComments: true,

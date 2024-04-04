@@ -2,6 +2,7 @@
 title: 'Cross browser generator functions'
 date: '2013-10-28'
 description: 'Presentation of a cross browser way to allow generator functions in Firefox and Chrome.'
+related: ['polyfilling-generators', 'generating-generator-functions']
 ---
 
 ## A quick word on generators

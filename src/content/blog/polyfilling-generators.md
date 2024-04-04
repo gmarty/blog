@@ -2,6 +2,7 @@
 title: 'Polyfilling generators'
 date: '2013-11-05'
 description: 'Exploring ES6 generators polyfills gives valuable insights about the internal mechanisms used by them.'
+related: ['generating-generator-functions', 'cross-browser-generator-functions']
 ---
 
 I blogged a bit about ES6 generators lately. I think they are a great improvement to JavaScript and I can't wait to get them available in all environments.

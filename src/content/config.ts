@@ -34,7 +34,6 @@ const blog = defineCollection({
       postLayout: z
         .enum(['simple', 'column'])
         .default(POST_METADATA.defaultLayout as 'simple' | 'column'),
-      // Add related posts
       related: z.array(reference('blog')).default([]),
     }),
 })

@@ -2,6 +2,7 @@
 title: 'The problem of user language lists in JavaScript'
 date: '2014-01-28'
 description: 'The list of languages configured in the browser is never made available to JavaScript!'
+related: ['follow-up-on-navigator-languages']
 ---
 
 <div>[Edit: I wrote a followup post to this one at [Follow-up on navigator.languages](/posts/follow-up-on-navigator-languages/)]</div>

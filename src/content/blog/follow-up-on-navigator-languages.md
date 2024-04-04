@@ -2,6 +2,7 @@
 title: 'Follow-up on navigator.languages'
 date: '2014-09-09'
 description: 'navigator.languages started to get implemented in browsers.'
+related: ['the-problem-of-user-language-lists-in-javascript']
 ---
 
 `navigator.languages` recently made its way to the stable versions of browsers: Firefox 32, Chrome 37 and Opera 24!

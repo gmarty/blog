@@ -10,6 +10,7 @@ import PostCover from '../components/PostCover.astro'
 import DetailsSummary from '../components/DetailsSummary.astro'
 import SocialShareButtons from '../components/social-icons/SocialShareButtons.astro'
 import Comments from '../components/Comments.astro'
+import { sortBlogPosts } from '@/functions'
 import { POST_METADATA } from '@/consts'
 import { useTranslations } from '@/i18n'
 
@@ -26,7 +27,9 @@ const authors: CollectionEntry<'authors'>[] = await getEntries(
   post.data.authors
 )
 const tags: CollectionEntry<'tags'>[] = await getEntries(post.data.tags)
-const related: CollectionEntry<'blog'>[] = await getEntries(post.data.related)
+const related: CollectionEntry<'blog'>[] = await getEntries(
+  post.data.related
+).then(sortBlogPosts)
 
 const articleOgDetails = {
   publishedTime: post.data.date,
@@ -51,7 +54,7 @@ const { Content, headings } = await post.render()
     <ScrollTopAndComments client:only="solid-js" />
     <article>
       <header>
-        <div class="space-y-1 pb-10 text-center dark:border-gray-700">
+        <div class="space-y-1 pb-10 text-center dark:border-gray-600">
           <dl>
             <dt class="sr-only">{t('layouts.postLayout.publishedOn')}</dt>
             <dd
@@ -64,14 +67,14 @@ const { Content, headings } = await post.render()
         </div>
         {
           POST_METADATA.showCover && post.data.cover && (
-            <div class="space-y-1 pb-10 text-center dark:border-gray-700">
+            <div class="space-y-1 pb-10 text-center">
               <PostCover {post} />
             </div>
           )
         }
         {
           POST_METADATA.showSummary && (
-            <div class="pb-10 text-center border-b border-gray-200 text-gray-900 dark:text-gray-100">
+            <div class="pb-0 text-center text-gray-900 dark:text-gray-100">
               <p>{post.data.description}</p>
             </div>
           )
@@ -101,7 +104,7 @@ const { Content, headings } = await post.render()
         {
           POST_METADATA.showTableOfContents && headings.length > 0 && (
             <DetailsSummary
-              class="border border-gray-100 dark:border-gray-600 rounded mt-4 max-w-none"
+              class="border border-gray-300 dark:border-gray-600 rounded mt-4 max-w-none"
               title={t('layouts.postLayout.tableOfContents')}
             >
               <ul class="space-y-2 list-none mt-0 ps-0">

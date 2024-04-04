@@ -3,6 +3,7 @@ title: 'How to organise a meetup?'
 date: '2017-03-17'
 description: 'A few tips based on my experience about how to organise a meetup.'
 cover: '@/assets/covers/how-to-organise-a-meetup.jpg'
+related: ['mozilla-iot-meetup-london-october-2016']
 ---
 
 Organising a meetup is a great way to connect with like-minded people and exchange on topics you're passionate about. In this post I gathered some tips based on my experience organisation meetups in the last few years.

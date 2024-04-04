@@ -2,6 +2,7 @@
 title: 'Generating generator functions'
 date: '2013-11-01'
 description: 'Use JavaScript to generate functions in general and generator functions in particular.'
+related: ['polyfilling-generators', 'cross-browser-generator-functions']
 ---
 
 Apparently, there is no native way to generate generator functions in JavaScript. So we have to use a workaround.

@@ -3,6 +3,7 @@ title: 'Landscapes in Virtual Reality'
 date: '2016-09-23'
 description: 'How to draw landscapes for virtual reality applications.'
 cover: '@/assets/covers/landscapes-in-virtual-reality.jpg'
+related: ['augmented-reality-computer-vision', 'experimenting-with-vr']
 ---
 
 Lately I experimented with virtual reality (VR) using [Google Cardboard](https://vr.google.com/cardboard/), my mobile phone and the amazing [A-Frame](https://aframe.io/) library.

@@ -3,6 +3,7 @@ title: 'Welsh keyboard for Firefox OS'
 date: '2015-07-22'
 description: 'Word suggestion for Welsh landed in Firefox OS. Please help us testing it.'
 cover: '@/assets/covers/welsh-keyboard-for-firefox-os.webp'
+related: ['japanese-keyboard-for-firefox-os']
 ---
 
 I recently worked on a way to automatise the [creation of dictionaries for word suggestions when typing in Firefox OS](https://github.com/gmarty/wordlist-generator) (More on that one day, hopefully). As a test case, I generated a Welsh keyboard, as it is one of the few languages I know a little that didn't have a keyboard in Firefox OS ([Japanese keyboard](/posts/japanese-keyboard-for-firefox-os/) is another exception though). Typing on a mobile is hard enough, so word suggestions and autocorrect are keys for a better experience.
