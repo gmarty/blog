@@ -2,7 +2,8 @@
 import Card from '@/components/Card.astro'
 import { useTranslations } from '@/i18n'
 import RootLayout from '@/layouts/RootLayout.astro'
-import AlecImg from '../assets/apps/alec-sega-emulator.png'
+import ge999VrImg from '../assets/apps/ge999vr.jpg'
+import alecImg from '../assets/apps/alec-sega-emulator.png'
 
 const t = useTranslations()
 
@@ -10,6 +11,14 @@ const t = useTranslations()
 // and specify 'pixelated' as imgType.
 
 const data = [
+  {
+    title: 'Galaxy Express 999 Virtual Tour',
+    date: 2022,
+    description: `With this VR experience, you can finally see the universe through the eyes of a young boy, as he sets out to make his dreams come true.`,
+    imgSrc: ge999VrImg,
+    imgType: 'default',
+    href: 'https://edo999.itch.io/ge999vr',
+  },
   {
     title: 'Kim Magikal ⭐ at Saraland ⭐',
     date: 2017,
@@ -30,7 +39,7 @@ const data = [
     title: 'Alec',
     date: 2013,
     description: `Emulator for Sega Master System & Game Gear optimised for low-end mobile devices. It comes with some homebrew games builtin.`,
-    imgSrc: AlecImg,
+    imgSrc: alecImg,
     // imgType: 'pixelated',
     href: 'https://gmarty.github.io/jsSMS/alec/',
   },
