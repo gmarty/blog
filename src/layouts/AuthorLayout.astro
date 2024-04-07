@@ -5,7 +5,7 @@ import { type CollectionEntry, getCollection } from 'astro:content'
 import SocialIcon from '@/components/social-icons/index.astro'
 import RootLayout from './RootLayout.astro'
 import Link from '../components/Link.astro'
-import { sortBlogPosts } from '@/functions'
+import { sortBlogPosts, excludeDrafts } from '@/functions'
 import { ITEMS_PER_PAGE } from '@/consts'
 import { useTranslations } from '@/i18n'
 
@@ -30,12 +30,12 @@ const {
 } = Astro.props.content
 
 // Get the author's posts
-const authorPosts = await getCollection(
-  'blog',
-  ({ data: { authors, draft } }) => {
-    return !draft && authors.some((author) => author.slug === Astro.props.slug)
-  }
-)
+const authorPosts = await getCollection('blog', (entry) => {
+  return (
+    excludeDrafts(entry) &&
+    entry.data.authors.some((author) => author.slug === Astro.props.slug)
+  )
+})
   .then(sortBlogPosts)
   .then((posts) => {
     return posts.slice(0, ITEMS_PER_PAGE).map((post) => {
