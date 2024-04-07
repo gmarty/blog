@@ -28,9 +28,13 @@ type Props = {
 const { kind, href, size = 8 } = Astro.props
 const SocialSvg = components[kind]
 const sizeClass = size === 8 ? 'size-8' : 'size-6'
+let rel = 'noopener noreferrer'
+if (kind === 'mastodon') {
+  rel += ' me'
+}
 ---
 
-<a class="text-sm" target="_blank" rel="noopener noreferrer" {href}
+<a class="text-sm" target="_blank" {rel} {href}
   ><span class="sr-only">{kind}</span><SocialSvg
     class={`${sizeClass} fill-current transition motion-reduce:transition-none themed-link hover:scale-110 motion-reduce:hover:transform-none`}
   /></a
