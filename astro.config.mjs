@@ -54,7 +54,7 @@ export default defineConfig({
               name: 'preset-default',
               params: {
                 overrides: {
-                  minifyStyles: false,
+                  inlineStyles: false, // Preserve the class attributes.
                 },
               },
             },

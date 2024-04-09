@@ -23,8 +23,8 @@ body {
   }
 }
 
-/* Slightly dim the images to avoid heavy contrast. */
-.dark img {
+/* Slightly dim the images (except SVGs) to avoid heavy contrast. */
+.dark img:not([src$='.svg' i]) {
   filter: brightness(0.8) contrast(1.2);
 }
 
