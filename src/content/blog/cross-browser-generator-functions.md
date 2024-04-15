@@ -39,7 +39,7 @@ First, you need to develop your code using the latest draft, the one implemented
 Then, this code is appended to the DOM in a newly created `script` element. In Firefox, we set the correct `type` attribute and transform the `function*` notation:
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Cross-browser generator functions</title>

@@ -55,9 +55,7 @@
     }
   },
   "prettier": {
-    "arrowParens": "always",
     "astroAllowShorthand": true,
-    "printWidth": 80,
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5"
