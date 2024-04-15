@@ -2,7 +2,11 @@
 import Card from '@/components/Card.astro'
 import { useTranslations } from '@/i18n'
 import RootLayout from '@/layouts/RootLayout.astro'
+import libertyJsImg from '@/assets/talks/watch-this-safe-space.jpg'
+import londonVideoTechMeetupImg from '@/assets/talks/can-a-browser-play-that.png'
 import jsRoundaboutImg from '@/assets/talks/js-roundabout.jpg'
+import BirbeckUniversityImg from '@/assets/talks/unusual-career-paths.jpg'
+import mozillaDeveloperRoadshowImg from '@/assets/talks/augmenting-reality-on-your-mobile.png'
 import mlocJsImg from '@/assets/talks/mloc-js.png'
 import firefoxOsWorkshopDakarImg from '@/assets/talks/firefox-os-workshop-dakar.jpg'
 import jsOpenDayImg from '@/assets/talks/js-open-day.jpg'
@@ -13,13 +17,44 @@ const t = useTranslations()
 
 const data = [
   {
+    title: 'Watch this (safe) space (LibertyJS 2019)',
+    date: '2019-11',
+    location: 'Philadelphia, USA',
+    description: `The culture in tech is great: future-forward, evidence-based, data-driven. It's also not so great: it can feel exclusive and a little elitist. This keynote gives applicable tools to make teams, companies and the whole industry healthier, by creating diverse and inclusive safe spaces.`,
+    imgSrc: libertyJsImg,
+    imgType: 'default',
+  },
+  {
+    title: 'Can a browser play that? (London Video Tech meetup)',
+    date: '2019-06',
+    location: 'London, UK',
+    description: `Playing videos in a high-level platform such as a web browser was difficult, until the Media Capabilities API was implemented.`,
+    imgSrc: londonVideoTechMeetupImg,
+    href: 'https://gmarty.github.io/2019-06-London-Video-Technology/',
+  },
+  {
     title: 'RxJS in TweetDeck (JS Roundabout #7)',
     date: '2018-11',
     location: 'London, UK',
     description: `What are observable in JavaScript and how we use them at TweetDeck? This talk was co-presented with my teammate Amy Simmons.`,
     imgSrc: jsRoundaboutImg,
-    imgType: 'default',
     href: 'https://www.youtube.com/watch?v=vKrVjJKm4MI',
+  },
+  {
+    title: 'Unusual Career Paths (Birkbeck University of London)',
+    date: '2018-05',
+    location: 'London, UK',
+    description: `Let's break down the myth of linearity of career progression.`,
+    imgSrc: BirbeckUniversityImg,
+    href: 'https://www.youtube.com/watch?v=vKrVjJKm4MI',
+  },
+  {
+    title: 'Augmenting Reality on your mobile (Mozilla Developer Roadshow)',
+    date: '2017-04',
+    location: 'London, UK',
+    description: `Learn how to use simple APIs together to create a compelling AR experience on mobile.`,
+    imgSrc: mozillaDeveloperRoadshowImg,
+    href: 'https://gmarty.github.io/2017-04-AR-on-your-mobile/#/',
   },
   {
     title: 'Crash course in compile-to-the-web (MLOC.js)',
