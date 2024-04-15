@@ -26,11 +26,11 @@ interface Props {
 
 const { post, next, prev } = Astro.props as Props
 const authors: CollectionEntry<'authors'>[] = await getEntries(
-  post.data.authors,
+  post.data.authors
 )
 const tags: CollectionEntry<'tags'>[] = await getEntries(post.data.tags)
 const related: CollectionEntry<'blog'>[] = await getEntries(
-  post.data.related,
+  post.data.related
 ).then(sortBlogPosts)
 
 const articleOgDetails = {
