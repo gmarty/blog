@@ -21,12 +21,16 @@ const {
   avatar,
   occupation,
   company,
+  shortBio,
   // email,
   mastodon,
   linkedin,
   gitlab,
   github,
-  shortBio,
+  pixelfed,
+  facebook,
+  youtube,
+  twitter,
 } = Astro.props.content
 
 // Get the author's posts
@@ -77,40 +81,46 @@ const authorPosts = await getCollection('blog', (entry) => {
         </h2>
         <div class="text-gray-500 dark:text-gray-300">{occupation}</div>
         <div class="text-gray-500 dark:text-gray-300">{company}</div>
-        <div class="flex space-x-3 pt-6">
+        <div class="flex gap-x-4 pt-6">
           <!-- {email && <SocialIcon kind="mail" href={`mailto:${email}`} />} -->
           {mastodon && <SocialIcon kind="mastodon" href={mastodon} />}
           {linkedin && <SocialIcon kind="linkedin" href={linkedin} />}
           {gitlab && <SocialIcon kind="gitlab" href={gitlab} />}
           {github && <SocialIcon kind="github" href={github} />}
+          {pixelfed && <SocialIcon kind="pixelfed" href={pixelfed} />}
+          {facebook && <SocialIcon kind="facebook" href={facebook} />}
+          {youtube && <SocialIcon kind="youtube" href={youtube} />}
+          {twitter && <SocialIcon kind="twitter" href={twitter} />}
         </div>
       </div>
       <div class="xl:col-span-2 max-w-none d-flex">
         <div class="prose pb-8 pt-8 dark:prose-invert">
           <slot />
         </div>
-        {
-          authorPosts.length > 0 && (
-            <div class="pt-8">
-              <h2 class="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-gray-100">
-                {t('layouts.authorLayout.latestPosts')}
-              </h2>
-              <ul class="space-y-4 mt-4">
-                {authorPosts.map(({ slug, title }) => (
-                  <li>
-                    <Link
-                      href={`/posts/${slug}`}
-                      class="text-gray-900 dark:text-gray-100 hover:text-gray-500 dark:hover:text-gray-400"
-                    >
-                      {title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-        }
       </div>
+    </div>
+    <div class="flex gap-4 flex-wrap justify-center">
+      {
+        authorPosts.length > 0 && (
+          <div>
+            <h2 class="text-2xl font-bold leading-8 tracking-tight text-gray-900 dark:text-gray-100">
+              {t('layouts.authorLayout.latestPosts')}
+            </h2>
+            <ul class="space-y-4 mt-4">
+              {authorPosts.map(({ slug, title }) => (
+                <li>
+                  <Link
+                    href={`/posts/${slug}`}
+                    class="text-gray-900 dark:text-gray-100 hover:text-gray-500 dark:hover:text-gray-400"
+                  >
+                    {title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
     </div>
   </div>
 </RootLayout>

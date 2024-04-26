@@ -11,6 +11,10 @@ const {
   linkedin,
   gitlab,
   github,
+  pixelfed,
+  facebook,
+  youtube,
+  twitter,
 } = author.data
 ---
 
@@ -21,6 +25,10 @@ const {
     {linkedin && <SocialIcon kind="linkedin" href={linkedin} size={6} />}
     {gitlab && <SocialIcon kind="gitlab" href={gitlab} size={6} />}
     {github && <SocialIcon kind="github" href={github} size={6} />}
+    {pixelfed && <SocialIcon kind="pixelfed" href={pixelfed} size={6} />}
+    {facebook && <SocialIcon kind="facebook" href={facebook} size={6} />}
+    {youtube && <SocialIcon kind="youtube" href={youtube} size={6} />}
+    {twitter && <SocialIcon kind="twitter" href={twitter} size={6} />}
   </div>
   <div class="text-sm text-gray-500 dark:text-gray-400">
     {`©`}

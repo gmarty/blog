@@ -9,12 +9,16 @@ const authors = defineCollection({
     occupation: z.string().optional(),
     shortBio: z.string(),
     company: z.string().optional(),
+    layout: z.string().url().optional(),
     email: z.string().email().optional(),
     mastodon: z.string().url().optional(),
     linkedin: z.string().url().optional(),
     gitlab: z.string().url().optional(),
     github: z.string().url().optional(),
-    layout: z.string().url().optional(),
+    pixelfed: z.string().url().optional(),
+    facebook: z.string().url().optional(),
+    youtube: z.string().url().optional(),
+    twitter: z.string().url().optional(),
   }),
 })
 
