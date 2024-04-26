@@ -99,7 +99,21 @@ const authorPosts = await getCollection('blog', (entry) => {
         </div>
       </div>
     </div>
-    <div class="flex gap-4 flex-wrap justify-center">
+    <div class="grid sm:grid-cols-2 xl:grid-cols-3 grid-cols-1 gap-4">
+      <iframe
+        src="https://indieweb.social/@gmarty/112168224430494048/embed"
+        loading="lazy"
+        allowfullscreen="allowfullscreen"
+        title="Mastodon"
+        class="w-full border-0 overflow-hidden rounded h-96"></iframe>
+      <script src="https://indieweb.social/embed.js" async="async"></script>
+      <iframe
+        src="https://pixelfed.social/gmarty/embed"
+        loading="lazy"
+        allowfullscreen="allowfullscreen"
+        title="Pixelfed"
+        class="w-full border-0 overflow-hidden rounded h-96"></iframe>
+
       {
         authorPosts.length > 0 && (
           <div>
