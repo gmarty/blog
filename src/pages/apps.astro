@@ -2,6 +2,7 @@
 import Card from '@/components/Card.astro'
 import { useTranslations } from '@/i18n'
 import RootLayout from '@/layouts/RootLayout.astro'
+import sumerianAppImg from '../assets/apps/learn-sumerian-cuneiforms.jpg'
 import ge999VrImg from '../assets/apps/ge999vr.jpg'
 import alecImg from '../assets/apps/alec-sega-emulator.png'
 
@@ -11,6 +12,14 @@ const t = useTranslations()
 // and specify 'pixelated' as imgType.
 
 const data = [
+  {
+    title: 'Learn Sumerian and cuneiforms',
+    date: 2024,
+    description: `A work-in-progress app to learn ancient Sumerian grammar and read cuneiforms. I'm currently developing the app and writing the content myself.`,
+    imgSrc: sumerianAppImg,
+    imgType: 'default',
+    href: 'https://learn-to-read-sumerian.netlify.app/',
+  },
   {
     title: 'Galaxy Express 999 Virtual Tour',
     date: 2022,
@@ -30,7 +39,7 @@ const data = [
   {
     title: 'Maniac Mansion Mobile',
     date: 2015,
-    description: `The famous NES point'n click game optimised for touch screen. "Warning!! Trespassers will be horribly mutilated".`,
+    description: `The famous NES point'n click game optimised for touch screens. "Warning!! Trespassers will be horribly mutilated".`,
     imgSrc: '/img/apps/maniac-mansion-mobile.png',
     imgType: 'pixelated',
     href: 'https://maniac-mansion-mobile.5apps.com/',
