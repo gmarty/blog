@@ -24,12 +24,11 @@ module.exports = {
         DEFAULT: {
           css: {
             '--tw-prose-body': theme('colors.gray.900'),
+            '--tw-prose-links': theme('colors.primary.600'),
             a: {
-              color: theme('colors.primary.600'),
               '&:hover': {
-                color: `${theme('colors.primary.800')}`,
+                color: theme('colors.primary.800'),
               },
-              code: { color: theme('colors.primary.400') },
             },
             'h1,h2,h3,h4,h5,h6': {
               color: theme('colors.gray.900'),
@@ -42,12 +41,13 @@ module.exports = {
         invert: {
           css: {
             '--tw-prose-body': theme('colors.gray.100'),
+            '--tw-prose-links': theme('colors.primary.500'),
             a: {
-              color: theme('colors.primary.500'),
               '&:hover': {
-                color: `${theme('colors.primary.300')}`,
+                color: theme('colors.primary.300'),
+                code: { color: theme('colors.primary.300') },
               },
-              code: { color: theme('colors.primary.300') },
+              code: { color: theme('colors.primary.500') },
             },
             'h1,h2,h3,h4,h5,h6': {
               color: theme('colors.gray.100'),
