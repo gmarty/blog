@@ -38,14 +38,10 @@ export default function ScrollTopAndComments() {
       <button
         aria-label={t('components.scrollTopAndComments.scrollTop')}
         onClick={handleScrollToTop}
-        class="rounded-full bg-gray-200 p-2 text-gray-500 dark:text-gray-300 transition-all hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+        class="rounded-full p-2 transition-all bg-primary-300 text-primary-600 dark:bg-primary-700 dark:text-primary-400 hover:bg-primary-400 hover:text-primary-700 dark:hover:bg-primary-600 dark:hover:text-primary-300 opacity-75"
       >
         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-          <path
-            fill-rule="evenodd"
-            d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
-            clip-rule="evenodd"
-          />
+          <path d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" />
         </svg>
       </button>
     </div>

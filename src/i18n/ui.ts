@@ -36,15 +36,15 @@ export const ui = {
       'Here is a list of some meetups and social events I organised.',
     'pages.blog.title': 'All blog posts',
     'pages.blog.description': 'All blog posts',
-    'pages.404.title': '404 - Not Found',
+    'pages.404.title': '404 - Not found',
     'pages.404.description': 'The page you are looking for does not exist.',
     'pages.404.backToHome': 'Back to home',
 
     // Components
-    'components.scrollTopAndComments.scrollTop': 'Scroll To Top',
-    'components.themeSwitcher.toggleDarkMode': 'Toggle Dark Mode',
+    'components.scrollTopAndComments.scrollTop': 'Scroll to top',
+    'components.themeSwitcher.toggleDarkMode': 'Toggle dark mode',
     'components.card.linkToPost': 'Read more about {title}',
-    'components.mobileNav.toggleMenu': 'Toggle Menu',
+    'components.mobileNav.toggleMenu': 'Toggle menu',
     // 'components.listPostCover.publishedAt': 'Published at',
     // 'components.listPostCover.publishedIn': 'Published in',
     'components.listPostCover.publishedOn': 'Published on',
@@ -74,7 +74,7 @@ export const ui = {
     'layouts.postLayout.authorName': 'Name',
     'layouts.postLayout.draftMessage':
       'This is a draft. It might be incomplete or have errors.',
-    'layouts.postLayout.tableOfContents': 'Table of Contents',
+    'layouts.postLayout.tableOfContents': 'Table of contents',
     'layouts.postLayout.tags': 'Tags',
     'layouts.postLayout.previousPost': 'Previous post',
     'layouts.postLayout.nextPost': 'Next post',
