@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getEntry } from 'astro:content'
+import { getImage } from 'astro:assets'
 import { SEO } from 'astro-seo'
 import Analytics from './Analytics.astro'
 import ViewTransitionsLogic from './ViewTransitionsLogic.astro'
@@ -29,13 +30,34 @@ const {
   title,
   description,
   robots = SITE_METADATA.robots,
-  // article,
+  article,
   titleTemplate,
 } = Astro.props
 
 // The default author is the site creator.
 const author = await getEntry('authors', 'default')
 const fediverse = author.data.mastodon || author.data.pixelfed
+
+const locale = t('siteMetadata.language')
+
+// Open graph image.
+let openGraphImage
+if (article?.cover) {
+  openGraphImage = await getImage({
+    src: article.cover,
+    width: 1200,
+    height: 630,
+  })
+} else {
+  const importedOgImage = await import(`../assets/og-default.jpg`).then(
+    (m) => m.default
+  )
+  openGraphImage = await getImage({
+    src: importedOgImage,
+    width: 1200,
+    height: 630,
+  })
+}
 
 const isProduction = import.meta.env.PROD
 ---
@@ -76,6 +98,32 @@ const isProduction = import.meta.env.PROD
         { rel: 'manifest', href: '/m.webmanifest' },
         { rel: 'alternate', href: '/rss.xml', type: 'application/rss+xml' },
       ],
+    }}
+    openGraph={{
+      basic: {
+        type: 'website',
+        url: Astro.url,
+        title,
+        image: openGraphImage.src,
+      },
+      image: {
+        url: openGraphImage.src,
+        type: `image/${openGraphImage.options.format}`,
+        width: openGraphImage.options.width,
+        height: openGraphImage.options.height,
+        alt: title,
+      },
+      optional: {
+        locale,
+        description,
+      },
+      ...(article && {
+        article: {
+          publishedTime: article.publishedTime.toISOString(),
+          modifiedTime: article.modifiedTime?.toISOString(),
+          authors: article.authors,
+        },
+      }),
     }}
   />
   {isProduction && <Analytics />}
