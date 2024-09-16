@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry } from 'astro:content'
+import { type CollectionEntry, getEntry } from 'astro:content'
 import { SEO } from 'astro-seo'
 import Analytics from './Analytics.astro'
 import ViewTransitionsLogic from './ViewTransitionsLogic.astro'
@@ -33,8 +33,9 @@ const {
   titleTemplate,
 } = Astro.props
 
-// The default author is the site creator
-// const creator = await getEntry("authors", "default");
+// The default author is the site creator.
+const author = await getEntry('authors', 'default')
+const fediverse = author.data.mastodon || author.data.pixelfed
 
 const isProduction = import.meta.env.PROD
 ---
@@ -50,6 +51,7 @@ const isProduction = import.meta.env.PROD
     charset="utf-8"
     extend={{
       meta: [
+        { name: 'viewport', content: 'width=device-width,initial-scale=1' },
         {
           name: 'theme-color',
           content: '#fff7ed', // bg-primary-50
@@ -60,7 +62,7 @@ const isProduction = import.meta.env.PROD
           content: '#020617', // bg-gray-950
           media: '(prefers-color-scheme:dark)',
         },
-        { name: 'viewport', content: 'width=device-width,initial-scale=1' },
+        { name: 'fediverse:creator', content: fediverse },
       ],
       link: [
         // See https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs
