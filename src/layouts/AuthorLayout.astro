@@ -101,16 +101,16 @@ const authorPosts = await getCollection('blog', (entry) => {
     </div>
     <div class="grid sm:grid-cols-2 xl:grid-cols-3 grid-cols-1 gap-4">
       <iframe
-        src="https://indieweb.social/@gmarty/112168224430494048/embed"
+        src="https://mastofeed.com/apiv2/feed?userurl=https%3A%2F%2Findieweb.social%2Fusers%2Fgmarty&theme=auto&size=100&header=false&replies=false&boosts=false"
         loading="lazy"
-        allowfullscreen="allowfullscreen"
+        allowfullscreen
         title="Mastodon"
+        sandbox="allow-top-navigation allow-scripts allow-popups allow-popups-to-escape-sandbox"
         class="w-full border-0 overflow-hidden rounded h-96"></iframe>
-      <script src="https://indieweb.social/embed.js" async="async"></script>
       <iframe
         src="https://pixelfed.social/gmarty/embed"
         loading="lazy"
-        allowfullscreen="allowfullscreen"
+        allowfullscreen
         title="Pixelfed"
         class="w-full border-0 overflow-hidden rounded h-96"></iframe>
 
