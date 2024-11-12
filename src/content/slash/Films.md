@@ -1,9 +1,9 @@
 ---
-title: List of films I watched
-description: List of the films I watched since 2016. It is more of less complete.
+title: List of the films I watched
+description: This page contains the list of all the films I watched since 2016. It is more of less exhaustive.
 share: true
 ---
-## 2024
+### 2024
 
 - *The Boy and the Heron* (君たちはどう生きるか, 2023)
 - *Poor Things* (2023)
@@ -55,7 +55,7 @@ share: true
 - *Ali and Awa* (2021)
 - *The Last Metro* (Le Dernier Métro, 1980)
 
-## 2023
+### 2023
 
 - Empire of Light
 - Neneh Superstar
@@ -76,24 +76,24 @@ share: true
 - Godzilla 0 minus 1
 - Wicked Little Letters
 
-## 2022
+### 2022
 
 - Avatar
 - Good Luck to You Leo Grande
 - ...
 
-## 2021
+### 2021
 
 - Petite Nature
 - Paris, 13th District (Les Olympiades)
 - The Wisdom of Trauma
 - ...
 
-## 2020
+### 2020
 
 - ...
 
-## 2019
+### 2019
 
 - The Favourite
 - Green Book
@@ -105,15 +105,15 @@ share: true
 - Belle de Jour
 - ...
 
-## 2018
+### 2018
 
 - ...
 
-## 2017
+### 2017
 
 - ...
 
-## 2016
+### 2016
 
 - Inferno (2016)
 - Die Nibelungen (????)
