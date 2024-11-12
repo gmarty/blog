@@ -53,4 +53,14 @@ const tags = defineCollection({
   }),
 })
 
-export const collections = { blog, authors, tags }
+// Slash pages will be rendered as top pages:
+// e.g. `src/content/slash/Films.md` => `https://gu.illau.me/films`
+const slash = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+  }),
+})
+
+export const collections = { blog, authors, tags, slash }

@@ -1,0 +1,34 @@
+---
+import { getCollection } from 'astro:content'
+import RootLayout from '@/layouts/RootLayout.astro'
+
+export const getStaticPaths = async () => {
+  const pages = await getCollection('slash')
+  if (!pages) return []
+  return pages.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }))
+}
+
+const { title, description } = Astro.props.post.data
+const { Content } = await Astro.props.post.render()
+---
+
+<RootLayout {title} {description}>
+  <div>
+    <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
+      <h2
+        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+      >
+        {title}
+      </h2>
+      <p class="text-lg leading-7 text-gray-500 dark:text-gray-300">
+        {description}
+      </p>
+    </div>
+    <div class="prose max-w-none dark:prose-invert">
+      <Content />
+    </div>
+  </div>
+</RootLayout>
