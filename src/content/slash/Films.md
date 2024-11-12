@@ -1,6 +1,6 @@
 ---
-title: List of the films I watched
-description: This page contains the list of all the films I watched since 2016. It is more of less exhaustive.
+title: The films I watched
+description: This page contains the list of the films I watched since 2016. It is more of less exhaustive.
 share: true
 ---
 ### 2024
@@ -20,6 +20,7 @@ share: true
 - *Godzilla x Kong: The New Empire* (2024)
 - *The Mummy* (1999)
 - *There's Still Tomorrow* (2023)
+- *Unicorns* (2023)
 - *Blackbird Blackbird Blackberry* (2023)
 - *Kingdom of the Planet of the Apes* (2024)
 - *Furiosa: A Mad Max Saga* (2024)
@@ -27,6 +28,7 @@ share: true
 - *Rosalie* (2023)
 - *Star Trek III: The Search for Spock* (1984)
 - *La Chimera* (2023)
+- *Single8* (2023)
 - *Monster* (2023)
 - *Evil Does Not Exist* (2023)
 - *Le Chant d'Ahmed* (2018)
@@ -80,6 +82,8 @@ share: true
 
 - Avatar
 - Good Luck to You Leo Grande
+- 白昼の通り魔 (Violence at High Noon ; L'Obsédé en Plein Jour)
+- 太陽の季節 (Season of the Sun ; La Saison du soleil)
 - ...
 
 ### 2021
