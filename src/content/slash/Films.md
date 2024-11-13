@@ -19,7 +19,7 @@ share: true
 - *Mothers Instinct* (2024)
 - *Godzilla x Kong: The New Empire* (2024)
 - *The Mummy* (1999)
-- *There's Still Tomorrow* (2023)
+- *There's Still Tomorrow* (C'è Ancora Domani, 2023)
 - *Unicorns* (2023)
 - *Blackbird Blackbird Blackberry* (2023)
 - *Kingdom of the Planet of the Apes* (2024)
@@ -29,8 +29,8 @@ share: true
 - *Star Trek III: The Search for Spock* (1984)
 - *La Chimera* (2023)
 - *Single8* (2023)
-- *Monster* (2023)
-- *Evil Does Not Exist* (2023)
+- *Monster* (怪物, 2023)
+- *Evil Does Not Exist* (悪は存在しない, 2023)
 - *Le Chant d'Ahmed* (2018)
 - *Coup de Chance* (2023)
 - *I Saw the TV Glow* (2024)
@@ -41,7 +41,7 @@ share: true
 - *Kinds of Kindness* (2024)
 - *It Ends With Us* (2024)
 - *River of No Return* (1954)
-- *The Count of Montecristo* (2024)
+- *The Count of Montecristo* (Le Comte de Monte-Cristo, 2024)
 - *Firebrand* (2024)
 - *ESPY* (エスパイ, 1974)
 - *Detective Conan the Million-dollar Pentagram* (名探偵コナン 100 万ドルの五稜星, 2024)
@@ -49,41 +49,55 @@ share: true
 - *Joker Folie à Deux* (2024)
 - *Look Back* (2024)
 - *Diva* (1981)
-- *La Mariée Était en Noir* (1968)
+- *The Bride Wore Black* (La Mariée Était en Noir, 1968)
 - *I'm Waiting* (俺は待ってるぜ, 1957)
 - *Elegant Beast* (しとやかな獣, 1962)
 - *Mars Express* (2023)
 - *Barbie* (2023)
 - *Ali and Awa* (2021)
 - *The Last Metro* (Le Dernier Métro, 1980)
+- *A Story Written with Water* (水で書かれた物語, 1965)
+- *Strawberry and Chocolate* (Fresa y chocolate, 1993)
 
 ### 2023
 
-- Empire of Light
-- Neneh Superstar
-- Retour a Seoul
-- Un Petit Miracle
-- Asterix et Obélix l'Empire du Milieu
-- Knock at the Cabine
-- Women Talking
-- Broker (Korean movie)
-- Close
-- La Nuit du 12
-- The Bonnie Parker Story (1958)
-- The Crimson Ghost (1946)
-- Indiana Jones
-- Super Mario Bros. the movie
-- Erendira
-- Un Varon (A Male)
-- Godzilla 0 minus 1
-- Wicked Little Letters
+- *Empire of Light* (2022)
+- *Neneh Superstar* (2022)
+- *Return to Seoul* (All the People I'll Never Be, Retour à Séoul, 2022)
+- *Un Petit Miracle* (2023)
+- *Asterix & Obelix: The Middle Kingdom* (Astérix et Obélix: l'Empire du Milieu, 2023)
+- *Knock at the Cabin* (2023)
+- *Women Talking* (2022)
+- *Broker* (브로커, 2022)
+- *Close* (2022)
+- *The Night of the 12th* (La Nuit du 12, 2022)
+- *The Bonnie Parker Story* (1958)
+- *The Crimson Ghost* (1946)
+- *Indiana Jones and the Dial of Destiny* (2023)
+- *The Super Mario Bros. Movie* (2023)
+- *Eréndira* (1983)
+- *A Male* (Un Varón, 2022)
+- *Godzilla Minus One* (ゴジラ-1.0, 2023)
+- *Wicked Little Letters* (2023)
+- *The Blue Lobster* (La Langosta Azul, 1954)
+- *Between You and Milagros* (Entre Tú y Milagros, 2020)
+- *Tatie Danielle* (Auntie Danielle, 1990)
 
 ### 2022
 
+- The 39 Steps (1935)
 - Avatar
 - Good Luck to You Leo Grande
-- 白昼の通り魔 (Violence at High Noon ; L'Obsédé en Plein Jour)
-- 太陽の季節 (Season of the Sun ; La Saison du soleil)
+- Violence at High Noon (白昼の通り魔)
+- Season of the Sun (太陽の季節)
+- Cabeza de Vaca (1991)
+- The Other Conquest (1999)
+- Captain from Castile (1947)
+- El Dorado (1988)
+- Aguirre, the Wrath of God (1972)
+- Nazarin (1959)
+- Last Year at Marienbad (1961)
+- Land Without Bread (1933)
 - ...
 
 ### 2021
@@ -91,6 +105,7 @@ share: true
 - Petite Nature
 - Paris, 13th District (Les Olympiades)
 - The Wisdom of Trauma
+- Immortal (2004) 
 - ...
 
 ### 2020
