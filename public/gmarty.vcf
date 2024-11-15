@@ -1,14 +1,12 @@
 BEGIN:VCARD
-VERSION:3.0
-PRODID:-//class_vcard from TroyWolf.com//NONSGML Version 1//EN
-REV:2024-03-12 13:38:40
+VERSION:4.0
 FN:Guillaume C. Marty
 N:Marty;Guillaume;C;Mr;
 NICKNAME:gmarty
-TITLE:Engineering manager and Coach
-
+TITLE:Tech Leader & Coach
 ADR;TYPE=home:;London, UK;;;;;
-EMAIL;TYPE=internet,pref:edo999@gmail.com
-URL;TYPE=work:https://gu.illau.me
-TZ:+0000
+EMAIL:edo999@gmail.com
+URL:https://gu.illau.me
+TZ:Europe/London
+SOURCE:https://gu.illau.me/gmarty.vcf
 END:VCARD
