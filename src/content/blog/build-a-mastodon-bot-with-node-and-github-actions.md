@@ -9,7 +9,7 @@ Bots sit at the intersection of technology and creativity in the social media sp
 
 ## Why a Mastodon bot?
 
-Bots are fully automated social media accounts that post [beautiful](https://botsin.space/@Stripey), [funny](https://botsin.space/@daily_emoji), [absurd](https://botsin.space/@gamecovevocemag) or [niche](https://botsin.space/@botequippedwith) content on a regular basis. They enrich your timeline with ephemeral beauty and quirkiness.
+Bots are fully automated social media accounts that post [beautiful](https://botsin.space/@Stripey), [funny](https://mastodon.social/@daily_emoji), [absurd](https://botsin.space/@gamecovevocemag) or [niche](https://botsin.space/@botequippedwith) content on a regular basis. They enrich your timeline with ephemeral beauty and quirkiness.
 
 If you're not a programmer, there is _[Cheap Bots, Toot Sweet!](https://cheapbotstootsweet.com/)_ to host your bots for free. It uses [Tracery](http://tracery.io/), a user-friendly tool to generate text. You write a grammar which is used to randomly post statuses. As an example, here's a simple bot I made about emotions: [@emotions](https://botsin.space/@emotions).
 
@@ -30,7 +30,7 @@ Back in January, I started learning ancient Sumerian. I'm still not sure why I g
 
 The difficulty with dead languages is that you can't immerse yourself in the language or the culture. Generally speaking, increasing one's language exposure to a dead language is hard, even in this age of information abundance. This gave me the perfect occasion for a new project: a bot that posts one cuneiform glyph a day, in order to help me with my practice.
 
-That's how [@sumerian](https://botsin.space/@sumerian) was born. Let's look at how [its source code](https://github.com/gmarty/sumerian-bot) works.
+That's how <a href="https://archaeo.social/@sumerian" rel="me">@sumerian</a> was born. Let's look at how [its source code](https://github.com/gmarty/sumerian-bot) works.
 
 ## Implementing the logic
 
