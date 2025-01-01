@@ -9,9 +9,9 @@ Bots sit at the intersection of technology and creativity in the social media sp
 
 ## Why a Mastodon bot?
 
-Bots are fully automated social media accounts that post [beautiful](https://botsin.space/@Stripey), [funny](https://mastodon.social/@daily_emoji), [absurd](https://botsin.space/@gamecovevocemag) or [niche](https://botsin.space/@botequippedwith) content on a regular basis. They enrich your timeline with ephemeral beauty and quirkiness.
+Bots are fully automated social media accounts that post [beautiful](https://shuriken.masto.host/@Stripey), [funny](https://mastodon.social/@daily_emoji), [absurd](https://botsin.space/@gamecovevocemag) or [niche](https://botsin.space/@botequippedwith) content on a regular basis. They enrich your timeline with ephemeral beauty and quirkiness.
 
-If you're not a programmer, there is _[Cheap Bots, Toot Sweet!](https://cheapbotstootsweet.com/)_ to host your bots for free. It uses [Tracery](http://tracery.io/), a user-friendly tool to generate text. You write a grammar which is used to randomly post statuses. As an example, here's a simple bot I made about emotions: [@emotions](https://botsin.space/@emotions).
+If you're not a programmer, there is _[Cheap Bots, Toot Sweet!](https://cheapbotstootsweet.com/)_ to host your bots for free. It uses [Tracery](http://tracery.io/), a user-friendly tool to generate text. You write a grammar which is used to randomly post statuses. As an example, here's a simple bot I made about emotions: [@emotions](https://zirk.us/@emotions).
 
 I love how simple and immediate is this little bot, but I wanted to build something more elaborate. The open nature of Mastodon and the fediverse ecosystem encourages the creation of new and creative tools; I knew building a bot for it would be a pleasant experience. The question was a bot about what.
 
