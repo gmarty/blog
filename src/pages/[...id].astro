@@ -12,23 +12,37 @@ export const getStaticPaths = async () => {
 }
 
 const { title, description } = Astro.props.post.data
-const { Content } = await render(Astro.props.post)
+const { Content, headings } = await render(Astro.props.post)
+
+const toc = headings.filter((heading) => heading.depth === 2)
 ---
 
 <RootLayout {title} {description}>
-  <div>
-    <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
-      <h2
-        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
-      >
-        {title}
-      </h2>
-      <p class="text-lg leading-7 text-gray-500 dark:text-gray-300">
-        {description}
-      </p>
+  <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
+    <h2
+      class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+    >
+      {title}
+    </h2>
+
+    <div class="pt-8 sm:pt-12 md:pt-20">
+      <ul class="lg:flex justify-center gap-4">
+        {
+          toc.map(({ slug, text }) => (
+            <li>
+              <a
+                href={`#${slug}`}
+                class="p-2 text-xl font-bold themed-ui-link hover:text-primary-800 dark:hover:text-primary-300"
+              >
+                {text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
-    <div class="prose max-w-none dark:prose-invert">
-      <Content />
-    </div>
+  </div>
+  <div class="prose max-w-none dark:prose-invert">
+    <Content />
   </div>
 </RootLayout>
