@@ -8,13 +8,13 @@ share: true
 - *65* (2023)
 - *Are You There God? It's Me, Margaret.* (2023)
 - *Colette* (2018)
+- *Emilia Perez* (2024)
 - *Logan's Run* (1976)
 - *Maria* (2024)
+- *Nosferatu* (2024)
+- *The Real Pain* (2024)
 - *Wallace & Gromit: Vengeance Most Fowl* (2024)
 - *We Live in Time* (2024)
-- The Real Pain
-- Emilia Perez
-- Nosferatu
 
 ## 2024
 
