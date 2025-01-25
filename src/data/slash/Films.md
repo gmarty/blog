@@ -3,17 +3,20 @@ title: The films I watched
 description: This page contains the list of the films I watched since 2016. It is more of less exhaustive.
 share: true
 ---
-### 2025
+## 2025
 
 - *65* (2023)
 - *Are You There God? It's Me, Margaret.* (2023)
 - *Colette* (2018)
+- *Emilia Perez* (2024)
 - *Logan's Run* (1976)
 - *Maria* (2024)
+- *Nosferatu* (2024)
+- *The Real Pain* (2024)
 - *Wallace & Gromit: Vengeance Most Fowl* (2024)
 - *We Live in Time* (2024)
 
-### 2024
+## 2024
 
 - *Ali and Awa* (2021)
 - *Alien Romulus* (2024)
@@ -85,7 +88,7 @@ share: true
 - *Wicked Little Letters* (2023)
 - *Yesterday* (2019)
 
-### 2023
+## 2023
 
 - *Empire of Light* (2022)
 - *Neneh Superstar* (2022)
@@ -109,7 +112,7 @@ share: true
 - *Between You and Milagros* (Entre Tú y Milagros, 2020)
 - *Tatie Danielle* (Auntie Danielle, 1990)
 
-### 2022
+## 2022
 
 - The 39 Steps (1935)
 - Avatar
@@ -127,7 +130,7 @@ share: true
 - Belle (竜とそばかすの姫, 2021)
 - ...
 
-### 2021
+## 2021
 
 - Petite Nature
 - Paris, 13th District (Les Olympiades)
@@ -135,11 +138,11 @@ share: true
 - Immortal (2004) 
 - ...
 
-### 2020
+## 2020
 
 - ...
 
-### 2019
+## 2019
 
 - The Favourite
 - Green Book
@@ -151,15 +154,15 @@ share: true
 - Belle de Jour
 - ...
 
-### 2018
+## 2018
 
 - ...
 
-### 2017
+## 2017
 
 - ...
 
-### 2016
+## 2016
 
 - Inferno (2016)
 - Die Nibelungen (????)
