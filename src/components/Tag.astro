@@ -4,16 +4,16 @@ import { type CollectionEntry, getEntry } from 'astro:content'
 
 interface Props {
   tag?: CollectionEntry<'tags'>
-  slug?: CollectionEntry<'tags'>['slug']
+  id?: CollectionEntry<'tags'>['id']
 }
 let TagProp = Astro.props.tag
 
-if (!TagProp && Astro.props.slug) {
-  TagProp = await getEntry('tags', Astro.props.slug)
+if (!TagProp && Astro.props.id) {
+  TagProp = await getEntry('tags', Astro.props.id)
 }
-const { slug, data } = TagProp!
+const { id, data } = TagProp!
 ---
 
-<Link href={`/tags/${slug}`} class="mr-3 text-sm font-medium themed-link">
+<Link href={`/tags/${id}`} class="mr-3 text-sm font-medium themed-link">
   {data.name}
 </Link>

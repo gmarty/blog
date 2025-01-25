@@ -13,7 +13,7 @@ const t = useTranslations()
 
 interface Props {
   content: CollectionEntry<'authors'>['data']
-  slug: string
+  id: string
 }
 
 const {
@@ -37,13 +37,13 @@ const {
 const authorPosts = await getCollection('blog', (entry) => {
   return (
     excludeDrafts(entry) &&
-    entry.data.authors.some((author) => author.slug === Astro.props.slug)
+    entry.data.authors.some((author) => author.id === Astro.props.id)
   )
 })
   .then(sortBlogPosts)
   .then((posts) => {
     return posts.slice(0, ITEMS_PER_PAGE).map((post) => {
-      return { title: post.data.title, slug: post.slug }
+      return { title: post.data.title, id: post.id }
     })
   })
 ---
@@ -121,10 +121,10 @@ const authorPosts = await getCollection('blog', (entry) => {
               {t('layouts.authorLayout.latestPosts')}
             </h2>
             <ul class="space-y-4 mt-4">
-              {authorPosts.map(({ slug, title }) => (
+              {authorPosts.map(({ id, title }) => (
                 <li>
                   <Link
-                    href={`/posts/${slug}`}
+                    href={`/posts/${id}`}
                     class="text-gray-900 dark:text-gray-100 hover:text-gray-500 dark:hover:text-gray-400"
                   >
                     {title}

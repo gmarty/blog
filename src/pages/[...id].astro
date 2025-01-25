@@ -1,18 +1,18 @@
 ---
-import { getCollection } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import RootLayout from '@/layouts/RootLayout.astro'
 
 export const getStaticPaths = async () => {
   const pages = await getCollection('slash')
   if (!pages) return []
   return pages.map((post) => ({
-    params: { slug: post.slug },
+    params: { id: post.id },
     props: { post },
   }))
 }
 
 const { title, description } = Astro.props.post.data
-const { Content } = await Astro.props.post.render()
+const { Content } = await render(Astro.props.post)
 ---
 
 <RootLayout {title} {description}>

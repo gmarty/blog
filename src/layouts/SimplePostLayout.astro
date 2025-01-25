@@ -4,6 +4,7 @@ import PageTitle from '../components/PageTitle.astro'
 import Link from '../components/Link.astro'
 import RootLayout from './RootLayout.astro'
 import { type CollectionEntry, getEntries } from 'astro:content'
+import { render } from 'astro:content'
 import FormattedDate from '../components/FormattedDate.astro'
 import ScrollTopAndComments from '@/solid/ScrollTopAndComments.tsx'
 import PostCover from '../components/PostCover.astro'
@@ -39,7 +40,7 @@ const articleOgDetails = {
   cover: post.data.cover,
 }
 
-const { Content, headings } = await post.render()
+const { Content, headings } = await render(post)
 ---
 
 <RootLayout
@@ -152,7 +153,7 @@ const { Content, headings } = await post.render()
               prev && (
                 <div class="pt-4 xl:pt-8">
                   <Link
-                    href={`/posts/${prev.slug}`}
+                    href={`/posts/${prev.id}`}
                     class="themed-link"
                     aria-label={t('layouts.postLayout.nextPost', {
                       title: prev.data.title,
@@ -167,7 +168,7 @@ const { Content, headings } = await post.render()
               next && (
                 <div class="pt-4 xl:pt-8">
                   <Link
-                    href={`/posts/${next.slug}`}
+                    href={`/posts/${next.id}`}
                     class="themed-link"
                     aria-label={t('layouts.postLayout.previousPost', {
                       title: next.data.title,
@@ -187,7 +188,7 @@ const { Content, headings } = await post.render()
                   <ul class="flex flex-wrap gap-2 xl:space-x-0 xl:space-y-0">
                     {related.map((post) => (
                       <li class="themed-link">
-                        <Link href={`/posts/${post.slug}`}>
+                        <Link href={`/posts/${post.id}`}>
                           {post.data.title}
                         </Link>
                       </li>

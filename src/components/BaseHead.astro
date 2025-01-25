@@ -36,6 +36,9 @@ const {
 
 // The default author is the site creator.
 const author = await getEntry('authors', 'default')
+if (!author) {
+  throw new Error('Could not find default author.')
+}
 const fediverse = author.data.mastodon || author.data.pixelfed
 
 const locale = t('siteMetadata.language')

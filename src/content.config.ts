@@ -1,8 +1,9 @@
 import { defineCollection, reference, z } from 'astro:content'
+import { glob } from 'astro/loaders'
 import { POST_METADATA } from '@/consts.ts'
 
 const authors = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/authors' }),
   schema: z.object({
     name: z.string(),
     avatar: z.string().optional(),
@@ -23,7 +24,7 @@ const authors = defineCollection({
 })
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/blog' }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -43,7 +44,7 @@ const blog = defineCollection({
 })
 
 const tags = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/tags' }),
   schema: z.object({
     name: z.string(),
     description: z.string(),
@@ -56,7 +57,7 @@ const tags = defineCollection({
 // Slash pages will be rendered as top pages:
 // e.g. `src/content/slash/Films.md` => `https://gu.illau.me/films`
 const slash = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/slash' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

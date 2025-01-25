@@ -4,6 +4,9 @@ import SocialIcon from '@/components/social-icons/index.astro'
 import Link from './Link.astro'
 
 const author = await getEntry('authors', 'default')
+if (!author) {
+  throw new Error('Could not find default author.')
+}
 const {
   name,
   // email,

@@ -12,9 +12,9 @@ const t = useTranslations()
 const tags = await getCollection('tags')
 const posts = await getCollection('blog', excludeDrafts).then(sortBlogPosts)
 
-const tagCount = (slug: CollectionEntry<'tags'>['slug']) => {
+const tagCount = (id: CollectionEntry<'tags'>['id']) => {
   if (!posts) return 0
-  return posts.filter((post) => post.data.tags.some((tag) => tag.slug === slug))
+  return posts.filter((post) => post.data.tags.some((tag) => tag.id === id))
     .length
 }
 ---
@@ -41,11 +41,11 @@ const tagCount = (slug: CollectionEntry<'tags'>['slug']) => {
             <div class="mb-2 mr-5 mt-2">
               <Tag tag={tag} />
               <Link
-                href={`/tags/${tag.slug}`}
+                href={`/tags/${tag.id}`}
                 class="-ml-2 text-sm font-semibold text-gray-500 dark:text-gray-300"
                 aria-label={t('pages.tags.viewPosts', { tag: tag.data.name })}
               >
-                {` (${tagCount(tag.slug)})`}
+                {` (${tagCount(tag.id)})`}
               </Link>
             </div>
           )

@@ -24,9 +24,9 @@ interface Props {
 const tags = await getCollection('tags')
 const posts = await getCollection('blog', excludeDrafts).then(sortBlogPosts)
 
-const tagCount = (slug: CollectionEntry<'tags'>['slug']) => {
+const tagCount = (id: CollectionEntry<'tags'>['id']) => {
   if (!posts) return 0
-  return posts.filter((post) => post.data.tags.some((tag) => tag.slug === slug))
+  return posts.filter((post) => post.data.tags.some((tag) => tag.id === id))
     .length
 }
 
@@ -66,22 +66,22 @@ const isBlogPage = Astro.url.pathname.startsWith('/posts')
           }
           <ul>
             {
-              tags.map(({ slug, data }) => (
+              tags.map(({ id, data }) => (
                 <li class="my-3">
-                  {isCurrentPath(`/tag/${slug}`) ? (
+                  {isCurrentPath(`/tag/${id}`) ? (
                     <h3 class="inline py-2 px-3 text-sm font-bold text-gray-500 dark:text-gray-300">
-                      {`${data.name} (${tagCount(slug)})`}
+                      {`${data.name} (${tagCount(id)})`}
                     </h3>
                   ) : (
                     <>
                       <Link
-                        href={`/tags/${slug}`}
+                        href={`/tags/${id}`}
                         class="py-2 pl-3 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
                         aria-label={`View posts tagged ${data.name}`}
                       >
                         {`${data.name}`}
                       </Link>
-                      <span class="text-gray-900 dark:text-gray-100">{`(${tagCount(slug)})`}</span>
+                      <span class="text-gray-900 dark:text-gray-100">{`(${tagCount(id)})`}</span>
                     </>
                   )}
                 </li>
@@ -94,7 +94,7 @@ const isBlogPage = Astro.url.pathname.startsWith('/posts')
         <ul>
           {
             page.data.map(
-              ({ slug, data: { date, title, description, tags } }) => (
+              ({ id, data: { date, title, description, tags } }) => (
                 <li class="py-5">
                   <article class="space-y-2 flex flex-col xl:space-y-0">
                     <dl>
@@ -109,15 +109,15 @@ const isBlogPage = Astro.url.pathname.startsWith('/posts')
                       <div>
                         <h2 class="text-2xl font-bold leading-8 tracking-tight">
                           <Link
-                            href={`/posts/${slug}`}
+                            href={`/posts/${id}`}
                             class="text-gray-900 dark:text-primary-100"
                           >
                             {title}
                           </Link>
                         </h2>
                         <div class="flex flex-wrap">
-                          {tags.map(({ slug }) => (
-                            <Tag slug={slug} />
+                          {tags.map(({ id }) => (
+                            <Tag id={id} />
                           ))}
                         </div>
                       </div>

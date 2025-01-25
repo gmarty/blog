@@ -103,7 +103,7 @@ export const ENABLE_VIEW_TRANSITIONS = true
  You should add translations for these in src/i18n/ui.ts or use as is.
  */
 export const NAVIGATION = [
-  { href: '/', title: 'nav.home' },
+  { href: '/', title: 'nav.blog' },
   // { href: '/posts', title: 'nav.blog' },
   // { href: "/tags", title: "nav.tags" },
   { href: '/apps', title: 'nav.apps' },
