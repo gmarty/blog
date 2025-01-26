@@ -27,6 +27,6 @@ From my experience, the results is very satisfying. I found the words suggested 
 
 ## We need you!
 
-If you speak Welsh, please, try it for yourself. I'd love to hear your feedback and if you have any comments, please use the field below, or reach me on Twitter at [@g_marty](https://twitter.com/g_marty). If this method is proved to give good results, I'd love to give it a go at producing dictionary in more languages.
+If you speak Welsh, please, try it for yourself. I'd love to hear your feedback and if you have any comments, please use the field below, or reach me on Mastodon at [@gmarty@indieweb.social](https://indieweb.social/@gmarty). If this method is proved to give good results, I'd love to give it a go at producing dictionary in more languages.
 
 _Diolch!_
