@@ -99,7 +99,12 @@ const isProduction = import.meta.env.PROD
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
         // <link rel="manifest" href="/m.webmanifest">
         { rel: 'manifest', href: '/m.webmanifest' },
-        { rel: 'alternate', href: '/rss.xml', type: 'application/rss+xml' },
+        {
+          rel: 'alternate',
+          href: '/rss.xml',
+          type: 'application/rss+xml',
+          title: t('siteMetadata.title'),
+        },
       ],
     }}
     openGraph={{
