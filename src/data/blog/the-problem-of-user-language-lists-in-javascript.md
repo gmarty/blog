@@ -5,7 +5,7 @@ description: 'The list of languages configured in the browser is never made avai
 related: ['follow-up-on-navigator-languages']
 ---
 
-<div>[Edit: I wrote a followup post to this one at [Follow-up on navigator.languages](/posts/follow-up-on-navigator-languages/)]</div>
+> Edit: I wrote a followup post to this one at [Follow-up on navigator.languages](/posts/follow-up-on-navigator-languages/).
 
 I've always wondered why it is not possible to get in JavaScript the list of all languages as configured in the browser. This list is made available to servers via a HTTP header.
 

@@ -22,7 +22,7 @@ Both these projects are brought to the web thanks to Emscripten and asm.js.
 
 ## Building a (not so) intelligent voice assistant
 
-Thanks to a discussion with my friend [Thomas](https://twitter.com/oncletom) this weekend, [CENode.js](http://cenode.io/) was brought to my attention. It's an open source project to enable human-machine conversation based on a human-friendly format. It can be used to simulate intelligence.
+Thanks to a discussion with my friend [Thomas](https://diaspodon.fr/@thom4) this weekend, [CENode.js](http://cenode.io/) was brought to my attention. It's an open source project to enable human-machine conversation based on a human-friendly format. It can be used to simulate intelligence.
 
 I had all the elements at hand to build a browser-based, offline voice assistant (Think Siri, OK Google, Amazon Echo...).
 

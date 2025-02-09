@@ -65,6 +65,6 @@ Obviously, you'll want to code your own `getKeyFromElement` and emulator communi
 
 The result is a nicely working touch optimised controller in HTML5. The finger can swipe from one key to another and the emulator reacts responsively.
 
-I don't think you could do simpler and according to my coworker, the brilliant [Chris Lord](https://twitter.com/cwiiis), if your DOM tree is simple you shouldn't get any performance penalty from using `document.elementFromPoint`.
+I don't think you could do simpler and according to my coworker, the brilliant [Chris](https://mastodon.social/@Cwiiis), if your DOM tree is simple you shouldn't get any performance penalty from using `document.elementFromPoint`.
 
 Happy gaming!
