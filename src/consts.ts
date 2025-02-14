@@ -5,7 +5,7 @@
  */
 export const SITE_METADATA = {
   theme: 'system', // Options: system, light, dark
-  siteUrl: 'https://gu.illau.me/',
+  siteUrl: 'https://gu.illau.me',
   siteRepo: 'https://github.com/gmarty/blog',
   robots: 'index,follow', // Options: index, noindex, follow, nofollow
 
