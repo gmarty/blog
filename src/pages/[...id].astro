@@ -18,12 +18,17 @@ const toc = headings.filter((heading) => heading.depth === 2)
 ---
 
 <RootLayout {title} {description}>
-  <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
+  <div class="pb-8 sm:pb-12 md:pb-20 pt-6">
     <h2
       class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
     >
       {title}
     </h2>
+    <p
+      class="pt-2 md:pt-4 prose text-pretty text-lg leading-7 text-gray-500 dark:text-gray-300"
+    >
+      {description}
+    </p>
 
     <div class="pt-8 sm:pt-12 md:pt-20">
       <ul class="lg:flex justify-center gap-4">
