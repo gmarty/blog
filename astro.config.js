@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
-import tailwind from '@astrojs/tailwind'
+import tailwindcss from '@tailwindcss/vite'
 import solidJs from '@astrojs/solid-js'
 import { SITE_METADATA } from './src/consts.ts'
 import metaTags from 'astro-meta-tags'
@@ -15,7 +15,6 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap(),
-    tailwind(),
     solidJs(),
     metaTags(),
     robotsTxt(),
@@ -63,4 +62,8 @@ export default defineConfig({
       },
     }),
   ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 })

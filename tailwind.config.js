@@ -1,5 +1,5 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
-const colors = require('tailwindcss/colors')
+import { fontFamily } from 'tailwindcss/defaultTheme'
+import colors from 'tailwindcss/colors'
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -60,5 +60,4 @@ module.exports = {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
 }

@@ -1,3 +1,7 @@
+@import 'tailwindcss';
+@config "../../tailwind.config.js";
+@plugin "@tailwindcss/typography";
+
 /* With color-scheme the UA will style some elements appropriately. */
 :root {
   color-scheme: light dark;
@@ -38,11 +42,10 @@ body {
 }
 /* Header nav links. */
 .themed-ui-link {
-  @apply themed-link;
-  /* @apply text-gray-900;
-  @apply dark:text-primary-100;
-  @apply hover:text-gray-500;
-  @apply dark:hover:text-primary-400; */
+  @apply text-primary-600;
+  @apply dark:text-primary-500;
+  @apply hover:text-primary-800;
+  @apply dark:hover:text-primary-300;
 }
 
 .task-list-item::before {
