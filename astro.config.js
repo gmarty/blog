@@ -19,25 +19,8 @@ export default defineConfig({
     metaTags(),
     robotsTxt(),
     compress({
-      HTML: {
-        collapseBooleanAttributes: true,
-        collapseInlineTagWhitespace: true,
-        collapseWhitespace: true,
-        decodeEntities: true,
-        minifyCSS: true,
-        minifyJS: true,
-        // minifyURLs: '/', // @todo Make it work
-        removeAttributeQuotes: true,
-        removeComments: true,
-        removeEmptyAttributes: true,
-        removeOptionalTags: true,
-        removeRedundantAttributes: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        sortAttributes: true,
-        sortClassName: true,
-        useShortDoctype: true,
-      },
+      CSS: true,
+      HTML: true,
       Image: false,
       JavaScript: {
         terser: {
