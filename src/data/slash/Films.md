@@ -1,6 +1,6 @@
 ---
 title: The films I watched
-description: This page contains the list of the films I watched since 2016. It is more of less exhaustive.
+description: This page contains the list of the films I watched since 2014. It is more of less exhaustive.
 share: true
 ---
 ## 2025
@@ -15,6 +15,19 @@ share: true
 - *The Real Pain* (2024)
 - *Wallace & Gromit: Vengeance Most Fowl* (2024)
 - *We Live in Time* (2024)
+- *Baby Girl* (2024)
+- *Spy x Family Code:White* (劇場版 SPY×FAMILY CODE: White, 2023)
+- *Bridget Jones: Mad About the Boy* (2025)
+- *I'm Still Here* (Ainda Estou Aqui, 2024)
+- *Nosferatu* (2024)
+- *Conclave* (2024)
+- *Rebecca* (2020)
+- *Anora* (2024)
+- *Black Bag* (2025)
+- *The Last Showgirl* (2024)
+- *Starve Acre* (2023)
+- *Hurry Up Tomorrow* (2025)
+- *Gaslight* (1944)
 
 ## 2024
 
@@ -64,6 +77,7 @@ share: true
 - *Queer* (2024)
 - *River of No Return* (1954)
 - *Rosalie* (2023)
+- *Sailor Moon Cosmos Part One and Two* (劇場版 美少女戦士セーラームーンCosmos, 2023)
 - *Sarah Bernhardt, la divine* (2024)
 - *Single8* (2023)
 - *Snowpiercer* (2013)
@@ -78,6 +92,7 @@ share: true
 - *The Medusa Touch* (1978)
 - *The Mummy* (1999)
 - *The Outrun* (2024)
+- *The Witch* (2015)
 - *There's Still Tomorrow* (C'è ancora domani, 2023)
 - *Totto-Chan: The Little Girl at the Window* (窓ぎわのトットちゃん, 2023)
 - *Trap* (2024)
@@ -152,6 +167,7 @@ share: true
 - The White Crow
 - Journal d'une Femme de Chambre
 - Belle de Jour
+- Hiroshima Mon Amour (1959)
 - ...
 
 ## 2018
@@ -165,13 +181,60 @@ share: true
 ## 2016
 
 - Inferno (2016)
-- Die Nibelungen (????)
-- Who's going to love me now? (?)
+- Die Nibelungen (1924)
+- Who's Gonna Love Me Now? (2016)
 - Bridget Jones' Baby (2016)
 - Nerve (2016)
 - Suicide Squad (2016)
 - Passengers (2016)
-- The Sound of Music
-- Eddie the Eagle
+- The Sound of Music (1959)
+- Eddie the Eagle (2015)
 - Before I Go to Sleep (2013)
+- Victoria (2015)
 - ...
+
+## 2015
+
+- *Lucy* (2014)
+- *All About My Mother* (1999)
+- *Brazil* (1985)
+- *I Origins* (2014)
+- *Psycho-Pass: The Movie* (劇場版 PSYCHO-PASS サイコパス, 2015)
+- *Swamp Thing* (1982)
+- *All-Round Appraiser Q: The Eyes of Mona Lisa* (万能鑑定士Q モナ・リザの瞳, 2014)
+- *Jules et Jim* (1962)
+- ...
+
+## 2014
+
+- *Barry Lyndon* (1975)
+- *Strangers in the Train* (1951)
+- *A Cat on a Hot Tin Roof* (1958)
+- *Mesrine: L'ennemi public No 1*  (2008)
+- *Fading Gigolo* (2013)
+- *Antichrist* (2009)
+- *Nymphomaniac: Vol. II* (2013)
+- *Taxi Driver* (1976)
+- *The Name of the Rose* (1986)
+- *The Da Vinci Code* (2006)
+- *Angels & Demons* (2009)
+- *Secret Window* (2004)
+- *Black Swan* (2010)
+- *Donnie Darko* (2001)
+- *Cloud Atlas* (2012)
+- *The Tree of Life* (2011)
+- *The Wicker Man* (2006)
+- *Gainsbourg (vie héroïque)* (2010)
+- *Compulsion* (1959)
+- *Les Perles de la couronne* (1937)
+- *La Poison* (1951)
+- *Sunset Boulevard* (1950)
+- *Medea* (1969)
+- *The Third Man* (1949)
+- *La bonne année* (1973)
+- *Entrée des artistes* (1938)
+- *Lemming* (2005)
+- *Tokyo Story* (1953)
+- *Magic in the Moonlight* (2014)
+- *Paddington* (2014)
+- *Le Hobbit : La Bataille des Cinq Armées* (2014)
