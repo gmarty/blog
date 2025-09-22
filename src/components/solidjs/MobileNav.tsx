@@ -32,7 +32,7 @@ export default function MobileNav(props: {
   return (
     <>
       <button
-        class="sm:hidden size-8 themed-ui-link"
+        class="themed-ui-link size-8 sm:hidden"
         aria-label={t('components.mobileNav.toggleMenu')}
         ref={buttonRef}
         onClick={toggleMenu}
@@ -43,11 +43,11 @@ export default function MobileNav(props: {
       </button>
       <div
         ref={menuRef}
-        class="translate-x-full fixed left-0 top-0 h-full w-full opacity-95 bg-primary-50 dark:bg-gray-950 transition motion-reduce:transition-none z-20"
+        class="bg-primary-50 fixed top-0 left-0 z-20 h-full w-full translate-x-full opacity-95 transition motion-reduce:transition-none dark:bg-gray-950"
       >
         <div class="flex justify-end">
           <button
-            class="mr-4 mt-4 size-8 themed-ui-link"
+            class="themed-ui-link mt-4 mr-4 size-8"
             aria-label={t('components.mobileNav.toggleMenu')}
             onClick={toggleMenu}
           >
@@ -70,7 +70,7 @@ export default function MobileNav(props: {
                   <li class="py-4">
                     <Link
                       href={href}
-                      class="px-12 py-4 text-2xl font-bold tracking-widest themed-ui-link"
+                      class="themed-ui-link px-12 py-4 text-2xl font-bold tracking-widest"
                     >
                       {t(title)}
                     </Link>

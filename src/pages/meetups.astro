@@ -57,9 +57,9 @@ const data = [
   description={t('pages.meetups.description')}
 >
   <div>
-    <div class="space-y-2 pb-8 sm:pb-12 md:pb-20 pt-6 md:space-y-5">
+    <div class="space-y-2 pt-6 pb-8 sm:pb-12 md:space-y-5 md:pb-20">
       <h2
-        class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-primary-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
+        class="dark:text-primary-100 text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14"
       >
         {t('pages.meetups.allApps')}
       </h2>
@@ -67,7 +67,7 @@ const data = [
         {t('pages.meetups.showcase')}
       </p>
     </div>
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid gap-8 md:grid-cols-2">
       {
         data.map(
           ({ title, date, description, imgSrc, imgType, href }, index) => (

@@ -58,12 +58,12 @@ const { Content, headings } = await render(post)
     <article>
       <div class="xl:divide-y xl:divide-gray-300 xl:dark:divide-gray-600">
         <header class="pt-6 xl:pb-6">
-          <div class="space-y-1 text-center pb-4">
+          <div class="space-y-1 pb-4 text-center">
             <dl class="space-y-10">
               <div>
                 <dt class="sr-only">{t('layouts.postLayout.publishedOn')}</dt>
                 <dd
-                  class="text-base font-medium leading-6 text-gray-500 dark:text-gray-300"
+                  class="text-base leading-6 font-medium text-gray-500 dark:text-gray-300"
                 >
                   <FormattedDate date={post.data.date} />
                 </dd>
@@ -87,15 +87,15 @@ const { Content, headings } = await render(post)
           }
         </header>
         <div
-          class="grid-rows-[auto_1fr] divide-y divide-gray-300 dark:divide-gray-600 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0"
+          class="grid-rows-[auto_1fr] divide-y divide-gray-300 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0 dark:divide-gray-600"
         >
           <dl
-            class="pb-10 pt-6 xl:border-b xl:border-gray-300 xl:pt-11 xl:dark:border-gray-600"
+            class="pt-6 pb-10 xl:border-b xl:border-gray-300 xl:pt-11 xl:dark:border-gray-600"
           >
             <dt class="sr-only">{t('layouts.postLayout.authors')}</dt>
             <dd>
               <ul
-                class="flex flex-wrap justify-center items-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8"
+                class="flex flex-wrap items-center justify-center gap-4 sm:space-x-12 xl:block xl:space-y-8 xl:space-x-0"
               >
                 <!--TODO: Add support for multiple authors-->
                 {
@@ -113,7 +113,7 @@ const { Content, headings } = await render(post)
                             format="webp"
                           />
                         )}
-                        <dl class="whitespace-nowrap text-sm font-medium leading-5">
+                        <dl class="text-sm leading-5 font-medium whitespace-nowrap">
                           <dt class="sr-only">
                             {t('layouts.postLayout.authorName')}
                           </dt>
@@ -136,7 +136,7 @@ const { Content, headings } = await render(post)
           <div class="xl:col-span-3 xl:row-span-2 xl:pb-0">
             {
               post.data.draft && (
-                <div class="bg-yellow-100 dark:bg-yellow-900 border-yellow-400 dark:border-yellow-600 border-l-4 p-4 mt-10">
+                <div class="mt-10 border-l-4 border-yellow-400 bg-yellow-100 p-4 dark:border-yellow-600 dark:bg-yellow-900">
                   <p class="text-yellow-700 dark:text-yellow-300">
                     {t('layouts.postLayout.draftMessage')}
                   </p>
@@ -155,10 +155,10 @@ const { Content, headings } = await render(post)
             {
               POST_METADATA.showTableOfContents && headings.length > 0 && (
                 <DetailsSummary
-                  class="border border-gray-300 dark:border-gray-600 rounded mt-4 max-w-none"
+                  class="mt-4 max-w-none rounded border border-gray-300 dark:border-gray-600"
                   title={t('layouts.postLayout.tableOfContents')}
                 >
-                  <ul class="space-y-2 list-none mt-0 ps-0">
+                  <ul class="mt-0 list-none space-y-2 ps-0">
                     {headings.map(({ slug, text, depth }) => (
                       <li
                         class:list={{
@@ -179,7 +179,7 @@ const { Content, headings } = await render(post)
               )
             }
 
-            <div class="prose max-w-none pb-8 pt-10 dark:prose-invert">
+            <div class="prose dark:prose-invert max-w-none pt-10 pb-8">
               <slot />
               <Content />
             </div>
@@ -195,7 +195,7 @@ const { Content, headings } = await render(post)
           </div>
           <footer>
             <div
-              class="divide-gray-300 dark:divide-gray-600 text-sm font-medium leading-5 xl:col-start-1 xl:row-start-2 xl:divide-y"
+              class="divide-gray-300 text-sm leading-5 font-medium xl:col-start-1 xl:row-start-2 xl:divide-y dark:divide-gray-600"
             >
               <!--{
                 tags && (
@@ -247,7 +247,7 @@ const { Content, headings } = await render(post)
                     <h2 class="text-xs tracking-wide text-gray-500 dark:text-gray-300">
                       {t('layouts.postLayout.relatedPosts')}
                     </h2>
-                    <ul class="flex flex-wrap gap-2 xl:space-x-0 xl:space-y-0">
+                    <ul class="flex flex-wrap gap-2 xl:space-y-0 xl:space-x-0">
                       {related.map((post) => (
                         <li class="themed-link">
                           <Link href={`/posts/${post.id}`}>

@@ -41,7 +41,7 @@ const isBlogPage = Astro.url.pathname.startsWith('/posts')
   <div>
     {
       hasDefaultSlot && (
-        <div class="pb-6 pt-6">
+        <div class="pt-6 pb-6">
           <div class="prose dark:prose-invert py-4">
             <slot />
           </div>
@@ -50,16 +50,16 @@ const isBlogPage = Astro.url.pathname.startsWith('/posts')
     }
     <div class="flex sm:space-x-24">
       <div
-        class="hidden max-h-screen h-full sm:flex flex-wrap bg-primary-100 dark:bg-gray-900 pt-5 rounded-lg min-w-[280px] max-w-[280px] overflow-auto"
+        class="bg-primary-100 hidden h-full max-h-screen max-w-[280px] min-w-[280px] flex-wrap overflow-auto rounded-lg pt-5 sm:flex dark:bg-gray-900"
       >
-        <div class="py-4 px-6">
+        <div class="px-6 py-4">
           {
             isBlogPage ? (
               <div class="font-bold text-gray-500 dark:text-gray-300">
                 {t('layouts.listWithTagsLayout.allPosts')}
               </div>
             ) : (
-              <Link href="/posts" class="font-bold themed-link">
+              <Link href="/posts" class="themed-link font-bold">
                 {t('layouts.listWithTagsLayout.allPosts')}
               </Link>
             )
@@ -69,14 +69,14 @@ const isBlogPage = Astro.url.pathname.startsWith('/posts')
               tags.map(({ id, data }) => (
                 <li class="my-3">
                   {isCurrentPath(`/tag/${id}`) ? (
-                    <h3 class="inline py-2 px-3 text-sm font-bold text-gray-500 dark:text-gray-300">
+                    <h3 class="inline px-3 py-2 text-sm font-bold text-gray-500 dark:text-gray-300">
                       {`${data.name} (${tagCount(id)})`}
                     </h3>
                   ) : (
                     <>
                       <Link
                         href={`/tags/${id}`}
-                        class="py-2 pl-3 text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
+                        class="py-2 pl-3 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-100"
                         aria-label={`View posts tagged ${data.name}`}
                       >
                         {`${data.name}`}
@@ -96,21 +96,21 @@ const isBlogPage = Astro.url.pathname.startsWith('/posts')
             page.data.map(
               ({ id, data: { date, title, description, tags } }) => (
                 <li class="py-5">
-                  <article class="space-y-2 flex flex-col xl:space-y-0">
+                  <article class="flex flex-col space-y-2 xl:space-y-0">
                     <dl>
                       <dt class="sr-only">
                         {t('layouts.listWithTagsLayout.publishedOn')}
                       </dt>
-                      <dd class="text-base font-medium leading-6 text-gray-500 dark:text-gray-300">
+                      <dd class="text-base leading-6 font-medium text-gray-500 dark:text-gray-300">
                         <FormattedDate date={date} />
                       </dd>
                     </dl>
                     <div class="space-y-3">
                       <div>
-                        <h2 class="text-2xl font-bold leading-8 tracking-tight">
+                        <h2 class="text-2xl leading-8 font-bold tracking-tight">
                           <Link
                             href={`/posts/${id}`}
-                            class="text-gray-900 dark:text-primary-100"
+                            class="dark:text-primary-100 text-gray-900"
                           >
                             {title}
                           </Link>

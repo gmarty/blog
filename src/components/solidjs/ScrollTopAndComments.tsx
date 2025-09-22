@@ -20,7 +20,7 @@ export default function ScrollTopAndComments() {
 
   return (
     <div
-      class="fixed bottom-8 right-8 hidden flex-col gap-3 md:hidden z-10"
+      class="fixed right-8 bottom-8 z-10 hidden flex-col gap-3 md:hidden"
       ref={divRef}
     >
       {/*<button*/}
@@ -38,7 +38,7 @@ export default function ScrollTopAndComments() {
       <button
         aria-label={t('components.scrollTopAndComments.scrollTop')}
         onClick={handleScrollToTop}
-        class="rounded-full p-2 transition-all bg-primary-300 text-primary-600 dark:bg-primary-700 dark:text-primary-400 hover:bg-primary-400 hover:text-primary-700 dark:hover:bg-primary-600 dark:hover:text-primary-300 opacity-75"
+        class="bg-primary-300 text-primary-600 dark:bg-primary-700 dark:text-primary-400 hover:bg-primary-400 hover:text-primary-700 dark:hover:bg-primary-600 dark:hover:text-primary-300 rounded-full p-2 opacity-75 transition-all"
       >
         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
           <path d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" />

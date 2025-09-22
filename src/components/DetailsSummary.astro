@@ -11,8 +11,8 @@ const { title, class: className } = Astro.props
   class:list={className}
   class="prose dark:prose-invert block w-full max-w-none"
 >
-  <summary class="cursor-pointer md:p-4 p-3">{title}</summary>
-  <div class="md:px-4 px-3 md:pb-4 pb-3">
+  <summary class="cursor-pointer p-3 md:p-4">{title}</summary>
+  <div class="px-3 pb-3 md:px-4 md:pb-4">
     <slot />
   </div>
 </details>

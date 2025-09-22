@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 import { getCollection } from 'astro:content'
 import { sortBlogPosts, excludeDrafts } from '@/functions'
 import { NAVIGATION, ITEMS_PER_PAGE } from '@/consts'
@@ -11,7 +11,7 @@ const postIndices = await getCollection('blog', excludeDrafts)
 const postPages = Math.ceil(postIndices.length / ITEMS_PER_PAGE)
 ---
 
-<ViewTransitions />
+<ClientRouter />
 <script
   define:vars={{ navIndices, postIndices, postPages }}
   type="module"

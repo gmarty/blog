@@ -10,21 +10,21 @@ const t = useTranslations()
   <div
     class="flex flex-col items-start justify-start md:flex-row md:items-center md:justify-center md:space-x-6"
   >
-    <div class="space-x-2 pb-8 pt-6 md:space-y-5">
+    <div class="space-x-2 pt-6 pb-8 md:space-y-5">
       <h2
-        class="text-6xl font-extrabold leading-9 tracking-tight border-gray-900 dark:border-gray-100 md:border-r-2 md:px-6 md:text-8xl md:leading-14"
+        class="border-gray-900 text-6xl leading-9 font-extrabold tracking-tight md:border-r-2 md:px-6 md:text-8xl md:leading-14 dark:border-gray-100"
       >
         404
       </h2>
     </div>
     <div class="max-w-md text-gray-900 dark:text-gray-100">
-      <p class="mb-4 text-xl font-bold leading-normal md:text-2xl">
+      <p class="mb-4 text-xl leading-normal font-bold md:text-2xl">
         {t('pages.404.title')}
       </p>
-      <p class="mb-8 prose dark:prose-invert">{t('pages.404.description')}</p>
+      <p class="prose dark:prose-invert mb-8">{t('pages.404.description')}</p>
       <Link
         href="/"
-        class="focus:shadow-outline-blue inline rounded-lg border border-transparent text-gray-50 dark:text-gray-950 bg-primary-600 hover:bg-primary-800 dark:hover:bg-primary-500 px-4 py-2 text-sm font-medium leading-5 focus:outline-none"
+        class="focus:shadow-outline-blue bg-primary-600 hover:bg-primary-800 dark:hover:bg-primary-500 inline rounded-lg border border-transparent px-4 py-2 text-sm leading-5 font-medium text-gray-50 focus:outline-none dark:text-gray-950"
       >
         {t('pages.404.backToHome')}
       </Link>

@@ -19,42 +19,42 @@ const isCurrentPath = (path: string) => {
 const navigationLinks = NAVIGATION
 ---
 
-<header class="flex items-start justify-between py-4 sm:py-10 gap-3">
+<header class="flex items-start justify-between gap-3 py-4 sm:py-10">
   <a
     href="/"
     aria-label={t('siteMetadata.headerTitle')}
-    class="flex flex-row items-center gap-3 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7 themed-ui-link"
+    class="themed-ui-link flex flex-row items-center gap-3 md:gap-4 lg:gap-5 xl:gap-6 2xl:gap-7"
   >
     <Logo />
     <h1
-      class="text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-extrabold"
+      class="text-lg font-extrabold md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl"
     >
       A blog by G<span class="hidden md:inline">uillaume C</span>. Marty
     </h1>
   </a>
-  <div class="flex items-center leading-5 space-x-0 sm:space-x-6">
+  <div class="flex items-center space-x-0 leading-5 sm:space-x-6">
     {
       navigationLinks
         .filter(({ href }) => href !== '/')
         .map((link) =>
           isCurrentPath(link.href) ? (
-            <span class="hidden sm:block font-medium text-gray-900 dark:text-gray-100">
+            <span class="hidden font-medium text-gray-900 sm:block dark:text-gray-100">
               {t(link.title)}
             </span>
           ) : (
             <HeaderLink
               href={link.href}
-              class="hidden sm:block font-medium themed-ui-link"
+              class="themed-ui-link hidden font-medium sm:block"
             >
               {t(link.title)}
             </HeaderLink>
           )
         )
     }
-    <div class="flex justify-center items-center gap-4">
+    <div class="flex items-center justify-center gap-4">
       <!--<SearchButton />-->
       <div class="size-6"><ThemeSwitcher client:only="solid-js" /></div>
-      <div class="size-8 sm:size-0 sm:hidden">
+      <div class="size-8 sm:hidden sm:size-0">
         <MobileNav {navigationLinks} client:only="solid-js" />
       </div>
     </div>

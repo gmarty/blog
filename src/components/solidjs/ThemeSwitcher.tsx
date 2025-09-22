@@ -41,7 +41,7 @@ export default function ThemeSwitcher() {
       <svg
         viewBox="0 0 20 20"
         fill="currentColor"
-        class="size-6 themed-ui-link"
+        class="themed-ui-link size-6"
       >
         <path
           classList={{ hidden: getTheme() === 'light' }}
