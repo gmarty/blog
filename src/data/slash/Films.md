@@ -28,6 +28,37 @@ share: true
 - *Starve Acre* (2023)
 - *Hurry Up Tomorrow* (2025)
 - *Gaslight* (1944)
+- *Dan Da Dan: Evil Eye* (ダンダダン：Evil Eye, 2025)
+- *Mission: Impossible – The Final Reckoning* (2025)
+- *Le Monde du silence* (1956)
+- *Knowing* (2009)
+- *The Outcasts* (1982)
+- *Superman* (2025)
+- *Le Sang d'un poète* (1932)
+- *The Fantastic Four: First Steps* (2025)
+- *Domingo de carnaval* (1945)
+- *Aux jours qui viennent* (2025)
+- *Mauvaises Herbes* (2018)
+- *Bastion 36* (2025)
+- *Échappement libre* (1964)
+- *Mal de pierres* (2016)
+- *Eddington* (2025)
+- *Les Combattants* (2014)
+- *River* (リバー、流れないでよ, 2023)
+- *The Life of Chuck* (2024) 
+- *Oppenheimer* (2023)
+- *The Roses* (2025)
+- *The Discovery* (2017)
+- *Cléo de 5 à 7* (1962)
+- *Kung-fu Master* (1988)
+- *Demon Slayer: Kimetsu no Yaiba – The Movie: Infinity Castle* (劇場版 鬼滅の刃 無限城編, 2025)
+- *The Long Walk* (2025)
+- *Sans toit ni loi* (1985)
+- *Le Bonheur* (1965)
+- *Omar* (2013)
+- *The Bad Intentions* (Las malas intenciones, 2011)
+- *Moi qui t'aimais* (2025)
+- *Deux pianos* (2025)
 
 ## 2024
 
@@ -172,6 +203,7 @@ share: true
 
 ## 2018
 
+- The Amazing Art of Animation (BFI)
 - ...
 
 ## 2017
@@ -191,6 +223,7 @@ share: true
 - Eddie the Eagle (2015)
 - Before I Go to Sleep (2013)
 - Victoria (2015)
+- *Star Wars The Force Awakens* (2015)
 - ...
 
 ## 2015
@@ -238,3 +271,4 @@ share: true
 - *Magic in the Moonlight* (2014)
 - *Paddington* (2014)
 - *Le Hobbit : La Bataille des Cinq Armées* (2014)
+- Moomins on the Riviera
