@@ -59,6 +59,23 @@ share: true
 - *The Bad Intentions* (Las malas intenciones, 2011)
 - *Moi qui t'aimais* (2025)
 - *Deux pianos* (2025)
+- *Perfect Blue 4K restoration* (1997)
+- *I Swear* (2025)
+- *Watari Ninja Boy* (大忍術映画ワタリ, 1966)
+- *Bugonia* (2025)
+- *Joan of Arc* (Jeanne, 2019)
+- *Predator: Badlands* (2025)
+- *Frankenstein* (2025)
+- *Now You See Me: Now You Don't* (2025)
+- *Sorcery* (Brujería, 2023)
+- *Pillion* (2025)
+- *The Beast Must Die* (La bestia debe morir, 1952)
+- *Train Dreams* (2025)
+- *Read My Lips* (Sur mes lèvres, 2001)
+- *L'Histoire de Souleymane* (2024)
+- *The Black Cauldron* (1985)
+- *The Housemaid* (2025)
+- *Silvia Prieto* (1999)
 
 ## 2024
 
