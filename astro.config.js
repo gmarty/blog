@@ -19,7 +19,9 @@ export default defineConfig({
     metaTags(),
     robotsTxt(),
     compress({
-      CSS: true,
+      // Vite already minifies Tailwind's CSS. astro-compress's CSS pass strips
+      // Tailwind v4's responsive media queries from the production output.
+      CSS: false,
       HTML: true,
       Image: false,
       JavaScript: {

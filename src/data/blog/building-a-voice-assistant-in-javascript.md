@@ -117,6 +117,7 @@ const wordList = [
   ["ORBIT","AO R B AH T"],
   ["MARS","M AA R Z"],
   ...
+]
 ```
 
 ## The result

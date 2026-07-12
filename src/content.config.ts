@@ -1,4 +1,5 @@
-import { defineCollection, reference, z } from 'astro:content'
+import { defineCollection, reference } from 'astro:content'
+import { z } from 'astro/zod'
 import { glob } from 'astro/loaders'
 import { POST_METADATA } from '@/consts.ts'
 
@@ -10,16 +11,16 @@ const authors = defineCollection({
     occupation: z.string().optional(),
     shortBio: z.string(),
     company: z.string().optional(),
-    layout: z.string().url().optional(),
-    email: z.string().email().optional(),
-    mastodon: z.string().url().optional(),
-    linkedin: z.string().url().optional(),
-    gitlab: z.string().url().optional(),
-    github: z.string().url().optional(),
-    pixelfed: z.string().url().optional(),
-    facebook: z.string().url().optional(),
-    youtube: z.string().url().optional(),
-    twitter: z.string().url().optional(),
+    layout: z.url().optional(),
+    email: z.email().optional(),
+    mastodon: z.url().optional(),
+    linkedin: z.url().optional(),
+    gitlab: z.url().optional(),
+    github: z.url().optional(),
+    pixelfed: z.url().optional(),
+    facebook: z.url().optional(),
+    youtube: z.url().optional(),
+    twitter: z.url().optional(),
   }),
 })
 
@@ -30,12 +31,14 @@ const blog = defineCollection({
       title: z.string(),
       date: z.coerce.date(),
       description: z.string(),
-      tags: z.array(reference('tags')).default(['default']),
+      tags: z.array(reference('tags')).default([]),
       cover: image().optional(),
       lastmod: z.coerce.date().optional(),
       draft: z.boolean().default(false),
       // images: z.string().optional(),
-      authors: z.array(reference('authors')).default(['default']),
+      authors: z
+        .array(reference('authors'))
+        .default([{ collection: 'authors', id: 'default' }]),
       postLayout: z
         .enum(['simple', 'column'])
         .default(POST_METADATA.defaultLayout as 'simple' | 'column'),

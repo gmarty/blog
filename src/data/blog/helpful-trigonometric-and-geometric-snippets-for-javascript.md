@@ -75,7 +75,9 @@ function pointsDistance(x1, y1, x2, y2) {
  * @return {number} The angle opposed to 3rd side.
  */
 function segmentsAngle(side1, side2, side3) {
-  return Math.acos((side1 * side1 + side2 * side2) - side3) / (2 * side1 * side2)):
+  return Math.acos(
+    (side1 * side1 + side2 * side2 - side3) / (2 * side1 * side2)
+  )
 }
 ```
 

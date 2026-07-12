@@ -7,6 +7,7 @@ import ViewTransitionsLogic from './ViewTransitionsLogic.astro'
 import { SITE_METADATA, ENABLE_VIEW_TRANSITIONS } from '@/consts'
 import { useTranslations } from '@/i18n'
 import '@/styles/global.css'
+// @ts-ignore: side-effect font import may not have types
 import '@fontsource/onest'
 
 const t = useTranslations()
